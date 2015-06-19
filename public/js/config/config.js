@@ -3,21 +3,57 @@
 */
 (function(require) {
 	require.config({
-		"backbone": "../vendor/backbone.marionette/backbone",
-		"jquery": [
-			"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js",
-			"../vendor/backbone.marionette/jquery"
-		],
-		"marionette": "../vendor/backbone.marionette/core/backbone.marionette.min.js",
-		"babysitter": "../vendor/backbone.marionette/backbone.babysitter.js",
-		"wreqr": "../vendor/backbone.marionette/wreqr.js",
-		shim: {
-			"backbone": {
-				"deps": ["jquery", "underscore"]
+		"deps": ["app"],
+		"paths": {
+			/**
+			* Vendor libraries
+			*/
+			"backbone": "../vendor/backbone.marionette/backbone",
+			"jquery": [
+				"../vendor/backbone.marionette/jquery",
+				"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min",
+			],
+			"marionette": "../vendor/backbone.marionette/core/backbone.marionette.min",
+			"underscore": "../vendor/backbone.marionette/underscore",
+			"shim": {
+				"backbone": {
+					"deps": ["jquery", "underscore"]
+				},
+				"marionette": {
+					"deps": ["backbone"]
+				}
 			},
-			"marionette": {
-				"deps": ["backbone", "babysitter", "wreqr"]
-			}
-		}
+			/**
+			* App
+			*/
+			"app": "../app/app",
+			"app.router": "../app/router"
+			/**
+			* Views
+			*/
+
+			/**
+			* Templates
+			*/
+
+			/**
+			* Models
+			*/
+
+			/**
+			* Collections
+			*/
+
+			/**
+			* Components
+			*/
+
+			/**
+			* Modules
+			*/
+		},
+
 	});
+
+	
 })(require);
