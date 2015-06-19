@@ -6,10 +6,5 @@ define(["marionette", "dashboard.controller"],
 		console.log("App initialized");
 
 		App = new Marionette.Application;
-
-		foo = new DashboardController({
-			"test": "test"
-		});
-
 	}
 ) // define
