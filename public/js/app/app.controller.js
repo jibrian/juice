@@ -4,7 +4,7 @@
 var Marionette = require("marionette");
 var $ = require("jquery");
 
-module.exports = AppController = Marionette.Controller.extend({
+module.exports = Marionette.Controller.extend({
 	initialize: function(options) {
 		this.app = options.app;	
 		this.app.view = new AppView(options);

@@ -2,15 +2,17 @@
   "name": "juice",
   "version": "1.0.0",
   "description": "",
-  "main": "./js/main.js",
+  "main": "./public/js/main.js",
   "dependencies": {},
   "devDependencies": {
     "backbone": "^1.2.1",
     "backbone.marionette": "^2.4.2",
+    "browserify": "^10.2.4",
     "browserify-shim": "^3.8.9",
     "jquery": "^2.1.4",
     "minifyify": "^7.0.1",
-    "uglify-js": "^2.4.23"
+    "uglify-js": "^2.4.23",
+    "underscore": "^1.8.3"
   },
   "scripts": {
     "test": "browserify public/js/main.js -o public/js/bundle.js -d"
@@ -24,11 +26,19 @@
   "bugs": {
     "url": "https://github.com/jibrian/juice-alpha/issues"
   },
-  "homepage": "https://github.com/jibrian/juice-alpha",
-  "browserify-shim": {
-    
-  },
   "browserify": {
-    "transform": ["browserify-shim"]
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browser": {
+    "jquery": "./public/js/vendor/backbone.marionette/jquery.js",
+    "underscore": "./public/js/vendor/backbone.marionette/underscore.js",
+    "backbone": "./public/js/vendor/backbone.marionette/backbone.js",
+    "marionette": "./public/js/vendor/backbone.marionette/backbone.marionette.min.js",
+    "app.controller": "./public/js/app/app.controller.js"
+  },
+  "browserify-shim": {
+   
   }
 }

@@ -3,6 +3,7 @@
 */
 var Marionette = require("backbone.marionette");
 var Backbone = require("backbone");
+var AppController = require("app.controller");
 
 module.exports = Marionette.Application.extend({
 	initialize: function() {
@@ -14,6 +15,8 @@ module.exports = Marionette.Application.extend({
 	},
 	onStart: function() {
 		console.log("App started");
+
+		console.log("APPCONTROLLER", AppController);
 		Backbone.history.start();
 	}
 });
