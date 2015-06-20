@@ -1,7 +1,7 @@
 /**
 * App bootstrap
 */
-var Marionette = require("backbone.marionette");
+var Marionette = require("marionette");
 var Backbone = require("backbone");
 var AppController = require("app.controller");
 

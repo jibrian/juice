@@ -5,14 +5,10 @@
   "main": "./public/js/main.js",
   "dependencies": {},
   "devDependencies": {
-    "backbone": "^1.2.1",
-    "backbone.marionette": "^2.4.2",
     "browserify": "^10.2.4",
     "browserify-shim": "^3.8.9",
-    "jquery": "^2.1.4",
-    "minifyify": "^7.0.1",
-    "uglify-js": "^2.4.23",
-    "underscore": "^1.8.3"
+    "gulp": "^3.9.0",
+    "watchify": "^3.2.2"
   },
   "scripts": {
     "test": "browserify public/js/main.js -o public/js/bundle.js -d"
@@ -38,7 +34,5 @@
     "marionette": "./public/js/vendor/backbone.marionette/backbone.marionette.min.js",
     "app.controller": "./public/js/app/app.controller.js"
   },
-  "browserify-shim": {
-   
-  }
+  "browserify-shim": {}
 }
