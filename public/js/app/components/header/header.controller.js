@@ -1,7 +1,7 @@
 /**
 * Header Component Controller
 */
-var Marionette = require("Marionette");
+var Marionette = require("marionette");
 
 module.exports = Marionette.Controller.extend({
 	initialize: function(options) {

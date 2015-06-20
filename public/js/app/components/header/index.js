@@ -1,9 +1,8 @@
 /**
 * Header Component
 */
-
 module.exports = {
-	Controller: HeaderController,
-	View: HeaderView
+	Controller: require("./header.controller"),
+	View: require("./header.view")
 }
 

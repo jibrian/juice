@@ -4,14 +4,14 @@
 var Marionette = require("marionette");
 
 module.exports = Marionette.LayoutView.extend({
-	el: "#app",
+	el: "body",
 	initialize: function(options) {
 
 	},
 	regions: {
-		"header": ".header",
-		"main": ".main",
-		"footer": ".footer"
+		"header": "#app-header",
+		"main": "#app-main",
+		"footer": "#app-footer"
 	}
 });
 
