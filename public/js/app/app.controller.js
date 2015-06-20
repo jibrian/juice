@@ -1,11 +1,12 @@
 /**
 * App Controller
 */
-define(["marionette", "app.view", "app.router", "header", "dashboard"],
-	function(Marionette, AppView, AppRouter, header, dashboard) {
+define(["marionette", "app.view", "header", "dashboard"],
+	function(Marionette, AppView, header, dashboard) {
 		var AppController = Marionette.Controller.extend({
 			initialize: function(options) {
 				this.app = options.app;	
+				this.app.view = new AppView(options);
 			},
 			loadModule: function(module, options) {
 				this[module](options);
@@ -20,4 +21,4 @@ define(["marionette", "app.view", "app.router", "header", "dashboard"],
 
 		return AppController;
 	}
-); // !define
+); // !define 

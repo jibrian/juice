@@ -10,7 +10,6 @@ define(["marionette", "app.controller", "app.router", "app.view"],
 				}
 				this.controller = new AppController(options);
 				this.router = new AppRouter(options);
-				this.view = new AppView(options);
 			}
 		});
 

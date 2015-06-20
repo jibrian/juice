@@ -22,7 +22,7 @@
 					"deps": ["backbone"]
 				}
 			},
-			"text": "../vendor/text-master/text"
+			"text": "../vendor/text-master/text",
 			// App
 			"app": "../app/app",
 			"app.controller": "../app/app.controller",
@@ -47,7 +47,7 @@
 			"header.view": "../app/components/header/header.view",
 			"dashboard.view": "../app/modules/dashboard/dashboard.view",
 			// Controllers
-			"header.controller": "../app/components/header/header.view",
+			"header.controller": "../app/components/header/header.controller",
 			"dashboard.controller": "../app/modules/dashboard/dashboard.controller",
 		},
 
