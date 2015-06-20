@@ -6,9 +6,7 @@
 	require.config({
 		"deps": ["app"],
 		"paths": {
-			/**
-			* Vendor Libraries
-			*/
+			// Vendor Libraries
 			"backbone": "../vendor/backbone.marionette/backbone",
 			"jquery": [
 				"../vendor/backbone.marionette/jquery",
@@ -24,38 +22,24 @@
 					"deps": ["backbone"]
 				}
 			},
-			/**
-			* App
-			*/
+			// App
 			"app": "../app/app",
 			"app.router": "../app/router",
-			/**
-			* Controllers
-			*/
-			"dashboard.controller": "../app/modules/dashboard/dashboard.controller",
-			/**
-			* Views
-			*/
-			"dashboard.view": "../app/modules/dashboard/dashboard.view",
-			/**
-			* Templates
-			*/
+			// Templates
 
-			/**
-			* Models
-			*/
+			// Models
 
-			/**
-			* Collections
-			*/
+			// Collections
 
-			/**
-			* Components
-			*/
+			//Modules
 
-			/**
-			* Modules
-			*/
+			// Components
+			"footer": "../app/components/footer/index",
+			"dashboard": "../app/comonents/dashboard/index",
+			"header": "../app/comonents/header/index",
+			"redirect-trace": "../app/comonents/redirect-trace/index",
+			"query-json": "../app/comonents/query-json/index",
+
 		},
 
 	});	
