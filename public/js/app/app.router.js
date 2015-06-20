@@ -1,22 +1,19 @@
 /**
 * App Router
 */
-define(["backbone", "dashboard"], 
-	function(Backbone, dashboard) {
-		var AppRouter = Backbone.Router.extend({
-			initialize: function(options) {
-				this.app = options.app;
-			},
-			routes: {
-				"dashboard": "initDashboard",
-			},
-			initDashboard: function() {
-				this.app.controller.loadModule("dashboard", {
-					app: this.app
-				});
-			}
-		});
+var Backbone = require("backbone");
 
-		return AppRouter;
+module.exports = Backbone.Router.extend({
+	initialize: function(options) {
+		this.app = options.app;
+	},
+	routes: {
+		"dashboard": "initDashboard",
+	},
+	initDashboard: function() {
+		this.app.controller.loadModule("dashboard", {
+			app: this.app
+		});
 	}
-); // !define
+});
+

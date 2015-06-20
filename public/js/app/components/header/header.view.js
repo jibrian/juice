@@ -1,12 +1,8 @@
 /**
 * Header Component View
 */
-define(["marionette"],
-	function(Marionette) {
-		var HeaderView = Marionette.LayoutView.extend({
+var Marionette = require("marionette");
+module.exports = Marionette.LayoutView.extend({
 			
-		});
+});
 
-		return HeaderView;
-	}
-);

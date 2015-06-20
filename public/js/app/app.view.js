@@ -1,20 +1,17 @@
 /**
 * App View
 */
-define(["marionette"],
-	function(Marionette) {
-		var AppView = Marionette.LayoutView.extend({
-			el: "#app",
-			initialize: function(options) {
+var Marionette = require("marionette");
 
-			},
-			regions: {
-				"header": ".header",
-				"main": ".main",
-				"footer": ".footer"
-			}
-		});
+module.exports = Marionette.LayoutView.extend({
+	el: "#app",
+	initialize: function(options) {
 
-		return AppView;
+	},
+	regions: {
+		"header": ".header",
+		"main": ".main",
+		"footer": ".footer"
 	}
-); // !define
+});
+

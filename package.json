@@ -1,0 +1,51 @@
+{
+    "name": "juice-alpha",
+    "version": "1.0.0",
+    "description": "Front-end development tools",
+    "main": "./public/js/main.js",
+    "paths": [
+        "./node_modules",
+        "./public/js/app/",
+        "./public/js/rm/",
+        "./public/js/vendor/"
+    ],
+    "browser": {
+        "backbone": "./public/js/vendor/backbone.marionette/backbone",
+        "jquery": "./public/js/vendor/backbone.marionette/jquery",
+        "marionette": "./public/js/vendor/backbone.marionette/backbone.marionette.min",
+        "underscore": "./public/js/vendor/backbone.marionette/underscore"
+    },
+
+
+
+    "browserify-shim": "./public/js/config/shim.js",
+    "browserify": {
+        "transform": [
+            "browserify-jst",
+            "browserify-shim"
+        ]
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "browserify": "^10.1.3",
+        "browserify-jst": "0.0.1",
+        "browserify-shim": "^3.8.6",
+        "gulp": "^3.8.11",
+        "gulp-size": "^1.2.1",
+        "gulp-sourcemaps": "^1.5.2",
+        "gulp-uglify": "^1.2.0",
+        "gulp-util": "^3.0.4",
+        "vinyl-buffer": "^1.0.0",
+        "vinyl-source-stream": "^1.1.0",
+        "watchify": "^3.2.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@bitbucket.org:restoration/suggested-jobs.git"
+    },
+    "author": "Brian Ji",
+    // "license": "ISC"
+}
