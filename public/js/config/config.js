@@ -22,9 +22,10 @@
 					"deps": ["backbone"]
 				}
 			},
+			"text": "../vendor/text-master/text"
 			// App
 			"app": "../app/app",
-			"app.controller": "../app/app.controller"
+			"app.controller": "../app/app.controller",
 			"app.router": "../app/app.router",
 			"app.view": "../app/app.view",
 			// Templates
@@ -34,20 +35,20 @@
 			// Collections
 
 			//Modules
+			"dashboard": "../app/modules/dashboard/index",
 
 			// Components
 			"footer": "../app/components/footer/index",
-			"dashboard": "../app/comonents/dashboard/index",
-			"header": "../app/comonents/header/index",
-			"redirect-trace": "../app/comonents/redirect-trace/index",
-			"query-json": "../app/comonents/query-json/index",
+			"header": "../app/components/header/index",
+			"redirect-trace": "../app/components/redirect-trace/index",
+			"query-json": "../app/components/query-json/index",
 
 			// Views
 			"header.view": "../app/components/header/header.view",
 			"dashboard.view": "../app/modules/dashboard/dashboard.view",
 			// Controllers
 			"header.controller": "../app/components/header/header.view",
-			"dashboard.controller": "../app/modules/dashboard/dashboard.view",
+			"dashboard.controller": "../app/modules/dashboard/dashboard.controller",
 		},
 
 	});	

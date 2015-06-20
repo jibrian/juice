@@ -1,23 +1,27 @@
 /**
 * App bootstrap
 */
-define(["marionette", "dashboard.controller"], 
-	function(Marionette, DashboardController) {
-
-		// @TODO remove from global
+define(["marionette", "app.controller", "app.router", "app.view"], 
+	function(Marionette, AppController, AppRouter, AppView) {
 		var App = Marionette.Application.extend({
 			initialize: function() {
-				
+				var options = {
+					app: this
+				}
+				this.controller = new AppController(options);
+				this.router = new AppRouter(options);
+				this.view = new AppView(options);
 			}
 		});
 
-		window.app = new App();
+		var app = new App();
+
+		window.foo = app;
 
 		app.on("start", function() {
-			console.log("App initialized");
 			Backbone.history.start();
 		})
 
 		app.start();
 	}
-) // define
+) // !define
