@@ -3,9 +3,21 @@
 */
 define(["marionette", "dashboard.controller"], 
 	function(Marionette, DashboardController) {
-		console.log("App initialized");
 
 		// @TODO remove from global
-		window.App = new Marionette.Application;
+		var App = Marionette.Application.extend({
+			initialize: function() {
+				
+			}
+		});
+
+		window.app = new App();
+
+		app.on("start", function() {
+			console.log("App initialized");
+			Backbone.history.start();
+		})
+
+		app.start();
 	}
 ) // define

@@ -1,8 +1,11 @@
 /**
 * Dashboard Module
 */
-define([""],
-	function() {
-
+define(["dashboard.controller", "dashboard.view"],
+	function(DashboardController, DashboardView) {
+		return {
+			Controller: DashboardController,
+			View: DashboardView
+		}
 	}
 ); // !define

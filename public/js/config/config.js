@@ -24,7 +24,9 @@
 			},
 			// App
 			"app": "../app/app",
-			"app.router": "../app/router",
+			"app.controller": "../app/app.controller"
+			"app.router": "../app/app.router",
+			"app.view": "../app/app.view",
 			// Templates
 
 			// Models
@@ -40,6 +42,12 @@
 			"redirect-trace": "../app/comonents/redirect-trace/index",
 			"query-json": "../app/comonents/query-json/index",
 
+			// Views
+			"header.view": "../app/components/header/header.view",
+			"dashboard.view": "../app/modules/dashboard/dashboard.view",
+			// Controllers
+			"header.controller": "../app/components/header/header.view",
+			"dashboard.controller": "../app/modules/dashboard/dashboard.view",
 		},
 
 	});	
