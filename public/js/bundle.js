@@ -201,8 +201,6 @@ var _ = require("underscore");
 var Backbone = require("backbone");
 
 module.exports = Marionette.ItemView.extend({
-	name: "json",
-	type: "component",
 	tagName: "ul",
 	id: "json",
 	className: "component",
