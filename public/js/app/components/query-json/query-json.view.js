@@ -28,16 +28,14 @@ module.exports = LayoutViewPrototype.extend({
 		e.preventDefault();
 		var query = this.ui.textarea.val();
 		var json = this.convertQuery(query);
+		
 		this.controller.import(["json"], ["json"], {
 			app: this.app
 		}, {
-			app: this.app,
-			// @TEST
-			model: new Backbone.Model({
-				name: json.name,
-				age: json.age
-			})
+			model: new Backbone.Model(json)
 		});
+
+		console.log("Query -> JSON", json);
 	},
 	convertQuery: function(str) {
 		var query = str.substring(str.indexOf("?") + 1);

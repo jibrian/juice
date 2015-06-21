@@ -41,7 +41,8 @@ module.exports = Marionette.Controller.extend({
 	*/
 	import: function(components, parentRegions, componentOptions, viewOptions) {
 		var _this = this;
-		console.log("viewoptions", viewOptions);
+		var componentOptions = componentOptions || {};
+		componentOptions.app = this.app;
 		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {

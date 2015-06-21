@@ -9,6 +9,7 @@ module.exports = Backbone.Router.extend({
 		this.app = options.app;
 	},
 	routes: {
+		"(/)": "loadDashboard",
 		"dashboard": "loadDashboard"
 	},
 	loadDashboard: function() {

@@ -1,4 +1,14 @@
-<li>{</li>
-<li><%= name %></li>
-<li><%= age %></li>
-<li>}</li>
+<!-- JSON -->
+{
+<% 
+var keys = Object.keys(obj);
+for (var i = 0; i < keys.length; i++) { 
+	if (i === keys.length - 1) { 
+%>
+		<%= keys[i] %>: <%= obj[keys[i]] %>
+	<% } else { %>	
+			<%= keys[i] %>: <%= obj[keys[i]] %>,
+	<% }
+} %>
+
+}

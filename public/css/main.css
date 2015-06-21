@@ -2,5 +2,15 @@
 * Main CSS file built on SASS
 */
 @import url("typography.css");
+#query-json .json {
+  background: #E8E8E8;
+  width: 100%; }
+
+#json li {
+  list-style-type: none;
+  padding-left: 50px; }
+#json li:first-child,
+#json li:last-child {
+  padding-left: 0px; }
 
 /*# sourceMappingURL=main.css.map */

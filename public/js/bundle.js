@@ -82,6 +82,7 @@ module.exports = Backbone.Router.extend({
 		this.app = options.app;
 	},
 	routes: {
+		"(/)": "loadDashboard",
 		"dashboard": "loadDashboard"
 	},
 	loadDashboard: function() {
@@ -98,9 +99,6 @@ var Marionette = require("marionette");
 
 module.exports = Marionette.LayoutView.extend({
 	el: "html",
-	initialize: function(options) {
-
-	},
 	regions: {
 		"header": "#app-header",
 		"main": "#app-main",
@@ -194,7 +192,7 @@ var _ = require("underscore");
 var Backbone = require("backbone");
 
 module.exports = ItemViewPrototype.extend({
-	tagName: "ul",
+	tagName: "div",
 	id: "json",
 	className: "component",
 	initialize: function(options) {
@@ -268,16 +266,14 @@ module.exports = LayoutViewPrototype.extend({
 		e.preventDefault();
 		var query = this.ui.textarea.val();
 		var json = this.convertQuery(query);
+		
 		this.controller.import(["json"], ["json"], {
 			app: this.app
 		}, {
-			app: this.app,
-			// @TEST
-			model: new Backbone.Model({
-				name: json.name,
-				age: json.age
-			})
+			model: new Backbone.Model(json)
 		});
+
+		console.log("Query -> JSON", json);
 	},
 	convertQuery: function(str) {
 		var query = str.substring(str.indexOf("?") + 1);
@@ -363,7 +359,8 @@ module.exports = Marionette.Controller.extend({
 	*/
 	import: function(components, parentRegions, componentOptions, viewOptions) {
 		var _this = this;
-		console.log("viewoptions", viewOptions);
+		var componentOptions = componentOptions || {};
+		componentOptions.app = this.app;
 		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
@@ -510,13 +507,13 @@ module.exports = {
 module.exports = "<h1>Juice</h1>";
 
 },{}],25:[function(require,module,exports){
-module.exports = "<li>{</li>\n<li><%= name %></li>\n<li><%= age %></li>\n<li>}</li>";
+module.exports = "<!-- JSON -->\n{\n<% \nvar keys = Object.keys(obj);\nfor (var i = 0; i < keys.length; i++) { \n\tif (i === keys.length - 1) { \n%>\n\t\t<%= keys[i] %>: <%= obj[keys[i]] %>\n\t<% } else { %>\t\n\t\t\t<%= keys[i] %>: <%= obj[keys[i]] %>,\n\t<% }\n} %>\n\n}";
 
 },{}],26:[function(require,module,exports){
-module.exports = "<h2>Query -> JSON</h2>\n<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<pre class=\"json\"></pre>";
+module.exports = "<!-- Query -> JSON -->\n<h2>Query -> JSON</h2>\n<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<pre class=\"json\"></pre>";
 
 },{}],27:[function(require,module,exports){
-module.exports = "<h2>Dashboard</h2>\n<div class=\"main\"></div>";
+module.exports = "<!-- Dashboard -->\n<div class=\"main\"></div>";
 
 },{}],28:[function(require,module,exports){
 /**
