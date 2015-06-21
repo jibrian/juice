@@ -2,6 +2,7 @@
 * Controller Prototype
 * A base marionette controller contructor
 * Contains methods we want on all controllers
+* @requires Controller requires name and type(components/modules) properties
 * @constructor
 */
 var Marionette = require("marionette");
@@ -25,9 +26,23 @@ module.exports = Marionette.Controller.extend({
 		var options = {
 			app: this.app
 		};
-		
+
 		this.view = new this.app[this.type][this.name].View(options);
 		region.show(this.view);
 		this.view.render();
+	},
+	/**
+	* @param {array} components Array with desired component names
+	* @param {array} parentRegions Array with parent layouts region names
+	*   which correlate with the components by index
+	*/
+	inject: function(components, parentRegions, options) {
+		var _this = this;
+		setTimeout(function() {
+			for (var i = 0, len = components.length; i < len; i++) {
+				var controller = new _this.app.components[components[i]].Controller(options);
+				controller.injectInto(_this.view[parentRegions[i]])
+			}
+		});
 	}
 });

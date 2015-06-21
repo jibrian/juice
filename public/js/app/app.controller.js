@@ -21,11 +21,11 @@ module.exports = Marionette.Controller.extend({
 	},
 	/**
 	* Use inject method to instantiate module controller and inject into app
-	* @see controller.prototype.injectInto
 	*/
 	inject: function(type, controller, options) {
 		options.app = this.app;
 		var controller = new this.app[type][controller].Controller(options);
+		// @see controller.prototype
 		controller.injectInto(this.app.view.main);
 	},
 	dashboard: function() {

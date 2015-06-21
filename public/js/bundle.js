@@ -22,11 +22,11 @@ module.exports = Marionette.Controller.extend({
 	},
 	/**
 	* Use inject method to instantiate module controller and inject into app
-	* @see controller.prototype.injectInto
 	*/
 	inject: function(type, controller, options) {
 		options.app = this.app;
 		var controller = new this.app[type][controller].Controller(options);
+		// @see controller.prototype
 		controller.injectInto(this.app.view.main);
 	},
 	dashboard: function() {
@@ -245,6 +245,7 @@ module.exports = {
 * Controller Prototype
 * A base marionette controller contructor
 * Contains methods we want on all controllers
+* @requires Controller requires name and type(components/modules) properties
 * @constructor
 */
 var Marionette = require("marionette");
@@ -268,10 +269,24 @@ module.exports = Marionette.Controller.extend({
 		var options = {
 			app: this.app
 		};
-		
+
 		this.view = new this.app[this.type][this.name].View(options);
 		region.show(this.view);
 		this.view.render();
+	},
+	/**
+	* @param {array} components Array with desired component names
+	* @param {array} parentRegions Array with parent layouts region names
+	*   which correlate with the components by index
+	*/
+	inject: function(components, parentRegions, options) {
+		var _this = this;
+		setTimeout(function() {
+			for (var i = 0, len = components.length; i < len; i++) {
+				var controller = new _this.app.components[components[i]].Controller(options);
+				controller.injectInto(_this.view[parentRegions[i]])
+			}
+		});
 	}
 });
 },{"marionette":23}],14:[function(require,module,exports){
@@ -302,20 +317,10 @@ module.exports = ControllerPrototype.extend({
 		this.attach(options);
 		this.name = "dashboard";
 		this.type = "modules";
-
-
-
-		var _this = this;	
-		setTimeout(function() {
-			_this.loadComponents();
+		// @see controller.prototype
+		this.inject(["header", "header"], ["one", "two"], {
+			app: this.app
 		});
-	},
-	loadComponents: function() {
-		var headerController = new this.app.components.header.Controller({
-			app: this.app,
-		});
-
-		headerController.injectInto(this.view.one);
 	}
 });	
 

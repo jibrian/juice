@@ -11,20 +11,10 @@ module.exports = ControllerPrototype.extend({
 		this.attach(options);
 		this.name = "dashboard";
 		this.type = "modules";
-
-
-
-		var _this = this;	
-		setTimeout(function() {
-			_this.loadComponents();
+		// @see controller.prototype
+		this.inject(["header", "header"], ["one", "two"], {
+			app: this.app
 		});
-	},
-	loadComponents: function() {
-		var headerController = new this.app.components.header.Controller({
-			app: this.app,
-		});
-
-		headerController.injectInto(this.view.one);
 	}
 });	
 
