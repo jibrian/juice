@@ -10,24 +10,16 @@ module.exports = Marionette.ItemView.extend({
 	tagName: "ul",
 	id: "json",
 	className: "component",
+	model: new Backbone.Model({
+		name: "jkhkjh",
+		age: 29
+	}),
 	initialize: function(options) {
-		this.model = new Backbone.Model({
-			name: "brian",
-			age: 29
-		});
-
-
 		// @DEBUG
 		console.log("JSON view initiailized");	
 	},
-	onBeforeRender: function() {
-		var test = _.template(templates.components.json);
-		this.template = test(this.model.toJSON())
-		
-
-		console.log(this.template);
-	},
-	template: templates.components.json
-	
+	template: function(model) {
+		return _.template(templates.components.json)(model);
+	}
 });
 
