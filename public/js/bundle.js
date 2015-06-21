@@ -21,7 +21,7 @@ module.exports = Marionette.Controller.extend({
 		this[module]();
 	},
 	/**
-	* Use inject method to instantiate module controller and inject into app
+	* Use inject method to instantiate module controller and inject into our app
 	*/
 	inject: function(type, controller, options) {
 		var type = this.app.utils.processType(type);
@@ -157,7 +157,6 @@ module.exports = {
 
 },{"./header.controller":5,"./header.view":6}],8:[function(require,module,exports){
 /**
-* @author Brian Ji
 * Query-JSON Component
 * Converts a url query string into a JSON object
 */
@@ -247,15 +246,14 @@ module.exports = {
 * Controller Prototype
 * A base marionette controller contructor
 * Contains methods we want on all controllers
-* @requires Controller requires name and type(components/modules) properties
 * @constructor
+* @requires name and type(component/module) properties on initialization
 */
 var Marionette = require("marionette");
 
 module.exports = Marionette.Controller.extend({
 	/**
 	* Attach all references passed by options to the controller
-	*  Depends: [name, type]
 	* @param {object} options 
 	*/
 	inherit: function(options) {
@@ -264,7 +262,7 @@ module.exports = Marionette.Controller.extend({
 		}
 	},
 	/**
-	* Use to inject component into our parent component/modules regions
+	* Use to inject component into our parent component/module regions
 	* @param {object} region Region of our parent component/module we want to inject into
 	*/
 	injectInto: function(region) {
@@ -396,7 +394,7 @@ module.exports = "<h2>Dashboard</h2>\n<div class=\"main\"></div>";
 
 },{}],22:[function(require,module,exports){
 /**
-* Main JavaScript 
+* Entry point for our app
 */
 var App = require("./app/app.js");
 var app = new App;

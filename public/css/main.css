@@ -1,8 +1,6 @@
 /**
-* @author Brian Ji
+* Main CSS file built on SASS
 */
 @import url("typography.css");
-#app-header {
-  background: black; }
 
 /*# sourceMappingURL=main.css.map */

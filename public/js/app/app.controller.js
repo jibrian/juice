@@ -20,7 +20,7 @@ module.exports = Marionette.Controller.extend({
 		this[module]();
 	},
 	/**
-	* Use inject method to instantiate module controller and inject into app
+	* Use inject method to instantiate module controller and inject into our app
 	*/
 	inject: function(type, controller, options) {
 		var type = this.app.utils.processType(type);

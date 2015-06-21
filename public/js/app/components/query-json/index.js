@@ -1,5 +1,4 @@
 /**
-* @author Brian Ji
 * Query-JSON Component
 * Converts a url query string into a JSON object
 */
