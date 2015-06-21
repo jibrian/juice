@@ -9,6 +9,5 @@ module.exports = Marionette.LayoutView.extend({
 		this.app = options.app;
 	},
 	template: templates.header,
-
 });
 

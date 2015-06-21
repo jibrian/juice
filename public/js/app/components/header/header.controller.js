@@ -1,16 +1,16 @@
 /**
 * Header Component Controller
+* @constructor
+* @extends controller.prototype
 */
-var Marionette = require("marionette");
+var ControllerPrototype = require("controller.prototype");
 
-module.exports = Marionette.Controller.extend({
+module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
-		this.app = options.app;
-	},
-	loadView: function() {
-		var headerView = new components.header.View({
-			app: this.app
-		});
+		// @see controller.prototype
+		this.attach(options);
+		this.name = "header";
+		this.type = "components";
 	}
 });
 

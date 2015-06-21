@@ -101,22 +101,22 @@ module.exports = Marionette.LayoutView.extend({
 },{"marionette":23}],5:[function(require,module,exports){
 /**
 * Header Component Controller
+* @constructor
+* @extends controller.prototype
 */
-var Marionette = require("marionette");
+var ControllerPrototype = require("controller.prototype");
 
-module.exports = Marionette.Controller.extend({
+module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
-		this.app = options.app;
-	},
-	loadView: function() {
-		var headerView = new components.header.View({
-			app: this.app
-		});
+		// @see controller.prototype
+		this.attach(options);
+		this.name = "header";
+		this.type = "components";
 	}
 });
 
 
-},{"marionette":23}],6:[function(require,module,exports){
+},{"controller.prototype":13}],6:[function(require,module,exports){
 /**
 * Header Component View
 */
@@ -128,7 +128,6 @@ module.exports = Marionette.LayoutView.extend({
 		this.app = options.app;
 	},
 	template: templates.header,
-
 });
 
 
@@ -255,11 +254,12 @@ module.exports = Marionette.Controller.extend({
 	* @param {object} region Region of our parent component/module we want to inject into
 	*/
 	injectInto: function(region) {
+		console.log(this);
 		var options = {
 			app: this.app
 		};
-		var view = new this.app[this.type][this.name].View(options);
-		region.show(view);
+		this.view = new this.app[this.type][this.name].View(options);
+		region.show(this.view);
 	}
 });
 },{"marionette":23}],14:[function(require,module,exports){
@@ -288,6 +288,20 @@ module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		// @see controller.prototype
 		this.attach(options);
+
+		window.foo = this;
+		var _this = this;
+		setTimeout(function() {
+		_this.loadComponents();	
+		}, 2000);
+	},
+	loadComponents: function() {
+		var headerController = new this.app.components.header.Controller({
+			app: this.app,
+		});
+		console.log("headercontroller", headerController);
+		console.log(this.view);
+		headerController.injectInto(this.view.one);
 	}
 });	
 
@@ -305,6 +319,10 @@ module.exports = Marionette.LayoutView.extend({
 	id: "dashboard",
 	initialize: function(options) {
 		this.app = options.app;
+	},
+	regions: {
+		"one": "#one",
+		"two": "#two"
 	},
 	template: templates.modules.dashboard
 });
@@ -326,7 +344,7 @@ module.exports = "<h1>Juice</h1>";
 module.exports = "<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>";
 
 },{}],20:[function(require,module,exports){
-module.exports = "<h1>Dashboard</h1>";
+module.exports = "<div id=\"one\">Region One</div>\n<div id=\"two\">Region Two</div>";
 
 },{}],21:[function(require,module,exports){
 /**

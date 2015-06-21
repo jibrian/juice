@@ -11,6 +11,10 @@ module.exports = Marionette.LayoutView.extend({
 	initialize: function(options) {
 		this.app = options.app;
 	},
+	regions: {
+		"one": "#one",
+		"two": "#two"
+	},
 	template: templates.modules.dashboard
 });
 
