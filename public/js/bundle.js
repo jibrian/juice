@@ -9,7 +9,7 @@ var modules = require("modules");
 module.exports = Marionette.Controller.extend({
 	initialize: function(options) {
 		this.app = options.app;	
-
+	
 		// @DEBUG
 		console.log("App controller initialized");
 	},
@@ -124,10 +124,14 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.LayoutView.extend({
+	tagName: "header",
+	className: "header",
 	initialize: function(options) {
 		this.app = options.app;
 	},
-	template: templates.header,
+	template: function() {
+		return templates.components.header
+	}
 });
 
 
@@ -254,12 +258,12 @@ module.exports = Marionette.Controller.extend({
 	* @param {object} region Region of our parent component/module we want to inject into
 	*/
 	injectInto: function(region) {
-		console.log(this);
 		var options = {
 			app: this.app
 		};
 		this.view = new this.app[this.type][this.name].View(options);
 		region.show(this.view);
+		this.view.render();
 	}
 });
 },{"marionette":23}],14:[function(require,module,exports){
@@ -288,19 +292,21 @@ module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		// @see controller.prototype
 		this.attach(options);
+		this.name = "dashboard";
+		this.type = "modules";
 
-		window.foo = this;
-		var _this = this;
+
+
+		var _this = this;	
 		setTimeout(function() {
-		_this.loadComponents();	
-		}, 2000);
+			_this.loadComponents();
+		});
 	},
 	loadComponents: function() {
 		var headerController = new this.app.components.header.Controller({
 			app: this.app,
 		});
-		console.log("headercontroller", headerController);
-		console.log(this.view);
+
 		headerController.injectInto(this.view.one);
 	}
 });	
@@ -324,7 +330,9 @@ module.exports = Marionette.LayoutView.extend({
 		"one": "#one",
 		"two": "#two"
 	},
-	template: templates.modules.dashboard
+	template: function() {
+		return templates.modules.dashboard
+	}
 });
 
 

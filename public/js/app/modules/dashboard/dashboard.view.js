@@ -15,6 +15,8 @@ module.exports = Marionette.LayoutView.extend({
 		"one": "#one",
 		"two": "#two"
 	},
-	template: templates.modules.dashboard
+	template: function() {
+		return templates.modules.dashboard
+	}
 });
 

@@ -5,9 +5,13 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.LayoutView.extend({
+	tagName: "header",
+	className: "header",
 	initialize: function(options) {
 		this.app = options.app;
 	},
-	template: templates.header,
+	template: function() {
+		return templates.components.header
+	}
 });
 

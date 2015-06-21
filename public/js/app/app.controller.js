@@ -8,7 +8,7 @@ var modules = require("modules");
 module.exports = Marionette.Controller.extend({
 	initialize: function(options) {
 		this.app = options.app;	
-
+	
 		// @DEBUG
 		console.log("App controller initialized");
 	},

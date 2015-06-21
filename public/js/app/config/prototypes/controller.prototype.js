@@ -22,11 +22,11 @@ module.exports = Marionette.Controller.extend({
 	* @param {object} region Region of our parent component/module we want to inject into
 	*/
 	injectInto: function(region) {
-		console.log(this);
 		var options = {
 			app: this.app
 		};
 		this.view = new this.app[this.type][this.name].View(options);
 		region.show(this.view);
+		this.view.render();
 	}
 });
