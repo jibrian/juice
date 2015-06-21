@@ -2,6 +2,6 @@
 * Dashboard Module
 */
 module.exports = {
-	Controller: DashboardController,
-	View: DashboardView
+	Controller: require("./dashboard.controller"),
+	View: require("./dashboard.view")
 }

@@ -8,9 +8,9 @@ module.exports = Backbone.Router.extend({
 		this.app = options.app;
 	},
 	routes: {
-		"dashboard": "initDashboard",
+		"dashboard": "loadDashboard"
 	},
-	initDashboard: function() {
+	loadDashboard: function() {
 		this.app.controller.loadModule("dashboard", {
 			app: this.app
 		});

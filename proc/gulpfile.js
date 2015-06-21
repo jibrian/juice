@@ -11,11 +11,12 @@ var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
-
 // add custom browserify options here
 var customOpts = {
   entries: ['../public/js/main.js'],
-  debug: true
+  debug: true,
+  extensions: ['.html'],
+  transform: ['stringify'],
 };
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts)); 
@@ -38,5 +39,6 @@ function bundle() {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
        // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('../public/js/'));
 }
+

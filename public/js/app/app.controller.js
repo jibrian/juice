@@ -2,6 +2,7 @@
 * App Controller
 */
 var Marionette = require("marionette");
+var modules = require("modules");
 
 module.exports = Marionette.Controller.extend({
 	initialize: function(options) {
@@ -11,7 +12,7 @@ module.exports = Marionette.Controller.extend({
 		this[module](options);
 	},
 	dashboard: function(options) {
-		var dashboardController = new dashboard.Controller({
+		var dashboardController = new modules.dashboard.Controller({
 			app: this.app
 		});
 		dashboardController.loadView();

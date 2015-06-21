@@ -11,6 +11,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.5",
     "lodash.assign": "^3.2.0",
+    "stringify": "^3.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2"
@@ -40,29 +41,29 @@
     "modules": "./public/js/app/config/modules.js"
   },
   "browserify-shim": {
-     "jquery": {
-        "exports": "$"
+    "jquery": {
+      "exports": "$"
     },
     "underscore": {
-        "exports": "_"
+      "exports": "_"
     },
     "backbone": {
-        "depends": {
-            "underscore": "_",
-            "jquery": "$"
-        },
-        "exports": "Backbone"
+      "depends": {
+        "underscore": "_",
+        "jquery": "$"
+      },
+      "exports": "Backbone"
     },
     "marionette": {
-        "depends": {
-            "backbone": "Backbone"
-        },
-        "exports": "Marionette"
+      "depends": {
+        "backbone": "Backbone"
+      },
+      "exports": "Marionette"
     },
     "browserify": {
-        "transform": [
-            "browserify-shim"
-        ]
+      "transform": [
+        "browserify-shim"
+      ]
     }
   }
 }

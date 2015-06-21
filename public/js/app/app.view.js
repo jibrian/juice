@@ -4,7 +4,7 @@
 var Marionette = require("marionette");
 
 module.exports = Marionette.LayoutView.extend({
-	el: "body",
+	el: "html",
 	initialize: function(options) {
 
 	},

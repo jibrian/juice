@@ -15,6 +15,8 @@ module.exports = Marionette.Application.extend({
 		this.controller = new AppController(options);
 		this.router = new AppRouter(options);
 		this.view = new AppView(options);
+
+		console.log(foo);
 	},
 	onStart: function() {
 		console.log("App started");
