@@ -39,6 +39,7 @@
     "components": "./public/js/app/config/components.js",
     "templates": "./public/js/app/config/templates.js",
     "modules": "./public/js/app/config/modules.js",
+    "utilities": "./public/js/app/config/utilities.js",
     "controller.prototype": "./public/js/app/config/prototypes/controller.prototype.js"
   },
   "browserify-shim": {
