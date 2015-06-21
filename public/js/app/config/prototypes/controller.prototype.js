@@ -25,6 +25,7 @@ module.exports = Marionette.Controller.extend({
 		var options = {
 			app: this.app
 		};
+		
 		this.view = new this.app[this.type][this.name].View(options);
 		region.show(this.view);
 		this.view.render();

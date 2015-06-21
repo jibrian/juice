@@ -9,24 +9,28 @@ var modules = require("modules");
 module.exports = Marionette.Controller.extend({
 	initialize: function(options) {
 		this.app = options.app;	
-	
+
 		// @DEBUG
 		console.log("App controller initialized");
 	},
-	// @see app.router
+	/**
+	* Loads desired module into our app via app.router
+	* @see app.router
+	*/
 	load: function(module) {
 		this[module]();
 	},
-	inject: function(controller, options) {
+	/**
+	* Use inject method to instantiate module controller and inject into app
+	* @see controller.prototype.injectInto
+	*/
+	inject: function(type, controller, options) {
 		options.app = this.app;
-		var controller = new this.app.modules[controller].Controller(options);
+		var controller = new this.app[type][controller].Controller(options);
 		controller.injectInto(this.app.view.main);
 	},
 	dashboard: function() {
-		this.inject("dashboard", {
-			name: "dashboard",
-			type: "modules"
-		});
+		this.inject("modules", "dashboard", {});
 	}
 });
 
@@ -55,14 +59,17 @@ module.exports = Marionette.Application.extend({
 		this.modules = modules;
 	},
 	onStart: function() {
-		console.log("App started");
 		Backbone.history.start();
+
+		// @DEBUG
+		console.log("App started");
 	}
 });
 
 },{"app.controller":1,"app.router":3,"app.view":4,"backbone":22,"components":11,"marionette":23,"modules":12}],3:[function(require,module,exports){
 /**
 * App Router
+* @see app.controller.load
 */
 var Backbone = require("backbone");
 
@@ -261,6 +268,7 @@ module.exports = Marionette.Controller.extend({
 		var options = {
 			app: this.app
 		};
+		
 		this.view = new this.app[this.type][this.name].View(options);
 		region.show(this.view);
 		this.view.render();
@@ -352,7 +360,7 @@ module.exports = "<h1>Juice</h1>";
 module.exports = "<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>";
 
 },{}],20:[function(require,module,exports){
-module.exports = "<div id=\"one\">Region One</div>\n<div id=\"two\">Region Two</div>";
+module.exports = "<div id=\"one\"></div>\n<div id=\"two\"></div>";
 
 },{}],21:[function(require,module,exports){
 /**

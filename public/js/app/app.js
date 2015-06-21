@@ -21,7 +21,9 @@ module.exports = Marionette.Application.extend({
 		this.modules = modules;
 	},
 	onStart: function() {
-		console.log("App started");
 		Backbone.history.start();
+
+		// @DEBUG
+		console.log("App started");
 	}
 });
