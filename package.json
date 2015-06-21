@@ -40,7 +40,8 @@
     "templates": "./public/js/app/config/templates.js",
     "modules": "./public/js/app/config/modules.js",
     "utilities": "./public/js/app/config/utilities.js",
-    "controller.prototype": "./public/js/app/config/prototypes/controller.prototype.js"
+    "controller.prototype": "./public/js/app/config/prototypes/controller.prototype.js",
+    "itemview.prototype": "./public/js/app/config/prototypes/itemview.prototype.js"
   },
   "browserify-shim": {
     "jquery": {
