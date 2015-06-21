@@ -5,16 +5,15 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.ItemView.extend({
-	"tagName": "section",
-	"id": "query-json",
-	"className": "component",
-	"templates": templates.components.query,
-	"behaviors": {},
-	"ui": {
+	tagName: "div",
+	id: "query-json",
+	className: "component",
+	behaviors: {},
+	ui: {
 		"textarea": "textarea",
 		"submitBtn": "button[type='submit']"
 	},
-	"initialize": function() {
+	initialize: function() {
 	
 	},
 	convertQuery: function(str) {
@@ -30,7 +29,9 @@ module.exports = Marionette.ItemView.extend({
 		}
 
 		return json;
+	},
+	template: function() {
+		return templates.components["query-json"];
 	}
-
 });
 

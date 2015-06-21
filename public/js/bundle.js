@@ -30,7 +30,7 @@ module.exports = Marionette.Controller.extend({
 		controller.injectInto(this.app.view.main);
 	},
 	dashboard: function() {
-		this.inject("modules", "dashboard", {});
+		this.inject("module", "dashboard", {});
 	}
 });
 
@@ -55,8 +55,8 @@ module.exports = Marionette.Application.extend({
 		this.controller = new AppController(options);
 		this.router = new AppRouter(options);
 		this.view = new AppView(options);
-		this.components = components;
-		this.modules = modules;
+		this.component = components;
+		this.module = modules;
 	},
 	onStart: function() {
 		Backbone.history.start();
@@ -116,9 +116,9 @@ var ControllerPrototype = require("controller.prototype");
 module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		// @see controller.prototype
-		this.attach(options);
+		this.inherit(options);
 		this.name = "header";
-		this.type = "components";
+		this.type = "component";
 	}
 });
 
@@ -168,22 +168,20 @@ module.exports = {
 /**
 * Query-JSON Controller
 */
-var Marionette = require("marionette");
+var ControllerPrototype = require("controller.prototype");
 var components = require("marionette");
 
-module.exports = Marionette.Controller.extend({
+module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
-		this.app = options.app;
-	},
-	loadView: function() {
-		var headerView = new components.header.View({
-			app: this.app
-		});
+		// @see controller.prototype
+		this.inherit(options);
+		this.name = "query-json";
+		this.type = "component";
 	}
 });
 
 
-},{"marionette":23}],10:[function(require,module,exports){
+},{"controller.prototype":13,"marionette":23}],10:[function(require,module,exports){
 /**
 * Query-JSON View
 */
@@ -191,16 +189,15 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.ItemView.extend({
-	"tagName": "section",
-	"id": "query-json",
-	"className": "component",
-	"templates": templates.components.query,
-	"behaviors": {},
-	"ui": {
+	tagName: "div",
+	id: "query-json",
+	className: "component",
+	behaviors: {},
+	ui: {
 		"textarea": "textarea",
 		"submitBtn": "button[type='submit']"
 	},
-	"initialize": function() {
+	initialize: function() {
 	
 	},
 	convertQuery: function(str) {
@@ -216,8 +213,10 @@ module.exports = Marionette.ItemView.extend({
 		}
 
 		return json;
+	},
+	template: function() {
+		return templates.components["query-json"];
 	}
-
 });
 
 
@@ -256,7 +255,7 @@ module.exports = Marionette.Controller.extend({
 	*  Depends: [name, type]
 	* @param {object} options 
 	*/
-	attach: function(options) {
+	inherit: function(options) {
 		for (var key in options) {
 			this[key] = options[key];
 		}
@@ -279,11 +278,12 @@ module.exports = Marionette.Controller.extend({
 	* @param {array} parentRegions Array with parent layouts region names
 	*   which correlate with the components by index
 	*/
-	inject: function(components, parentRegions, options) {
+	import: function(components, parentRegions, options) {
 		var _this = this;
+		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
-				var controller = new _this.app.components[components[i]].Controller(options);
+				var controller = new _this.app.component[components[i]].Controller(options);
 				controller.injectInto(_this.view[parentRegions[i]])
 			}
 		});
@@ -314,11 +314,11 @@ var ControllerPrototype = require("controller.prototype");
 module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		// @see controller.prototype
-		this.attach(options);
+		this.inherit(options);
 		this.name = "dashboard";
-		this.type = "modules";
+		this.type = "module";
 		// @see controller.prototype
-		this.inject(["header", "header"], ["one", "two"], {
+		this.import(["query-json"], ["main"], {
 			app: this.app
 		});
 	}
@@ -336,12 +336,12 @@ var templates = require("templates");
 module.exports = Marionette.LayoutView.extend({
 	tagName: "section",
 	id: "dashboard",
+	className: "module",
 	initialize: function(options) {
 		this.app = options.app;
 	},
 	regions: {
-		"one": "#one",
-		"two": "#two"
+		"main": ".main"
 	},
 	template: function() {
 		return templates.modules.dashboard
@@ -362,10 +362,10 @@ module.exports = {
 module.exports = "<h1>Juice</h1>";
 
 },{}],19:[function(require,module,exports){
-module.exports = "<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>";
+module.exports = "<h2>Query -> JSON</h2>\n<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>";
 
 },{}],20:[function(require,module,exports){
-module.exports = "<div id=\"one\"></div>\n<div id=\"two\"></div>";
+module.exports = "<h2>Dashboard</h2>\n<div class=\"main\"></div>";
 
 },{}],21:[function(require,module,exports){
 /**

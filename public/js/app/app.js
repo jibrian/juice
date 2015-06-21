@@ -17,8 +17,8 @@ module.exports = Marionette.Application.extend({
 		this.controller = new AppController(options);
 		this.router = new AppRouter(options);
 		this.view = new AppView(options);
-		this.components = components;
-		this.modules = modules;
+		this.component = components;
+		this.module = modules;
 	},
 	onStart: function() {
 		Backbone.history.start();

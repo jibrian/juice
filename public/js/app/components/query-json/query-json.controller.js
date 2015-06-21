@@ -1,17 +1,15 @@
 /**
 * Query-JSON Controller
 */
-var Marionette = require("marionette");
+var ControllerPrototype = require("controller.prototype");
 var components = require("marionette");
 
-module.exports = Marionette.Controller.extend({
+module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
-		this.app = options.app;
-	},
-	loadView: function() {
-		var headerView = new components.header.View({
-			app: this.app
-		});
+		// @see controller.prototype
+		this.inherit(options);
+		this.name = "query-json";
+		this.type = "component";
 	}
 });
 

@@ -8,12 +8,12 @@ var templates = require("templates");
 module.exports = Marionette.LayoutView.extend({
 	tagName: "section",
 	id: "dashboard",
+	className: "module",
 	initialize: function(options) {
 		this.app = options.app;
 	},
 	regions: {
-		"one": "#one",
-		"two": "#two"
+		"main": ".main"
 	},
 	template: function() {
 		return templates.modules.dashboard

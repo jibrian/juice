@@ -13,7 +13,7 @@ module.exports = Marionette.Controller.extend({
 	*  Depends: [name, type]
 	* @param {object} options 
 	*/
-	attach: function(options) {
+	inherit: function(options) {
 		for (var key in options) {
 			this[key] = options[key];
 		}
@@ -36,11 +36,12 @@ module.exports = Marionette.Controller.extend({
 	* @param {array} parentRegions Array with parent layouts region names
 	*   which correlate with the components by index
 	*/
-	inject: function(components, parentRegions, options) {
+	import: function(components, parentRegions, options) {
 		var _this = this;
+		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
-				var controller = new _this.app.components[components[i]].Controller(options);
+				var controller = new _this.app.component[components[i]].Controller(options);
 				controller.injectInto(_this.view[parentRegions[i]])
 			}
 		});

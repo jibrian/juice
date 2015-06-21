@@ -29,7 +29,7 @@ module.exports = Marionette.Controller.extend({
 		controller.injectInto(this.app.view.main);
 	},
 	dashboard: function() {
-		this.inject("modules", "dashboard", {});
+		this.inject("module", "dashboard", {});
 	}
 });
 

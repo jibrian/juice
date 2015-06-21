@@ -8,11 +8,11 @@ var ControllerPrototype = require("controller.prototype");
 module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		// @see controller.prototype
-		this.attach(options);
+		this.inherit(options);
 		this.name = "dashboard";
-		this.type = "modules";
+		this.type = "module";
 		// @see controller.prototype
-		this.inject(["header", "header"], ["one", "two"], {
+		this.import(["query-json"], ["main"], {
 			app: this.app
 		});
 	}
