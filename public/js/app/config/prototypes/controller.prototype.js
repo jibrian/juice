@@ -21,11 +21,11 @@ module.exports = Marionette.Controller.extend({
 	* Use to inject component into our parent component/module regions
 	* @param {object} region Region of our parent component/module we want to inject into
 	*/
-	injectInto: function(region) {
+	injectInto: function(region, options) {
 		var type = this.app.utils.processType(this.type);
-		var options = {
-			app: this.app
-		};
+		var options = options || {};
+		options.app = this.app;
+		options.controller = this;
 
 		this.view = new this.app[type][this.name].View(options);
 		// render our view to set regions
@@ -35,15 +35,18 @@ module.exports = Marionette.Controller.extend({
 	/**
 	* @param {array} components Array with desired component names
 	* @param {array} parentRegions Array with parent layouts region names
+	* @param {object} componentOptions Options passed to our controllers
+	* @param {object} viewOptions Options passed to our views
 	*   which correlate with the components by index
 	*/
-	import: function(components, parentRegions, options) {
+	import: function(components, parentRegions, componentOptions, viewOptions) {
 		var _this = this;
+		console.log("viewoptions", viewOptions);
 		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
-				var controller = new _this.app.components[components[i]].Controller(options);
-				controller.injectInto(_this.view[parentRegions[i]])
+				var controller = new _this.app.components[components[i]].Controller(componentOptions);
+				controller.injectInto(_this.view[parentRegions[i]], viewOptions)
 			}
 		});
 	}

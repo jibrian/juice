@@ -1,20 +1,18 @@
 /**
 * JSON View
 */
-var Marionette = require("marionette");
+var ItemViewPrototype = require("itemview.prototype");
 var templates = require("templates");
 var _ = require("underscore");
 var Backbone = require("backbone");
 
-module.exports = Marionette.ItemView.extend({
+module.exports = ItemViewPrototype.extend({
 	tagName: "ul",
 	id: "json",
 	className: "component",
-	model: new Backbone.Model({
-		name: "jkhkjh",
-		age: 29
-	}),
 	initialize: function(options) {
+		// @see itemview.prototype
+		this.inherit(options);
 		// @DEBUG
 		console.log("JSON view initiailized");	
 	},

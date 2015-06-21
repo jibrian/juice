@@ -1,10 +1,11 @@
 /**
 * Query-JSON View
 */
-var Marionette = require("marionette");
+var LayoutViewPrototype = require("layoutview.prototype");
+var Backbone = require("backbone");
 var templates = require("templates");
 
-module.exports = Marionette.LayoutView.extend({
+module.exports = LayoutViewPrototype.extend({
 	tagName: "div",
 	id: "query-json",
 	className: "component",
@@ -19,14 +20,24 @@ module.exports = Marionette.LayoutView.extend({
 	regions: {
 		"json": ".json"
 	},
-	initialize: function() {
-	
+	initialize: function(options) {
+		// @see layoutview.prototype
+		this.inherit(options);
 	},
 	processQuery: function(e) {
 		e.preventDefault();
 		var query = this.ui.textarea.val();
 		var json = this.convertQuery(query);
-		console.log("JSON", json);
+		this.controller.import(["json"], ["json"], {
+			app: this.app
+		}, {
+			app: this.app,
+			// @TEST
+			model: new Backbone.Model({
+				name: json.name,
+				age: json.age
+			})
+		});
 	},
 	convertQuery: function(str) {
 		var query = str.substring(str.indexOf("?") + 1);

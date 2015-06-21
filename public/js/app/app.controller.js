@@ -11,14 +11,7 @@ module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		this.app = options.app;	
 		this.view = new AppView(options);
-		// this.import(["header"], ["header"], options);
-		this.import(["json"], ["header"], {
-			model: new Backbone.Model.extend({
-				name: "Brian",
-				age: 29
-			}),
-			app: this.app
-		});
+		this.import(["header"], ["header"], options);
 		// @DEBUG
 		console.log("App controller initialized");
 	},
