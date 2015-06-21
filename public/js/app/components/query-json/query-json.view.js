@@ -13,8 +13,17 @@ module.exports = Marionette.ItemView.extend({
 		"textarea": "textarea",
 		"submitBtn": "button[type='submit']"
 	},
+	events: {
+		"submit": "processQuery"
+	},
 	initialize: function() {
 	
+	},
+	processQuery: function(e) {
+		e.preventDefault();
+		var query = this.ui.textarea.val();
+		var json = this.convertQuery(query);
+		console.log("JSON", json);
 	},
 	convertQuery: function(str) {
 		var query = str.substring(str.indexOf("?") + 1);

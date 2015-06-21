@@ -199,8 +199,17 @@ module.exports = Marionette.ItemView.extend({
 		"textarea": "textarea",
 		"submitBtn": "button[type='submit']"
 	},
+	events: {
+		"submit": "processQuery"
+	},
 	initialize: function() {
 	
+	},
+	processQuery: function(e) {
+		e.preventDefault();
+		var query = this.ui.textarea.val();
+		var json = this.convertQuery(query);
+		console.log("JSON", json);
 	},
 	convertQuery: function(str) {
 		var query = str.substring(str.indexOf("?") + 1);
@@ -272,8 +281,9 @@ module.exports = Marionette.Controller.extend({
 		};
 
 		this.view = new this.app[type][this.name].View(options);
-		region.show(this.view);
+		// render our view to set regions
 		this.view.render();
+		region.show(this.view);
 	},
 	/**
 	* @param {array} components Array with desired component names

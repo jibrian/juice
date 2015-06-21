@@ -28,8 +28,9 @@ module.exports = Marionette.Controller.extend({
 		};
 
 		this.view = new this.app[type][this.name].View(options);
-		region.show(this.view);
+		// render our view to set regions
 		this.view.render();
+		region.show(this.view);
 	},
 	/**
 	* @param {array} components Array with desired component names
