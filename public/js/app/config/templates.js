@@ -5,7 +5,8 @@
 module.exports = {
 	"components": {
 		"header": require("./../templates/components/header.html"),
-		"query-json": require("./../templates/components/query-json.html")
+		"query-json": require("./../templates/components/query-json.html"),
+		"json": require("./../templates/components/json.html")
 	},
 	"modules": {
 		"dashboard": require("./../templates/modules/dashboard.html")

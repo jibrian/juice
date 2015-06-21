@@ -2,13 +2,23 @@
 * App Controller
 * @contructor
 */
-var Marionette = require("marionette");
+var ControllerPrototype = require("controller.prototype");
 var modules = require("modules");
+var AppView = require("app.view");
+var Backbone = require("backbone");
 
-module.exports = Marionette.Controller.extend({
+module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		this.app = options.app;	
-
+		this.view = new AppView(options);
+		// this.import(["header"], ["header"], options);
+		this.import(["json"], ["header"], {
+			model: new Backbone.Model.extend({
+				name: "Brian",
+				age: 29
+			}),
+			app: this.app
+		});
 		// @DEBUG
 		console.log("App controller initialized");
 	},
@@ -27,7 +37,7 @@ module.exports = Marionette.Controller.extend({
 		options.app = this.app;
 		var controller = new this.app[type][controller].Controller(options);
 		// @see controller.prototype
-		controller.injectInto(this.app.view.main);
+		controller.injectInto(this.view.main);
 	},
 	dashboard: function() {
 		this.inject("module", "dashboard", {});

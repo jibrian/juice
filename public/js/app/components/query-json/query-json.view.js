@@ -4,7 +4,7 @@
 var Marionette = require("marionette");
 var templates = require("templates");
 
-module.exports = Marionette.ItemView.extend({
+module.exports = Marionette.LayoutView.extend({
 	tagName: "div",
 	id: "query-json",
 	className: "component",
@@ -15,6 +15,9 @@ module.exports = Marionette.ItemView.extend({
 	},
 	events: {
 		"submit": "processQuery"
+	},
+	regions: {
+		"json": ".json"
 	},
 	initialize: function() {
 	
