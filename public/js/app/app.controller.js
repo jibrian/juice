@@ -12,10 +12,12 @@ module.exports = Marionette.Controller.extend({
 		this[module](options);
 	},
 	dashboard: function(options) {
-		var dashboardController = new modules.dashboard.Controller({
-			app: this.app
+		var _this = this;
+		console.log("app controller", this.app);
+		var dashboardController = new this.app.modules.dashboard.Controller({
+			app: _this.app
 		});
-		dashboardController.loadView();
+		dashboardController.load(this.app.view.main);
 	}
 });
 

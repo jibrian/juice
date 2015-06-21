@@ -3,18 +3,20 @@
 * Meat of application, brokers are app components here
 */
 var Marionette = require("marionette");
-var components = require("components");
 
 module.exports = Marionette.Controller.extend({
 	initialize: function(options) {
-		console.log("Dashboard controller initialized");
+		console.log("dashboard controller", options.app);
 		this.app = options.app;
+		console.log("Dashboard controller initialized");
 	},
-	loadView: function() {
+	load: function(region) {
+		var _this = this;
 		var options = {
-			app: this.app
+			app: _this.app
 		};
-		var queryJSONController = components["query-json"].Controller(options);
+		var dashboardView = new this.app.modules.dashboard.View(options);
+		region.show(dashboardView);
 	}
 });	
 

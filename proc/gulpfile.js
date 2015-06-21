@@ -16,7 +16,7 @@ var customOpts = {
   entries: ['../public/js/main.js'],
   debug: true,
   extensions: ['.html'],
-  transform: ['stringify'],
+  transform: ['stringify']
 };
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts)); 
