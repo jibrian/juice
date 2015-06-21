@@ -1,6 +1,6 @@
 /**
 * Components
-* An object with all our comopnent index files for easy access
+* An object with all our component index files for easy access
 */
 module.exports = {
 	// "footer": require("../components/footer/index"),

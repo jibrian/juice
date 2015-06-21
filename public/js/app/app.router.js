@@ -11,9 +11,7 @@ module.exports = Backbone.Router.extend({
 		"dashboard": "loadDashboard"
 	},
 	loadDashboard: function() {
-		this.app.controller.loadModule("dashboard", {
-			app: this.app
-		});
+		this.app.controller.load("dashboard");
 	}
 });
 

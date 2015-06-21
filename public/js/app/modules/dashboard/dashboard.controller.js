@@ -1,22 +1,14 @@
 /**
 * Dashboard Module Controller
-* Meat of application, brokers are app components here
+* @constructor
+* @extends controller.prototype
 */
-var Marionette = require("marionette");
+var ControllerPrototype = require("controller.prototype");
 
-module.exports = Marionette.Controller.extend({
+module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
-		console.log("dashboard controller", options.app);
-		this.app = options.app;
-		console.log("Dashboard controller initialized");
-	},
-	load: function(region) {
-		var _this = this;
-		var options = {
-			app: _this.app
-		};
-		var dashboardView = new this.app.modules.dashboard.View(options);
-		region.show(dashboardView);
+		// @see controller.prototype
+		this.attach(options);
 	}
 });	
 

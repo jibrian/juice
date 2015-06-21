@@ -38,7 +38,8 @@
     "app.view": "./public/js/app/app.view.js",
     "components": "./public/js/app/config/components.js",
     "templates": "./public/js/app/config/templates.js",
-    "modules": "./public/js/app/config/modules.js"
+    "modules": "./public/js/app/config/modules.js",
+    "controller.prototype": "./public/js/app/config/prototypes/controller.prototype.js"
   },
   "browserify-shim": {
     "jquery": {
