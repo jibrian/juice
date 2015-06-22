@@ -35,6 +35,10 @@ module.exports = ControllerPrototype.extend({
 	},
 	dashboard: function() {
 		this.inject("module", "dashboard", {});
+	},
+	// Use double quotes to keep component/module name consistent across entire app
+	"query-json": function() {
+		this.inject("component", "query-json", {});
 	}
 });
 
@@ -83,10 +87,14 @@ module.exports = Backbone.Router.extend({
 	},
 	routes: {
 		"(/)": "loadDashboard",
-		"dashboard": "loadDashboard"
+		"dashboard": "loadDashboard",
+		"query-json": "loadQueryJSON"
 	},
 	loadDashboard: function() {
 		this.app.controller.load("dashboard");
+	},
+	loadQueryJSON: function() {
+		this.app.controller.load("query-json");
 	}
 });
 

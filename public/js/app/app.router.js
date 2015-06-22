@@ -10,10 +10,14 @@ module.exports = Backbone.Router.extend({
 	},
 	routes: {
 		"(/)": "loadDashboard",
-		"dashboard": "loadDashboard"
+		"dashboard": "loadDashboard",
+		"query-json": "loadQueryJSON"
 	},
 	loadDashboard: function() {
 		this.app.controller.load("dashboard");
+	},
+	loadQueryJSON: function() {
+		this.app.controller.load("query-json");
 	}
 });
 

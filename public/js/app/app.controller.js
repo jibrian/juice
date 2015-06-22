@@ -34,6 +34,10 @@ module.exports = ControllerPrototype.extend({
 	},
 	dashboard: function() {
 		this.inject("module", "dashboard", {});
+	},
+	// Use double quotes to keep component/module name consistent across entire app
+	"query-json": function() {
+		this.inject("component", "query-json", {});
 	}
 });
 
