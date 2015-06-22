@@ -9,12 +9,13 @@ module.exports = Backbone.Router.extend({
 		this.app = options.app;
 	},
 	routes: {
-		"(/)": "loadIndex",
+		"": "loadIndex",
 		"dashboard": "loadDashboard",
 		"query-json": "loadQueryJSON"
 	},
 	loadIndex: function() {
-
+		// @TODO Set up lander module
+		this.app.controller.view.main.empty();
 	},
 	loadDashboard: function() {
 		this.app.controller.load("dashboard");

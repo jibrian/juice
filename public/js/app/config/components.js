@@ -7,5 +7,5 @@ module.exports = {
 	"header": require("./../components/header/index"),
 	"query-json": require("./../components/query-json/index"),
 	"json": require("./../components/json/index"),
-	// "redirect-trace": require("../components/redirect-trace/index");
+	"redirect-trace": require("../components/redirect-trace/index")
 }

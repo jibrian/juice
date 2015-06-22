@@ -43,7 +43,7 @@ a:link {
     #app-header nav a {
       display: inline-block; }
     #app-header nav a:hover {
-      border-bottom: 2px solid #E35145; }
+      border-bottom: 1.5px solid #E35145; }
 
 #app-main {
   width: 100%; }
@@ -66,12 +66,14 @@ a:link {
   #query-json .json {
     background: #E8E8E8;
     width: 100%; }
+  #query-json label {
+    display: none; }
   #query-json textarea {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
     font-family: "futurastd-light", "arial", "serif" !important;
-    font-size: 18px;
+    font-size: 20px;
     font-style: italic;
     font-weight: 100;
     margin: 0;

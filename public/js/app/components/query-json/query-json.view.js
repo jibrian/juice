@@ -47,8 +47,8 @@ module.exports = LayoutViewPrototype.extend({
 
 		for (var i = 0, len = pairs.length; i < len; i++) {
 			var split = pairs[i].split("=");
-			var key = this.ui.select.val() === "yes" ? decodeURI(split[0]) : split[0];
-			var val = this.ui.select.val() === "yes" ? decodeURI(split[1]) : split[1];
+			var key = this.ui.select.val() === "yes" ? decodeURIComponent(split[0]) : split[0];
+			var val = this.ui.select.val() === "yes" ? decodeURIComponent(split[1]) : split[1];
 			json[key] = val;
 		}
 
@@ -56,7 +56,6 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	template: function() {
 		return templates.components["query-json"];
-		//28:d6:7b:7e:95:d3:f6:bf:15:77:61:86:b6:06:89:e5 
 	}
 });
 

@@ -48,7 +48,7 @@ a:link {
 			display: inline-block;
 		}
 		a:hover {
-			border-bottom: 2px solid #E35145
+			border-bottom: 1.5px solid #E35145
 		}
 	}
 }
@@ -88,12 +88,15 @@ a:link {
 		background: #E8E8E8;
 		width: 100%; 
 	}
+	label {
+		display: none;
+	}
 	textarea {
 		border: 1px solid black;
 		box-sizing: border-box;
 		height: 150px;
 		font-family: "futurastd-light", "arial", "serif" !important;
-		font-size: 18px;
+		font-size: 20px;
 		font-style: italic;
 		font-weight: 100;
 		margin: 0;
