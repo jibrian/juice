@@ -34,7 +34,7 @@ module.exports = ControllerPrototype.extend({
 		controller.injectInto(this.view.main);
 	},
 	dashboard: function() {
-		this.inject("module", "dashboard", {});
+		// this.inject("module", "dashboard", {});
 	},
 	// Use double quotes to keep component/module name consistent across entire app
 	"query-json": function() {
@@ -86,9 +86,12 @@ module.exports = Backbone.Router.extend({
 		this.app = options.app;
 	},
 	routes: {
-		"(/)": "loadDashboard",
+		"(/)": "loadIndex",
 		"dashboard": "loadDashboard",
 		"query-json": "loadQueryJSON"
+	},
+	loadIndex: function() {
+
 	},
 	loadDashboard: function() {
 		this.app.controller.load("dashboard");
@@ -285,6 +288,7 @@ module.exports = LayoutViewPrototype.extend({
 		console.log("Query -> JSON", json);
 	},
 	convertQuery: function(str) {
+		// @TODO need to strip trailing special characters
 		var query = str.substring(str.indexOf("?") + 1);
 		var pairs = query.split("&");
 		var json = {};
@@ -300,6 +304,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	template: function() {
 		return templates.components["query-json"];
+		//28:d6:7b:7e:95:d3:f6:bf:15:77:61:86:b6:06:89:e5 
 	}
 });
 
@@ -513,10 +518,10 @@ module.exports = {
 }
 
 },{"./dashboard.controller":21,"./dashboard.view":22}],24:[function(require,module,exports){
-module.exports = "<h1>Juice</h1>";
+module.exports = "<h1>Juice</h1>\n<nav>\n\t<a href=\"#query-json\">Query-JSON</a>\n</nav>";
 
 },{}],25:[function(require,module,exports){
-module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: <%= obj[keys[i]] %><% } else { %>\t\n    \n    <%= keys[i] %>: <%= obj[keys[i]] %>,<% }} %>\n\n}";
+module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\"<% } else { %>\t\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\",<% }} %>\n\n}";
 
 },{}],26:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query -> JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";

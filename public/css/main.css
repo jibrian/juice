@@ -7,6 +7,7 @@ body {
   border: 0;
   margin: 0;
   padding: 0;
+  font-color: #3B424A;
   font-family: "futurastd-light", "arial", "serif"; }
 
 h1,
@@ -17,7 +18,8 @@ h5,
 h6 {
   margin: 0;
   padding: 0;
-  font-weight: 400; }
+  font-weight: 400;
+  text-transform: uppercase; }
 
 #app {
   margin: 0 auto;
@@ -26,7 +28,21 @@ h6 {
 #app-header {
   background: #47B0B0;
   width: 100%;
-  margin: 0; }
+  margin: 0;
+  position: relative; }
+  #app-header nav {
+    position: absolute;
+    top: 20px;
+    right: 15px; }
+  #app-header a {
+    display: inline-block; }
+  #app-header a:visited,
+  #app-header a:active,
+  #app-header a:link {
+    color: inherit;
+    text-decoration: none; }
+  #app-header a:hover {
+    border-bottom: 2px solid #E35145; }
 
 #app-main {
   width: 100%; }
@@ -38,21 +54,28 @@ h6 {
   box-sizing: border-box;
   padding: 5px 15px; }
 
+.module {
+  margin: 20px 0; }
+
+.component {
+  margin: 20px 0; }
+
 #query-json {
   width: 100%; }
   #query-json .json {
     background: #E8E8E8;
     width: 100%; }
-  #query-json .text-input {
-    width: 100%;
-    height: 50px; }
   #query-json textarea {
-    resize: none;
-    outline: none;
-    padding: 0;
+    border: 1px solid black;
+    box-sizing: border-box;
+    height: 150px;
+    font-size: 18px;
+    font-style: italic;
     margin: 0;
-    font-size: 1em;
-    border: 1px solid black; }
+    outline: none;
+    padding: 10px;
+    resize: vertical;
+    width: 100%; }
 
 #json {
   box-sizing: border-box;

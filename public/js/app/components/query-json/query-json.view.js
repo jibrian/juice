@@ -39,6 +39,7 @@ module.exports = LayoutViewPrototype.extend({
 		console.log("Query -> JSON", json);
 	},
 	convertQuery: function(str) {
+		// @TODO need to strip trailing special characters
 		var query = str.substring(str.indexOf("?") + 1);
 		var pairs = query.split("&");
 		var json = {};
@@ -54,6 +55,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	template: function() {
 		return templates.components["query-json"];
+		//28:d6:7b:7e:95:d3:f6:bf:15:77:61:86:b6:06:89:e5 
 	}
 });
 

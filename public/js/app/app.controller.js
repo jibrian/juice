@@ -33,7 +33,7 @@ module.exports = ControllerPrototype.extend({
 		controller.injectInto(this.view.main);
 	},
 	dashboard: function() {
-		this.inject("module", "dashboard", {});
+		// this.inject("module", "dashboard", {});
 	},
 	// Use double quotes to keep component/module name consistent across entire app
 	"query-json": function() {
