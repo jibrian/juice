@@ -525,7 +525,7 @@ module.exports = "<a href=\"/\"><h1>Juice</h1></a>\n<nav>\n\t<a href=\"#query-js
 module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\"<% } else { %>\t\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\",<% }} %>\n\n}";
 
 },{}],26:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<h2>Query -> JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
+module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
 
 },{}],27:[function(require,module,exports){
 module.exports = "<!-- Dashboard -->\n<div class=\"main\"></div>";
