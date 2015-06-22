@@ -21,9 +21,15 @@ h6 {
   font-weight: 400;
   text-transform: uppercase; }
 
+a:visited,
+a:active,
+a:link {
+  color: inherit;
+  text-decoration: none; }
+
 #app {
   margin: 0 auto;
-  width: 1200px; }
+  max-width: 1200px; }
 
 #app-header {
   background: #47B0B0;
@@ -33,16 +39,11 @@ h6 {
   #app-header nav {
     position: absolute;
     top: 20px;
-    right: 15px; }
-  #app-header a {
-    display: inline-block; }
-  #app-header a:visited,
-  #app-header a:active,
-  #app-header a:link {
-    color: inherit;
-    text-decoration: none; }
-  #app-header a:hover {
-    border-bottom: 2px solid #E35145; }
+    right: 40px; }
+    #app-header nav a {
+      display: inline-block; }
+    #app-header nav a:hover {
+      border-bottom: 2px solid #E35145; }
 
 #app-main {
   width: 100%; }
@@ -52,7 +53,7 @@ h6 {
 
 .header {
   box-sizing: border-box;
-  padding: 5px 15px; }
+  padding: 5px 20px; }
 
 .module {
   margin: 20px 0; }
@@ -69,13 +70,24 @@ h6 {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
+    font-family: "futurastd-light", "arial", "serif" !important;
     font-size: 18px;
     font-style: italic;
+    font-weight: 100;
     margin: 0;
     outline: none;
     padding: 10px;
     resize: vertical;
     width: 100%; }
+  #query-json select,
+  #query-json button {
+    border: 1px solid black;
+    border-radius: 0;
+    background: white;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    padding: 5px;
+    font-family: "futurastd-light", "arial", "serif" !important; }
 
 #json {
   box-sizing: border-box;

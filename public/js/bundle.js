@@ -276,6 +276,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	processQuery: function(e) {
 		e.preventDefault();
+		if (!this.ui.textarea.val()) { return; }
 		var query = this.ui.textarea.val();
 		var json = this.convertQuery(query);
 		
@@ -518,7 +519,7 @@ module.exports = {
 }
 
 },{"./dashboard.controller":21,"./dashboard.view":22}],24:[function(require,module,exports){
-module.exports = "<h1>Juice</h1>\n<nav>\n\t<a href=\"#query-json\">Query-JSON</a>\n</nav>";
+module.exports = "<a href=\"/\"><h1>Juice</h1></a>\n<nav>\n\t<a href=\"#query-json\">Query-JSON</a>\n</nav>";
 
 },{}],25:[function(require,module,exports){
 module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\"<% } else { %>\t\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\",<% }} %>\n\n}";

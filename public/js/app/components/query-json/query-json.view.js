@@ -27,6 +27,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	processQuery: function(e) {
 		e.preventDefault();
+		if (!this.ui.textarea.val()) { return; }
 		var query = this.ui.textarea.val();
 		var json = this.convertQuery(query);
 		
