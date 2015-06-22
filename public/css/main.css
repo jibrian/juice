@@ -19,23 +19,47 @@ h6 {
   padding: 0;
   font-weight: 400; }
 
+#app {
+  margin: 0 auto;
+  width: 1200px; }
+
 #app-header {
   background: #47B0B0;
   width: 100%;
-  margin: 0;
-  padding: 0; }
+  margin: 0; }
 
-.container {
-  margin: 0;
-  padding: 0; }
-
-#query-json .json {
-  background: #E8E8E8;
+#app-main {
   width: 100%; }
 
-#json li {
-  list-style-type: none; }
-#json li:not(:last-child):not(:first-child) {
-  padding-left: 50px; }
+#app-footer {
+  width: 100%; }
+
+.header {
+  box-sizing: border-box;
+  padding: 5px 15px; }
+
+#query-json {
+  width: 100%; }
+  #query-json .json {
+    background: #E8E8E8;
+    width: 100%; }
+  #query-json .text-input {
+    width: 100%;
+    height: 50px; }
+  #query-json textarea {
+    resize: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    border: 1px solid black; }
+
+#json {
+  box-sizing: border-box;
+  padding: 20px 60px; }
+  #json li {
+    list-style-type: none; }
+  #json li:not(:last-child):not(:first-child) {
+    padding-left: 50px; }
 
 /*# sourceMappingURL=main.css.map */

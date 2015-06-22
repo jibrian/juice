@@ -133,7 +133,7 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.LayoutView.extend({
-	tagName: "header",
+	tagName: "div",
 	className: "header",
 	initialize: function(options) {
 		this.app = options.app;
@@ -192,7 +192,7 @@ var _ = require("underscore");
 var Backbone = require("backbone");
 
 module.exports = ItemViewPrototype.extend({
-	tagName: "div",
+	tagName: "pre",
 	id: "json",
 	className: "component",
 	initialize: function(options) {
@@ -249,7 +249,8 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	behaviors: {},
 	ui: {
-		"textarea": "textarea",
+		"textarea": "#query",
+		"select": "#uri-decode",
 		"submitBtn": "button[type='submit']"
 	},
 	events: {
@@ -282,8 +283,8 @@ module.exports = LayoutViewPrototype.extend({
 
 		for (var i = 0, len = pairs.length; i < len; i++) {
 			var split = pairs[i].split("=");
-			var key = split[0];
-			var val = split[1];
+			var key = this.ui.select.val() === "yes" ? decodeURI(split[0]) : split[0];
+			var val = this.ui.select.val() === "yes" ? decodeURI(split[1]) : split[1];
 			json[key] = val;
 		}
 
@@ -479,7 +480,7 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.LayoutView.extend({
-	tagName: "section",
+	tagName: "div",
 	id: "dashboard",
 	className: "module",
 	initialize: function(options) {
@@ -507,10 +508,10 @@ module.exports = {
 module.exports = "<h1>Juice</h1>";
 
 },{}],25:[function(require,module,exports){
-module.exports = "<!-- JSON -->\n{\n<% \nvar keys = Object.keys(obj);\nfor (var i = 0; i < keys.length; i++) { \n\tif (i === keys.length - 1) { \n%>\n\t<%= keys[i] %>: <%= obj[keys[i]] %>\n\t<% } else { %>\t\n \t<%= keys[i] %>: <%= obj[keys[i]] %>,\n\t<% }\n} %>\n\n}";
+module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: <%= obj[keys[i]] %><% } else { %>\t\n    \n    <%= keys[i] %>: <%= obj[keys[i]] %>,<% }} %>\n\n}";
 
 },{}],26:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<h2>Query -> JSON</h2>\n<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<pre class=\"json\"></pre>";
+module.exports = "<!-- Query -> JSON -->\n<h2>Query -> JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
 
 },{}],27:[function(require,module,exports){
 module.exports = "<!-- Dashboard -->\n<div class=\"main\"></div>";

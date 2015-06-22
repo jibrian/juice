@@ -7,7 +7,7 @@ var _ = require("underscore");
 var Backbone = require("backbone");
 
 module.exports = ItemViewPrototype.extend({
-	tagName: "div",
+	tagName: "pre",
 	id: "json",
 	className: "component",
 	initialize: function(options) {

@@ -22,25 +22,31 @@ h6 {
 	font-weight: 400;
 }
 
-#app {}
+#app {
+	margin: 0 auto;
+	width: 1200px;
+}
 
 #app-header {
 	background: #47B0B0;
 	width: 100%;
 	margin: 0;
-	padding: 0;
 }
 
-#app-main {}
-
-#app-footer {}
-
-.container {
-	margin: 0;
-	padding: 0;
+#app-main {
+	width: 100%;
 }
 
-.header {}
+#app-footer {
+	width: 100%;
+}
+
+.container {}
+
+.header {
+	box-sizing: border-box;
+	padding: 5px 15px;
+}
 
 .main {}
 
@@ -53,13 +59,28 @@ h6 {
 .json {}
 
 #query-json{
+	width: 100%;
 	.json {
 		background: #E8E8E8;
 		width: 100%; 
 	}
+	.text-input {
+		width: 100%;
+		height: 50px;
+	}
+	textarea {
+		resize: none;
+		outline: none;
+		padding: 0;
+		margin: 0;
+		font-size: 1em;
+		border: 1px solid black;
+	}
 }
 
 #json {
+	box-sizing: border-box;
+	padding: 20px 60px;
 	li {
 		list-style-type: none;
 	}

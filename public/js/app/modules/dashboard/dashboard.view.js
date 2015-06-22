@@ -6,7 +6,7 @@ var Marionette = require("marionette");
 var templates = require("templates");
 
 module.exports = Marionette.LayoutView.extend({
-	tagName: "section",
+	tagName: "div",
 	id: "dashboard",
 	className: "module",
 	initialize: function(options) {

@@ -11,7 +11,8 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	behaviors: {},
 	ui: {
-		"textarea": "textarea",
+		"textarea": "#query",
+		"select": "#uri-decode",
 		"submitBtn": "button[type='submit']"
 	},
 	events: {
@@ -44,8 +45,8 @@ module.exports = LayoutViewPrototype.extend({
 
 		for (var i = 0, len = pairs.length; i < len; i++) {
 			var split = pairs[i].split("=");
-			var key = split[0];
-			var val = split[1];
+			var key = this.ui.select.val() === "yes" ? decodeURI(split[0]) : split[0];
+			var val = this.ui.select.val() === "yes" ? decodeURI(split[1]) : split[1];
 			json[key] = val;
 		}
 
