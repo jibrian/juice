@@ -507,7 +507,7 @@ module.exports = {
 module.exports = "<h1>Juice</h1>";
 
 },{}],25:[function(require,module,exports){
-module.exports = "<!-- JSON -->\n{\n<% \nvar keys = Object.keys(obj);\nfor (var i = 0; i < keys.length; i++) { \n\tif (i === keys.length - 1) { \n%>\n\t\t<%= keys[i] %>: <%= obj[keys[i]] %>\n\t<% } else { %>\t\n\t\t\t<%= keys[i] %>: <%= obj[keys[i]] %>,\n\t<% }\n} %>\n\n}";
+module.exports = "<!-- JSON -->\n{\n<% \nvar keys = Object.keys(obj);\nfor (var i = 0; i < keys.length; i++) { \n\tif (i === keys.length - 1) { \n%>\n\t<%= keys[i] %>: <%= obj[keys[i]] %>\n\t<% } else { %>\t\n \t<%= keys[i] %>: <%= obj[keys[i]] %>,\n\t<% }\n} %>\n\n}";
 
 },{}],26:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query -> JSON</h2>\n<form>\n\t<textarea></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<pre class=\"json\"></pre>";
