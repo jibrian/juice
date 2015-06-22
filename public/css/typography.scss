@@ -1,3 +1,22 @@
 /**
 * Typography
 */
+@font-face {
+	font-family: "futurastd-bold";
+	src: url("./assets/fonts/FuturaStd-Bold.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "futurastd-medium";
+	src: url("./assets/fonts/FuturaStd-Medium.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "futurastd-book";
+	src: url("./assets/fonts/FuturaStd-Book.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "futurastd-light";
+	src: url("./assets/fonts/FuturaStd-Light.otf") format("opentype");
+}

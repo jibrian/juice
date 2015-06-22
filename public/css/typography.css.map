@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": ";;;AAGA,UAGC;EAFA,WAAW,EAAE,gBAAgB;EAC7B,GAAG,EAAE,2DAA2D;AAGjE,UAGC;EAFA,WAAW,EAAE,kBAAkB;EAC/B,GAAG,EAAE,6DAA6D;AAGnE,UAGC;EAFA,WAAW,EAAE,gBAAgB;EAC7B,GAAG,EAAE,2DAA2D;AAGjE,UAGC;EAFA,WAAW,EAAE,iBAAiB;EAC9B,GAAG,EAAE,4DAA4D",
+"sources": ["typography.scss"],
 "names": [],
 "file": "typography.css"
 }
