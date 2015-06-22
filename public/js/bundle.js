@@ -142,21 +142,24 @@ module.exports = ControllerPrototype.extend({
 * Header Component View
 */
 var Marionette = require("marionette");
+var Backbone = require("backbone");
+var _ = require("underscore");
 var templates = require("templates");
 
 module.exports = Marionette.LayoutView.extend({
 	tagName: "div",
 	className: "header",
+	model: new Backbone.Model,
 	initialize: function(options) {
 		this.app = options.app;
 	},
-	template: function() {
-		return templates.components.header
+	template: function(model) {
+		return _.template(templates.components.header)(model);
 	}
 });
 
 
-},{"marionette":34,"templates":22}],7:[function(require,module,exports){
+},{"backbone":33,"marionette":34,"templates":22,"underscore":36}],7:[function(require,module,exports){
 /**
 * Header Component
 */
@@ -569,7 +572,7 @@ module.exports = {
 }
 
 },{"./dashboard.controller":24,"./dashboard.view":25}],27:[function(require,module,exports){
-module.exports = "<a href=\"#\"><h1>Juice</h1></a>\n<nav>\n\t<a href=\"#query-json\">Query-JSON</a>\n</nav>";
+module.exports = "<a href=\"#\"><h1>Juice</h1></a>\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n</nav>";
 
 },{}],28:[function(require,module,exports){
 module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\"<% } else { %>\t\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\",<% }} %>\n\n}";

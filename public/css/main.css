@@ -8,7 +8,8 @@ body {
   margin: 0;
   padding: 0;
   font-color: #3B424A;
-  font-family: "futurastd-light", "arial", "serif"; }
+  background: #FBF18E;
+  font-family: "futurastd-bold", "arial", "serif"; }
 
 h1,
 h2,
@@ -19,6 +20,7 @@ h6 {
   margin: 0;
   padding: 0;
   font-weight: 400;
+  font-size: 40px;
   text-transform: uppercase; }
 
 a:visited,
@@ -32,18 +34,18 @@ a:link {
   max-width: 1200px; }
 
 #app-header {
-  background: #47B0B0;
   width: 100%;
   margin: 0;
   position: relative; }
   #app-header nav {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 40px; }
     #app-header nav a {
-      display: inline-block; }
+      display: block;
+      padding: 5px 0; }
     #app-header nav a:hover {
-      border-bottom: 1.5px solid #E35145; }
+      color: #E35145; }
 
 #app-main {
   width: 100%; }
@@ -53,13 +55,13 @@ a:link {
 
 .header {
   box-sizing: border-box;
-  padding: 5px 20px; }
+  padding: 5px 0; }
 
 .module {
-  margin: 20px 0; }
+  margin: 60px 0; }
 
 .component {
-  margin: 20px 0; }
+  margin: 60px 0; }
 
 #query-json {
   width: 100%; }
@@ -72,6 +74,7 @@ a:link {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
+    background: #FBF18E;
     font-family: "futurastd-light", "arial", "serif" !important;
     font-size: 20px;
     font-style: italic;
@@ -83,6 +86,7 @@ a:link {
     width: 100%; }
   #query-json select,
   #query-json button {
+    background: #FBF18E;
     border: 1px solid black;
     border-radius: 0;
     background: white;
@@ -90,6 +94,8 @@ a:link {
     box-sizing: border-box;
     padding: 5px;
     font-family: "futurastd-light", "arial", "serif" !important; }
+  #query-json pre {
+    background: white; }
 
 #json {
   box-sizing: border-box;
