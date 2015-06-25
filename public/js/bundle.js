@@ -366,7 +366,7 @@ module.exports = LayoutViewPrototype.extend({
 	processQuery: function(e) {
 		e.preventDefault();
 		if (!this.ui.textarea.val()) { return; }
-		var query = this.ui.textarea.val();
+		var query = this.ui.textarea.val().trim();
 		var json = this.convertQuery(query);
 		
 		this.controller.import(["json"], ["json"], {

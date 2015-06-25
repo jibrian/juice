@@ -48,8 +48,10 @@ a:link {
 }
 
 #app-header {
-	width: 100%;
 	margin: 0;
+	position: fixed;
+	top: 0; right: 0; left: 0;
+	width: 100%;
 	h1 {
 		margin: 0;
 	}
@@ -68,6 +70,7 @@ a:link {
 
 #app-main {
 	width: 100%;
+	margin: 100px 0 0 0;
 }
 
 #app-footer {
