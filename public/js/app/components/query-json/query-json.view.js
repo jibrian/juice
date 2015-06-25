@@ -24,10 +24,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-		var _this = this;
-		setTimeout(function() {
-			_this.$el.removeClass("hide");
-		}, 100)
 	},
 	processQuery: function(e) {
 		e.preventDefault();

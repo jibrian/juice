@@ -4,6 +4,7 @@
 */
 module.exports = {
 	// "footer": require("../components/footer/index"),
+	"adblock": require("./../components/adblock/index"),
 	"header": require("./../components/header/index"),
 	"query-json": require("./../components/query-json/index"),
 	"json": require("./../components/json/index"),
