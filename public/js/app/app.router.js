@@ -13,7 +13,7 @@ module.exports = Backbone.Router.extend({
 		"dashboard": "loadDashboard",
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
-		"adblock": "loadAdblock"
+		"adblock-parse": "loadAdblockParse"
 	},
 	loadIndex: function() {
 		// @TODO Set up lander module
@@ -29,7 +29,7 @@ module.exports = Backbone.Router.extend({
 		// @TODO Set up redirect-trace module
 		this.app.controller.view.main.empty();
 	},
-	loadAdblock: function() {
+	loadAdblockParse: function() {
 		this.app.controller.load("adblock");
 	}
 });

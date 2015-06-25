@@ -39,8 +39,8 @@ module.exports = ControllerPrototype.extend({
 	"query-json": function() {
 		this.inject("component", "query-json", {});
 	},
-	adblock: function() {
-		this.inject("component", "adblock", {});
+	"adblock-parse": function() {
+		this.inject("component", "adblock-parse", {});
 	}
 });
 

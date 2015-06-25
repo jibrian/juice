@@ -4,12 +4,11 @@
 */
 module.exports = {
 	"components": {
-		"adblock": require("./../templates/components/adblock.html"),
+		"adblock-parse": require("./../templates/components/adblock-parse.html"),
 		"header": require("./../templates/components/header.html"),
 		"json": require("./../templates/components/json.html"),
 		"query-json": require("./../templates/components/query-json.html"),
-		"redirect-trace": require("./../templates/components/redirect-trace.html"),
-		"easylist": require("./../../../assets/txt/easylist.html")
+		"redirect-trace": require("./../templates/components/redirect-trace.html")
 	},
 	"modules": {
 		"dashboard": require("./../templates/modules/dashboard.html")

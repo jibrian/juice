@@ -15,7 +15,7 @@ module.exports = LayoutViewPrototype.extend({
 	* Text file from easylist
 	* @see templates.components.easylist
 	*/
-	easylist: templates.components.easylist,
+	// easylist: templates.components.easylist,
 	ui: {
 		"easylistForm": "form[name='easylist']",
 		"searchwordInput": "input[name='searchword']"
