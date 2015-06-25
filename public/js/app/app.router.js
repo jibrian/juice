@@ -30,7 +30,7 @@ module.exports = Backbone.Router.extend({
 		this.app.controller.view.main.empty();
 	},
 	loadAdblockParse: function() {
-		this.app.controller.load("adblock");
+		this.app.controller.load("adblock-parse");
 	}
 });
 

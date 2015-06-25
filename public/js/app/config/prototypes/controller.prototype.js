@@ -4,6 +4,7 @@
 * Contains methods we want on all controllers
 * @constructor
 * @requires name and type(component/module) properties on initialization
+*   name and type must be consistent through the component
 */
 var Marionette = require("marionette");
 

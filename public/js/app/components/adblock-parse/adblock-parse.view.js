@@ -9,7 +9,7 @@ var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
 	tagName: "div",
-	id: "adblock",
+	id: "adblock-parse",
 	className: "component",
 	/**
 	* Text file from easylist
@@ -37,7 +37,7 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	template: function(model) {
-		return _.template(templates.components["adblock"])(model);
+		return _.template(templates.components["adblock-parse"])(model);
 	}
 });
 

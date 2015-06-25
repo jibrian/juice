@@ -110,7 +110,7 @@ module.exports = Backbone.Router.extend({
 		this.app.controller.view.main.empty();
 	},
 	loadAdblockParse: function() {
-		this.app.controller.load("adblock");
+		this.app.controller.load("adblock-parse");
 	}
 });
 
@@ -139,7 +139,7 @@ var ControllerPrototype = require("controller.prototype");
 var components = require("marionette");
 
 module.exports = ControllerPrototype.extend({
-	name: "adblock",
+	name: "adblock-parse",
 	type: "component",
 	initialize: function(options) {
 		// @see controller.prototype
@@ -160,7 +160,7 @@ var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
 	tagName: "div",
-	id: "adblock",
+	id: "adblock-parse",
 	className: "component",
 	/**
 	* Text file from easylist
@@ -188,7 +188,7 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	template: function(model) {
-		return _.template(templates.components["adblock"])(model);
+		return _.template(templates.components["adblock-parse"])(model);
 	}
 });
 
@@ -565,6 +565,7 @@ module.exports = {
 * Contains methods we want on all controllers
 * @constructor
 * @requires name and type(component/module) properties on initialization
+*   name and type must be consistent through the component
 */
 var Marionette = require("marionette");
 
