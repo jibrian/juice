@@ -67,17 +67,15 @@ a:link {
 
 #app-header {
   width: 100%;
-  margin: 0;
-  position: relative; }
+  margin: 0; }
   #app-header h1 {
     margin: 0; }
   #app-header nav {
-    position: absolute;
-    top: 40px;
-    right: 40px; }
+    text-align: center;
+    margin: 0 auto; }
     #app-header nav a {
-      display: block;
-      padding: 5px 0; }
+      display: inline-block;
+      padding: 5px 20px; }
     #app-header nav a:hover {
       color: #E35145; }
 
@@ -89,7 +87,7 @@ a:link {
 
 .header {
   box-sizing: border-box;
-  padding: 20px 0; }
+  padding: 5px 0; }
 
 .module {
   margin: 50px 0; }

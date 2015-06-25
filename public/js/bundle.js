@@ -759,7 +759,7 @@ module.exports = {
 module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"searchword\">\n\t<button type=\"submit\">Search</button>\n</form>";
 
 },{}],34:[function(require,module,exports){
-module.exports = "<a href=\"#\"><h1>Juice</h1></a>\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#adblock-parse\">Adblock Parse</a>\n</nav>";
+module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#adblock-parse\">Adblock Parse</a>\n</nav>";
 
 },{}],35:[function(require,module,exports){
 module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\"<% } else { %>\t\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\",<% }} %>\n\n}";
