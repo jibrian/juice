@@ -18,5 +18,11 @@ module.exports = {
 		}
 
 		return processedType;
+	},
+	/**
+	* @
+	*/
+	cascade: function(container) {
+	 
 	}
 }

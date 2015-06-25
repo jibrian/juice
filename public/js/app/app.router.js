@@ -11,7 +11,8 @@ module.exports = Backbone.Router.extend({
 	routes: {
 		"": "loadIndex",
 		"dashboard": "loadDashboard",
-		"query-json": "loadQueryJSON"
+		"query-json": "loadQueryJSON",
+		"redirect-trace": "loadRedirectTrace"
 	},
 	loadIndex: function() {
 		// @TODO Set up lander module
@@ -22,6 +23,10 @@ module.exports = Backbone.Router.extend({
 	},
 	loadQueryJSON: function() {
 		this.app.controller.load("query-json");
+	},
+	loadRedirectTrace: function() {
+		// @TODO Set up redirect-trace module
+		this.app.controller.view.main.empty();
 	}
 });
 

@@ -1,5 +1,5 @@
 /**
-* Query-JSON View
+* URI Dencoder Controller
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");

@@ -1,7 +1,33 @@
 /**
 * Main CSS file built on SASS
 */
-@import url("typography.css");
+/**
+* Typography
+*/
+@font-face {
+  font-family: "futurastd-bold";
+  src: url("./assets/fonts/FuturaStd-Bold.otf") format("opentype"); }
+@font-face {
+  font-family: "futurastd-medium";
+  src: url("./assets/fonts/FuturaStd-Medium.otf") format("opentype"); }
+@font-face {
+  font-family: "futurastd-book";
+  src: url("./assets/fonts/FuturaStd-Book.otf") format("opentype"); }
+@font-face {
+  font-family: "futurastd-light";
+  src: url("./assets/fonts/FuturaStd-Light.otf") format("opentype"); }
+@font-face {
+  font-family: "avantgarde-book";
+  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Bk.otf") format("opentype"); }
+@font-face {
+  font-family: "avantgarde-medium";
+  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Md.otf") format("opentype"); }
+@font-face {
+  font-family: "avantgarde-bold";
+  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Bold.otf") format("opentype"); }
+@font-face {
+  font-family: "avantgarde-light";
+  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-XTl.otf") format("opentype"); }
 html,
 body {
   border: 0;
@@ -9,7 +35,7 @@ body {
   padding: 0;
   font-color: #3B424A;
   background: #FBF18E;
-  font-family: "futurastd-bold", "arial", "serif"; }
+  font-family: "avantgarde-medium", "courier", "serif"; }
 
 h1,
 h2,
@@ -17,11 +43,17 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0;
-  padding: 0;
   font-weight: 400;
-  font-size: 40px;
   text-transform: uppercase; }
+
+h1 {
+  font-size: 50px; }
+
+h2 {
+  font-size: 40px; }
+
+h3 {
+  font-size: 30px; }
 
 a:visited,
 a:active,
@@ -37,9 +69,11 @@ a:link {
   width: 100%;
   margin: 0;
   position: relative; }
+  #app-header h1 {
+    margin: 0; }
   #app-header nav {
     position: absolute;
-    top: 10px;
+    top: 40px;
     right: 40px; }
     #app-header nav a {
       display: block;
@@ -55,13 +89,22 @@ a:link {
 
 .header {
   box-sizing: border-box;
-  padding: 5px 0; }
+  padding: 20px 0; }
 
 .module {
-  margin: 60px 0; }
+  margin: 50px 0; }
+  .module h1,
+  .module h2,
+  .module h3 {
+    margin: 40px 0; }
 
 .component {
-  margin: 60px 0; }
+  margin: 50px 0;
+  transition: 1s; }
+  .component h1,
+  .component h2,
+  .component h3 {
+    margin: 40px 0; }
 
 #query-json {
   width: 100%; }
@@ -74,8 +117,8 @@ a:link {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
-    background: #FBF18E;
-    font-family: "futurastd-light", "arial", "serif" !important;
+    background: #FFF7AA;
+    font-family: "avantgarde-medium", "courier", "serif" !important;
     font-size: 20px;
     font-style: italic;
     font-weight: 100;
@@ -86,20 +129,20 @@ a:link {
     width: 100%; }
   #query-json select,
   #query-json button {
-    background: #FBF18E;
+    background: #FFF7AA !important;
     border: 1px solid black;
     border-radius: 0;
     background: white;
     -webkit-appearance: none;
     box-sizing: border-box;
     padding: 5px;
-    font-family: "futurastd-light", "arial", "serif" !important; }
+    font-family: "avantgarde-medium", "courier", "serif" !important; }
   #query-json pre {
     background: white; }
 
 #json {
   box-sizing: border-box;
-  padding: 20px 60px; }
+  padding: 30px 60px; }
   #json li {
     list-style-type: none; }
   #json li:not(:last-child):not(:first-child) {
