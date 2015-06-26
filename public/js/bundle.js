@@ -292,7 +292,7 @@ var _ = require("underscore");
 var Backbone = require("backbone");
 
 module.exports = ItemViewPrototype.extend({
-	tagName: "pre",
+	tagName: "ul",
 	id: "json",
 	className: "component",
 	initialize: function(options) {
@@ -762,7 +762,7 @@ module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"search
 module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#adblock-parse\">Adblock Parse</a>\n</nav>";
 
 },{}],35:[function(require,module,exports){
-module.exports = "{<% var keys = Object.keys(obj); for (var i = 0; i < keys.length; i++) { if (i === keys.length - 1) { %>\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\"<% } else { %>\t\n    \n    <%= keys[i] %>: \"<%= obj[keys[i]] %>\",<% }} %>\n\n}";
+module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><%= keys[i] %>: \"<%= obj[keys[i]] %>\"</li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>: \"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],36:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";

@@ -18,25 +18,45 @@
 
 @font-face {
 	font-family: "futurastd-light";
-	src: url("./assets/fonts/FuturaStd-Light.otf") format("opentype");
+	src: url("./../assets/fonts/FuturaStd-Light.otf") format("opentype");
 }
 
 @font-face {
 	font-family: "avantgarde-book";
-	src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Bk.otf") format("opentype");
+	src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Bk.otf") format("opentype");
 }
 
 @font-face {
 	font-family: "avantgarde-medium";
-	src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Md.otf") format("opentype");
+	src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Md.otf") format("opentype");
 }
 
 @font-face {
 	font-family: "avantgarde-bold";
-	src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Bold.otf") format("opentype");
+	src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Bold.otf") format("opentype");
 }
 
 @font-face {
 	font-family: "avantgarde-light";
-	src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-XTl.otf") format("opentype");
+	src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-XTl.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "uni-heavy-italic";
+	src: url("./../assets/fonts/uni/Uni-Sans-Heavy-Italic.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "uni-heavy";
+	src: url("./../assets/fonts/uni/Uni-Sans-Heavy.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "uni-thin-italic";
+	src: url("./../assets/fonts/uni/Uni-Sans-Thin-Italic.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "uni-thin";
+	src: url("./../assets/fonts/uni/Uni-Sans-Thin.otf") format("opentype");
 }

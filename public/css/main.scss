@@ -9,8 +9,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-color: #3B424A;
-	background: #FBF18E;
-	font-family: "avantgarde-medium", "courier", "serif";
+	font-family: "uni-heavy", "courier", "serif";
 }
 
 h1,
@@ -112,8 +111,13 @@ a:link {
 #query-json{
 	width: 100%;
 	.json {
-		background: #E8E8E8;
 		width: 100%; 
+	}
+	h2 {
+		color: #56E4FF;
+		font-weight: 900;
+		font-size: 100px;
+		font-family: "uni-heavy-italic";
 	}
 	label {
 		display: none;
@@ -122,20 +126,18 @@ a:link {
 		border: 1px solid black;
 		box-sizing: border-box;
 		height: 150px;
-		background: #FFF7AA;
 		font-family: "avantgarde-medium", "courier", "serif" !important;
 		font-size: 20px;
 		font-style: italic;
 		font-weight: 100;
 		margin: 0;
 		outline: none;
-		padding: 10px;
+		padding: 15px;
 		resize: vertical;
 		width: 100%;
 	}
 	select,
 	button {
-		background: #FFF7AA !important;
 		border: 1px solid black;
 		border-radius: 0;
 		background: white;
@@ -144,16 +146,15 @@ a:link {
 		padding: 5px;
 		font-family: "avantgarde-medium", "courier", "serif" !important;
 	}
-	pre {
-		background: white;
-	}
 }
 
 #json {
+	font-family: "courier";
 	box-sizing: border-box;
 	padding: 30px 60px;
 	li {
 		list-style-type: none;
+		padding: 5px 0;
 	}
 	li:not(:last-child):not(:first-child) {
 		padding-left: 50px;

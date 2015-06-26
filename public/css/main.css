@@ -15,27 +15,38 @@
   src: url("./assets/fonts/FuturaStd-Book.otf") format("opentype"); }
 @font-face {
   font-family: "futurastd-light";
-  src: url("./assets/fonts/FuturaStd-Light.otf") format("opentype"); }
+  src: url("./../assets/fonts/FuturaStd-Light.otf") format("opentype"); }
 @font-face {
   font-family: "avantgarde-book";
-  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Bk.otf") format("opentype"); }
+  src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Bk.otf") format("opentype"); }
 @font-face {
   font-family: "avantgarde-medium";
-  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Md.otf") format("opentype"); }
+  src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Md.otf") format("opentype"); }
 @font-face {
   font-family: "avantgarde-bold";
-  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-Bold.otf") format("opentype"); }
+  src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Bold.otf") format("opentype"); }
 @font-face {
   font-family: "avantgarde-light";
-  src: url("./assets/fonts/avantgarde/ITCAvantGardeStd-XTl.otf") format("opentype"); }
+  src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-XTl.otf") format("opentype"); }
+@font-face {
+  font-family: "uni-heavy-italic";
+  src: url("./../assets/fonts/uni/Uni-Sans-Heavy-Italic.otf") format("opentype"); }
+@font-face {
+  font-family: "uni-heavy";
+  src: url("./../assets/fonts/uni/Uni-Sans-Heavy.otf") format("opentype"); }
+@font-face {
+  font-family: "uni-thin-italic";
+  src: url("./../assets/fonts/uni/Uni-Sans-Thin-Italic.otf") format("opentype"); }
+@font-face {
+  font-family: "uni-thin";
+  src: url("./../assets/fonts/uni/Uni-Sans-Thin.otf") format("opentype"); }
 html,
 body {
   border: 0;
   margin: 0;
   padding: 0;
   font-color: #3B424A;
-  background: #FBF18E;
-  font-family: "avantgarde-medium", "courier", "serif"; }
+  font-family: "uni-heavy", "courier", "serif"; }
 
 h1,
 h2,
@@ -112,27 +123,29 @@ a:link {
 #query-json {
   width: 100%; }
   #query-json .json {
-    background: #E8E8E8;
     width: 100%; }
+  #query-json h2 {
+    color: #56E4FF;
+    font-weight: 900;
+    font-size: 100px;
+    font-family: "uni-heavy-italic"; }
   #query-json label {
     display: none; }
   #query-json textarea {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
-    background: #FFF7AA;
     font-family: "avantgarde-medium", "courier", "serif" !important;
     font-size: 20px;
     font-style: italic;
     font-weight: 100;
     margin: 0;
     outline: none;
-    padding: 10px;
+    padding: 15px;
     resize: vertical;
     width: 100%; }
   #query-json select,
   #query-json button {
-    background: #FFF7AA !important;
     border: 1px solid black;
     border-radius: 0;
     background: white;
@@ -140,14 +153,14 @@ a:link {
     box-sizing: border-box;
     padding: 5px;
     font-family: "avantgarde-medium", "courier", "serif" !important; }
-  #query-json pre {
-    background: white; }
 
 #json {
+  font-family: "courier";
   box-sizing: border-box;
   padding: 30px 60px; }
   #json li {
-    list-style-type: none; }
+    list-style-type: none;
+    padding: 5px 0; }
   #json li:not(:last-child):not(:first-child) {
     padding-left: 50px; }
 
