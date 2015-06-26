@@ -155,6 +155,7 @@ a:link {
 	li {
 		list-style-type: none;
 		padding: 5px 0;
+		word-wrap: break-word;
 	}
 	li:not(:last-child):not(:first-child) {
 		padding-left: 50px;
