@@ -236,7 +236,15 @@ module.exports = Marionette.LayoutView.extend({
 	className: "header",
 	model: new Backbone.Model,
 	initialize: function(options) {
+		var _this = this;
 		this.app = options.app;
+
+		window.addEventListener("scroll", function(e) {
+			_this.toggleHeader();			
+		}, false);
+	},
+	toggleHeader: function() {
+		this.$el.css("opacity", 1 - (window.pageYOffset / 150));
 	},
 	template: function(model) {
 		return _.template(templates.components.header)(model);
@@ -762,7 +770,7 @@ module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"search
 module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#adblock-parse\">Adblock Parse</a>\n</nav>";
 
 },{}],35:[function(require,module,exports){
-module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><%= keys[i] %>: \"<%= obj[keys[i]] %>\"</li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>: \"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
+module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\"</li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],36:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";

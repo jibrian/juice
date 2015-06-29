@@ -157,11 +157,11 @@ a:link {
 #json {
   font-family: "courier";
   box-sizing: border-box;
+  overflow-x: auto;
   padding: 30px 60px; }
   #json li {
     list-style-type: none;
-    padding: 5px 0;
-    word-wrap: break-word; }
+    padding: 5px 0; }
   #json li:not(:last-child):not(:first-child) {
     padding-left: 50px; }
 
