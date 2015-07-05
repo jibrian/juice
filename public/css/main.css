@@ -27,7 +27,7 @@
   src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-Bold.otf") format("opentype"); }
 @font-face {
   font-family: "avantgarde-light";
-  src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-XTl.otf") format("opentype"); }
+  src: url("./../assets/fonts/avantgarde/ITCAvantGardeStd-XLt.otf") format("opentype"); }
 @font-face {
   font-family: "uni-heavy-italic";
   src: url("./../assets/fonts/uni/Uni-Sans-Heavy-Italic.otf") format("opentype"); }
@@ -129,6 +129,16 @@ a:link {
 
 .json {
   width: 100%; }
+
+#traces {
+  box-sizing: border-box;
+  word-wrap: break-word;
+  width: 100%; }
+  #traces li {
+    font-family: "avantgarde-light", "courier", "serif" !important;
+    font-size: 20px;
+    list-style-type: cjk-ideographic;
+    padding: 5px 0; }
 
 #query-json h2 {
   color: #56E4FF; }
