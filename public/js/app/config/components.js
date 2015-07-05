@@ -7,7 +7,6 @@ module.exports = {
 	"adblock-parse": require("./../components/adblock-parse/index"),
 	"header": require("./../components/header/index"),
 	"json": require("./../components/json/index"),
-	"output": require("./../components/output/index"),
 	"query-json": require("./../components/query-json/index"),
 	"redirect-trace": require("../components/redirect-trace/index"),
 	"traces": require("../components/traces/index"),
