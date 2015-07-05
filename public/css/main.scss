@@ -34,6 +34,10 @@ h3 {
 	font-size: 30px;
 }
 
+label {
+	display: none;
+}
+
 a:visited,
 a:active,
 a:link {
@@ -48,28 +52,31 @@ a:link {
 
 #app-header {
 	margin: 0;
-	position: fixed;
-	top: 0; right: 0; left: 0;
 	width: 100%;
 	h1 {
 		margin: 0;
 	}
 	nav {
-		text-align: center;
 		margin: 0 auto;
+		text-align: center;
 		a {
+			color: #7A8898;
 			display: inline-block;
+			opacity: 0.25;
 			padding: 5px 20px;
+			transition: 0.5s ease;
 		}
 		a:hover {
-			color: #E35145
+			color: #CB483D;
+			opacity: 1;
+			transition: 0.5s ease;
 		}
 	}
 }
 
 #app-main {
 	width: 100%;
-	margin: 100px 0 0 0;
+	margin: 40px 0;
 }
 
 #app-footer {
@@ -92,36 +99,52 @@ a:link {
 	h1,
 	h2,
 	h3 {
-		margin: 40px 0;
+		margin: 20px 0;
+	}
+}
+
+#json {
+	font-family: "courier";
+	box-sizing: border-box;
+	overflow-x: auto;
+	padding: 30px 60px;
+	li {
+		list-style-type: none;
+		padding: 5px 0;
+	}
+	li:not(:last-child):not(:first-child) {
+		padding-left: 50px;
+	}
+}
+
+.json {
+	width: 100%; 
+}
+
+#query-json {
+	h2 {
+		color: #56E4FF;
+	}
+}
+
+#redirect-trace {
+	h2 {
+		color: #FFB796;
 	}
 }
 
 .component {
-	margin: 50px 0;
 	transition: 1s;
+	width: 100%;
 	h1,
 	h2,
 	h3 {
-		margin: 40px 0;
-	}
-}
-
-.json {}
-
-#query-json,
-#redirect-trace {
-	width: 100%;
-	.json {
-		width: 100%; 
+		margin: 20px 0;
 	}
 	h2 {
-		color: #56E4FF;
 		font-weight: 900;
-		font-size: 100px;
+		font-size: 80px;
 		font-family: "uni-heavy-italic";
-	}
-	label {
-		display: none;
 	}
 	textarea {
 		border: 1px solid black;
@@ -146,19 +169,5 @@ a:link {
 		box-sizing: border-box;
 		padding: 5px;
 		font-family: "avantgarde-medium", "courier", "serif" !important;
-	}
-}
-
-#json {
-	font-family: "courier";
-	box-sizing: border-box;
-	overflow-x: auto;
-	padding: 30px 60px;
-	li {
-		list-style-type: none;
-		padding: 5px 0;
-	}
-	li:not(:last-child):not(:first-child) {
-		padding-left: 50px;
 	}
 }

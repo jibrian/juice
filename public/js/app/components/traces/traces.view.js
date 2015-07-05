@@ -1,5 +1,5 @@
 /**
-* JSON View
+* Traces View
 */
 var ItemViewPrototype = require("itemview.prototype");
 var templates = require("templates");
@@ -8,14 +8,14 @@ var Backbone = require("backbone");
 
 module.exports = ItemViewPrototype.extend({
 	tagName: "ul",
-	id: "json",
+	id: "traces",
 	className: "component",
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
 	},
 	template: function(model) {
-		return _.template(templates.components.json)(model);
+		return _.template(templates.components.traces)(model);
 	}
 });
 

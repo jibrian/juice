@@ -9,5 +9,6 @@ module.exports = {
 	"query-json": require("./../components/query-json/index"),
 	"json": require("./../components/json/index"),
 	"redirect-trace": require("../components/redirect-trace/index"),
-	"uri-dencoder": require("../components/uri-dencoder/index")
+	"uri-dencoder": require("../components/uri-dencoder/index"),
+	"traces": require("../components/traces/index")
 }

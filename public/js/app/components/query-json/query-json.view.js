@@ -6,12 +6,10 @@ var Backbone = require("backbone");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
-	tagName: "div",
 	id: "query-json",
 	className: "component",
-	behaviors: {},
 	ui: {
-		"textarea": "#query",
+		"queryTextarea": "#query",
 		"select": "#uri-decode",
 		"submitBtn": "button[type='submit']"
 	},
@@ -25,18 +23,27 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
+	/**
+	* Parse query input and convert into JSON
+	* @param {object} e Event object
+	*/
 	processQuery: function(e) {
 		e.preventDefault();
-		if (!this.ui.textarea.val()) { return; }
-		var query = this.ui.textarea.val().trim();
+		if (!this.ui.queryTextarea.val()) { return; }
+		var query = this.ui.queryTextarea.val().trim();
 		var json = this.convertQuery(query);
-		
+		this.loadJSON(json);
+	},
+	/**
+	* Load JSON component 
+	*/
+	loadJSON: function(json) {
 		this.controller.import(["json"], ["json"], {
 			app: this.app
 		}, {
 			model: new Backbone.Model(json)
 		});
-
+		// Keep this log so user has access to JSON in dev tools
 		console.log("Query -> JSON", json);
 	},
 	convertQuery: function(str) {

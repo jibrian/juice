@@ -66,6 +66,9 @@ h2 {
 h3 {
   font-size: 30px; }
 
+label {
+  display: none; }
+
 a:visited,
 a:active,
 a:link {
@@ -78,25 +81,26 @@ a:link {
 
 #app-header {
   margin: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
   width: 100%; }
   #app-header h1 {
     margin: 0; }
   #app-header nav {
-    text-align: center;
-    margin: 0 auto; }
+    margin: 0 auto;
+    text-align: center; }
     #app-header nav a {
+      color: #7A8898;
       display: inline-block;
-      padding: 5px 20px; }
+      opacity: 0.25;
+      padding: 5px 20px;
+      transition: 0.5s ease; }
     #app-header nav a:hover {
-      color: #E35145; }
+      color: #CB483D;
+      opacity: 1;
+      transition: 0.5s ease; }
 
 #app-main {
   width: 100%;
-  margin: 100px 0 0 0; }
+  margin: 40px 0; }
 
 #app-footer {
   width: 100%; }
@@ -110,33 +114,40 @@ a:link {
   .module h1,
   .module h2,
   .module h3 {
-    margin: 40px 0; }
+    margin: 20px 0; }
+
+#json {
+  font-family: "courier";
+  box-sizing: border-box;
+  overflow-x: auto;
+  padding: 30px 60px; }
+  #json li {
+    list-style-type: none;
+    padding: 5px 0; }
+  #json li:not(:last-child):not(:first-child) {
+    padding-left: 50px; }
+
+.json {
+  width: 100%; }
+
+#query-json h2 {
+  color: #56E4FF; }
+
+#redirect-trace h2 {
+  color: #FFB796; }
 
 .component {
-  margin: 50px 0;
-  transition: 1s; }
+  transition: 1s;
+  width: 100%; }
   .component h1,
   .component h2,
   .component h3 {
-    margin: 40px 0; }
-
-#query-json,
-#redirect-trace {
-  width: 100%; }
-  #query-json .json,
-  #redirect-trace .json {
-    width: 100%; }
-  #query-json h2,
-  #redirect-trace h2 {
-    color: #56E4FF;
+    margin: 20px 0; }
+  .component h2 {
     font-weight: 900;
-    font-size: 100px;
+    font-size: 80px;
     font-family: "uni-heavy-italic"; }
-  #query-json label,
-  #redirect-trace label {
-    display: none; }
-  #query-json textarea,
-  #redirect-trace textarea {
+  .component textarea {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
@@ -149,10 +160,8 @@ a:link {
     padding: 15px;
     resize: vertical;
     width: 100%; }
-  #query-json select,
-  #query-json button,
-  #redirect-trace select,
-  #redirect-trace button {
+  .component select,
+  .component button {
     border: 1px solid black;
     border-radius: 0;
     background: white;
@@ -160,16 +169,5 @@ a:link {
     box-sizing: border-box;
     padding: 5px;
     font-family: "avantgarde-medium", "courier", "serif" !important; }
-
-#json {
-  font-family: "courier";
-  box-sizing: border-box;
-  overflow-x: auto;
-  padding: 30px 60px; }
-  #json li {
-    list-style-type: none;
-    padding: 5px 0; }
-  #json li:not(:last-child):not(:first-child) {
-    padding-left: 50px; }
 
 /*# sourceMappingURL=main.css.map */
