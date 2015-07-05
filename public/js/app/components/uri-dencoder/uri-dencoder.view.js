@@ -55,7 +55,7 @@ module.exports = LayoutViewPrototype.extend({
 		return json;
 	},
 	template: function() {
-		return templates.components["query-json"];
+		return templates.components["uri-dencoder"];
 	}
 });
 

@@ -6,9 +6,9 @@ module.exports = {
 	// "footer": require("../components/footer/index"),
 	"adblock-parse": require("./../components/adblock-parse/index"),
 	"header": require("./../components/header/index"),
-	"query-json": require("./../components/query-json/index"),
 	"json": require("./../components/json/index"),
+	"query-json": require("./../components/query-json/index"),
 	"redirect-trace": require("../components/redirect-trace/index"),
-	"uri-dencoder": require("../components/uri-dencoder/index"),
-	"traces": require("../components/traces/index")
+	"traces": require("../components/traces/index"),
+	"uri-dencoder": require("../components/uri-dencoder/index")
 }

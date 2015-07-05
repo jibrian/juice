@@ -9,7 +9,8 @@ module.exports = {
 		"json": require("./../templates/components/json.html"),
 		"query-json": require("./../templates/components/query-json.html"),
 		"redirect-trace": require("./../templates/components/redirect-trace.html"),
-		"traces": require("./../templates/components/traces.html")
+		"traces": require("./../templates/components/traces.html"),
+		"uri-dencoder": require("./../templates/components/uri-dencoder.html")
 	},
 	"modules": {
 		"dashboard": require("./../templates/modules/dashboard.html")
