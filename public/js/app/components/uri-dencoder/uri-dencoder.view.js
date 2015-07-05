@@ -7,52 +7,31 @@ var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
 	tagName: "div",
-	id: "query-json",
+	id: "uri-dencoder",
 	className: "component",
-	behaviors: {},
 	ui: {
-		"textarea": "#query",
-		"select": "#uri-decode",
-		"submitBtn": "button[type='submit']"
+		"uriTextarea": "#uri-string",
+		"encodeBtn": "button[name='encode']",
+		"decodeBtn": "button[name='decode']"
 	},
 	events: {
-		"submit": "processQuery"
+		"click @ui.encodeBtn": "encodeURI",
+		"click @ui.decodeBtn": "decodeURI"
 	},
 	regions: {
-		"json": ".json"
+		"uri": ".process-uri"
 	},
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
-	processQuery: function(e) {
-		e.preventDefault();
-		if (!this.ui.textarea.val()) { return; }
-		var query = this.ui.textarea.val();
-		var json = this.convertQuery(query);
-		
-		this.controller.import(["json"], ["json"], {
-			app: this.app
-		}, {
-			model: new Backbone.Model(json)
-		});
-
-		console.log("Query -> JSON", json);
+	encodeURI: function() {
+		var processedURI = encodeURIComponent(this.ui.uriTextarea.val());
+		console.log(processedURI);
 	},
-	convertQuery: function(str) {
-		// @TODO need to strip trailing special characters
-		var query = str.substring(str.indexOf("?") + 1);
-		var pairs = query.split("&");
-		var json = {};
-
-		for (var i = 0, len = pairs.length; i < len; i++) {
-			var split = pairs[i].split("=");
-			var key = this.ui.select.val() === "yes" ? decodeURIComponent(split[0]) : split[0];
-			var val = this.ui.select.val() === "yes" ? decodeURIComponent(split[1]) : split[1];
-			json[key] = val;
-		}
-
-		return json;
+	decodeURI: function() {
+		var processedURI = decodeURIComponent(this.ui.uriTextarea.val());
+		console.log(processedURI);
 	},
 	template: function() {
 		return templates.components["uri-dencoder"];

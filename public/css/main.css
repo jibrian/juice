@@ -140,6 +140,9 @@ a:link {
     list-style-type: cjk-ideographic;
     padding: 5px 0; }
 
+#uri-dencoder h2 {
+  color: #3D80CB; }
+
 #query-json h2 {
   color: #56E4FF; }
 
