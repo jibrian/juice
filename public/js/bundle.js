@@ -42,6 +42,9 @@ module.exports = ControllerPrototype.extend({
 	},
 	"adblock-parse": function() {
 		this.inject("component", "adblock-parse", {});
+	},
+	"redirect-trace": function() {
+		this.inject("component", "redirect-trace", {});
 	}
 });
 
@@ -106,8 +109,7 @@ module.exports = Backbone.Router.extend({
 		this.app.controller.load("query-json");
 	},
 	loadRedirectTrace: function() {
-		// @TODO Set up redirect-trace module
-		this.app.controller.view.main.empty();
+		this.app.controller.load("redirect-trace");
 	},
 	loadAdblockParse: function() {
 		this.app.controller.load("adblock-parse");
@@ -439,23 +441,51 @@ module.exports = ControllerPrototype.extend({
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
+var $ = require("jquery");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
 	tagName: "div",
 	id: "redirect-trace",
 	className: "component",
+	ui: {
+		"urlTextarea": "#url-textarea",
+		"submitBtn": "form[name='redirect-trace'] button[type='submit']"
+	},
+	events: {
+		"submit": "traceUrl"
+	},
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
+	/**
+	* @param {object} e Event object
+	*/
+	traceUrl: function(e) {
+		e.preventDefault();
+		var _this = this;
+		$.ajax({
+			url: "redirect-trace.php",
+			method: "GET",
+			dataType: "JSON",
+			data: {
+				url: $("#url-textarea").val()
+			},
+			success: function(response) {
+				_this.$el.find(".results").append("<div>" + response[0] + "</div>");
+				_this.$el.find(".results").append("<div>" + response[1] + "</div>");
+			}
+		});
+		console.log($("#url-textarea").val());
+	},	
 	template: function() {
 		return templates.components["redirect-trace"];
 	}
 });
 
 
-},{"backbone":40,"layoutview.prototype":27,"templates":28}],20:[function(require,module,exports){
+},{"backbone":40,"jquery":42,"layoutview.prototype":27,"templates":28}],20:[function(require,module,exports){
 /**
 * URI Dencoder Component
 * Decodes/Encodes URI
@@ -776,7 +806,7 @@ module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i
 module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
 
 },{}],37:[function(require,module,exports){
-module.exports = "";
+module.exports = "<!-- Redirect Trace -->\n<h2>Redirect Trace</h2>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"results\"></div>";
 
 },{}],38:[function(require,module,exports){
 module.exports = "<!-- Dashboard -->\n<div class=\"main\"></div>";

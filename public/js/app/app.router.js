@@ -26,8 +26,7 @@ module.exports = Backbone.Router.extend({
 		this.app.controller.load("query-json");
 	},
 	loadRedirectTrace: function() {
-		// @TODO Set up redirect-trace module
-		this.app.controller.view.main.empty();
+		this.app.controller.load("redirect-trace");
 	},
 	loadAdblockParse: function() {
 		this.app.controller.load("adblock-parse");

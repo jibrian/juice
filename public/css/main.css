@@ -120,18 +120,23 @@ a:link {
   .component h3 {
     margin: 40px 0; }
 
-#query-json {
+#query-json,
+#redirect-trace {
   width: 100%; }
-  #query-json .json {
+  #query-json .json,
+  #redirect-trace .json {
     width: 100%; }
-  #query-json h2 {
+  #query-json h2,
+  #redirect-trace h2 {
     color: #56E4FF;
     font-weight: 900;
     font-size: 100px;
     font-family: "uni-heavy-italic"; }
-  #query-json label {
+  #query-json label,
+  #redirect-trace label {
     display: none; }
-  #query-json textarea {
+  #query-json textarea,
+  #redirect-trace textarea {
     border: 1px solid black;
     box-sizing: border-box;
     height: 150px;
@@ -145,7 +150,9 @@ a:link {
     resize: vertical;
     width: 100%; }
   #query-json select,
-  #query-json button {
+  #query-json button,
+  #redirect-trace select,
+  #redirect-trace button {
     border: 1px solid black;
     border-radius: 0;
     background: white;

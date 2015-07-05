@@ -41,6 +41,9 @@ module.exports = ControllerPrototype.extend({
 	},
 	"adblock-parse": function() {
 		this.inject("component", "adblock-parse", {});
+	},
+	"redirect-trace": function() {
+		this.inject("component", "redirect-trace", {});
 	}
 });
 
