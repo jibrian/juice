@@ -612,11 +612,11 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	encodeURI: function() {
 		var processedURI = encodeURIComponent(this.ui.uriTextarea.val());
-		console.log(processedURI);
+		this.$el.find(".processed-uri").append(processedURI);
 	},
 	decodeURI: function() {
 		var processedURI = decodeURIComponent(this.ui.uriTextarea.val());
-		console.log(processedURI);
+		this.$el.find(".processed-uri").append(processedURI);
 	},
 	template: function() {
 		return templates.components["uri-dencoder"];
@@ -902,7 +902,7 @@ module.exports = "<!-- Redirect Trace -->\n<h2>Redirect Trace</h2>\n<form name=\
 module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.length; i < len; i++) { %>\n\t<li><%= traces[i] %></li>\n<% } %>";
 
 },{}],44:[function(require,module,exports){
-module.exports = "<!-- URI Dencoder -->\n<h2>Uri Dencoder</h2>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"process-uri\"></div>";
+module.exports = "<!-- URI Dencoder -->\n<h2>Uri Dencoder</h2>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
 
 },{}],45:[function(require,module,exports){
 module.exports = "<!-- Dashboard -->\n<div class=\"main\"></div>";

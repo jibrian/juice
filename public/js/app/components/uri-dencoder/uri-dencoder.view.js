@@ -27,11 +27,11 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	encodeURI: function() {
 		var processedURI = encodeURIComponent(this.ui.uriTextarea.val());
-		console.log(processedURI);
+		this.$el.find(".processed-uri").append(processedURI);
 	},
 	decodeURI: function() {
 		var processedURI = decodeURIComponent(this.ui.uriTextarea.val());
-		console.log(processedURI);
+		this.$el.find(".processed-uri").append(processedURI);
 	},
 	template: function() {
 		return templates.components["uri-dencoder"];
