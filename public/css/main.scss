@@ -121,9 +121,12 @@ a:link {
 		color: #56E4FF;
 	}
 	li:nth-child(2) {
-		color: #FFB796;
+		color: #36B1B1;
 	}
 	li:nth-child(3) {
+		color: #FFB796;
+	}
+	li:nth-child(4) {
 		color: #3D80CB;
 	}
 }
@@ -166,7 +169,14 @@ a:link {
 	}
 }
 
-.processed-uri {
+#json-query {
+	h2 {
+		color: #36B1B1;
+	}
+}
+
+.processed-uri,
+.query {
 	font-family: "avantgarde-light", "courier", "serif" !important;
 	font-size: 20px;
 	padding: 5px 0;
@@ -186,7 +196,6 @@ a:link {
 }
 
 .component {
-	transition: 1s;
 	width: 100%;
 	h1,
 	h2,

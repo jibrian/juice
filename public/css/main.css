@@ -131,8 +131,10 @@ a:link {
   #dashboard li:first-child {
     color: #56E4FF; }
   #dashboard li:nth-child(2) {
-    color: #FFB796; }
+    color: #36B1B1; }
   #dashboard li:nth-child(3) {
+    color: #FFB796; }
+  #dashboard li:nth-child(4) {
     color: #3D80CB; }
 
 #json {
@@ -162,7 +164,11 @@ a:link {
 #uri-dencoder h2 {
   color: #3D80CB; }
 
-.processed-uri {
+#json-query h2 {
+  color: #36B1B1; }
+
+.processed-uri,
+.query {
   font-family: "avantgarde-light", "courier", "serif" !important;
   font-size: 20px;
   padding: 5px 0;
@@ -175,7 +181,6 @@ a:link {
   color: #FFB796; }
 
 .component {
-  transition: 1s;
   width: 100%; }
   .component h1,
   .component h2,

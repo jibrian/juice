@@ -46,6 +46,9 @@ module.exports = ControllerPrototype.extend({
 	},
 	"uri-dencoder": function() {
 		this.inject("component", "uri-dencoder", {});
+	},
+	"json-query": function() {
+		this.inject("component", "json-query", {});
 	}
 });
 

@@ -35,7 +35,6 @@ module.exports = LayoutViewPrototype.extend({
 		var p = document.createElement("p");
 		var text = document.createTextNode(uri);
 		p.appendChild(text);
-
 		this.$el.find(".processed-uri").empty().append(p);
 	},
 	template: function() {
