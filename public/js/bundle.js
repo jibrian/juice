@@ -12,7 +12,6 @@ module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		this.app = options.app;	
 		this.view = new AppView(options);
-		this.import(["header"], ["header"], options);
 	},
 	/**
 	* Loads desired module into our app via app.router
@@ -36,15 +35,19 @@ module.exports = ControllerPrototype.extend({
 	},
 	// Use quotes to keep component/module name consistent across entire app
 	"query-json": function() {
+		this.import(["header"], ["header"], {app: this.app});
 		this.inject("component", "query-json", {});
 	},
 	"adblock-parse": function() {
+		this.import(["header"], ["header"], {app: this.app});
 		this.inject("component", "adblock-parse", {});
 	},
 	"redirect-trace": function() {
+		this.import(["header"], ["header"], {app: this.app});
 		this.inject("component", "redirect-trace", {});
 	},
 	"uri-dencoder": function() {
+		this.import(["header"], ["header"], {app: this.app});
 		this.inject("component", "uri-dencoder", {});
 	}
 });
@@ -849,10 +852,6 @@ module.exports = ControllerPrototype.extend({
 		this.inherit(options);
 		this.name = "dashboard";
 		this.type = "module";
-		// @see controller.prototype
-		// this.import(["query-json"], ["main"], {
-		// 	app: this.app
-		// });
 	}
 });	
 
