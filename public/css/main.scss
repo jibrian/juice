@@ -115,6 +115,19 @@ a:link {
 		font-size: 80px;
 		font-family: "uni-heavy-italic";
 		list-style-type: none;
+		transition: 0.5s ease;
+	}
+	li:first-child:hover {
+		padding: 0 0 40px 0;
+		transition: 0.5s ease;
+	}
+	li:nth-child(2):hover {
+		padding: 40px 0;
+		transition: 0.5s ease;
+	}
+	li:nth-child(3):hover {
+		padding: 40px 0 0 0;
+		transition: 0.5s ease;
 	}
 	li:first-child {
 		color: #56E4FF;
