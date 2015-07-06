@@ -12,9 +12,9 @@ module.exports = ControllerPrototype.extend({
 		this.name = "dashboard";
 		this.type = "module";
 		// @see controller.prototype
-		this.import(["query-json"], ["main"], {
-			app: this.app
-		});
+		// this.import(["query-json"], ["main"], {
+		// 	app: this.app
+		// });
 	}
 });	
 

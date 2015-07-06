@@ -32,7 +32,7 @@ module.exports = ControllerPrototype.extend({
 		controller.injectInto(this.view.main);
 	},
 	dashboard: function() {
-		// this.inject("module", "dashboard", {});
+		this.inject("module", "dashboard", {});
 	},
 	// Use quotes to keep component/module name consistent across entire app
 	"query-json": function() {
@@ -95,16 +95,12 @@ module.exports = Backbone.Router.extend({
 	routes: {
 		"": "loadIndex",
 		"adblock-parse": "loadAdblockParse",
-		"dashboard": "loadDashboard",
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
 		"uri-dencoder": "loadURIDencoder"
 	},
 	loadIndex: function() {
 		// @TODO Set up lander module
-		this.app.controller.view.main.empty();
-	},
-	loadDashboard: function() {
 		this.app.controller.load("dashboard");
 	},
 	loadQueryJSON: function() {
@@ -854,9 +850,9 @@ module.exports = ControllerPrototype.extend({
 		this.name = "dashboard";
 		this.type = "module";
 		// @see controller.prototype
-		this.import(["query-json"], ["main"], {
-			app: this.app
-		});
+		// this.import(["query-json"], ["main"], {
+		// 	app: this.app
+		// });
 	}
 });	
 
@@ -916,7 +912,7 @@ module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.le
 module.exports = "<!-- URI Dencoder -->\n<h2>Uri Dencoder</h2>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
 
 },{}],45:[function(require,module,exports){
-module.exports = "<!-- Dashboard -->\n<div class=\"main\"></div>";
+module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query Json</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t</ul>\n</div>";
 
 },{}],46:[function(require,module,exports){
 /**

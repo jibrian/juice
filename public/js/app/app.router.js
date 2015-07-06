@@ -11,16 +11,12 @@ module.exports = Backbone.Router.extend({
 	routes: {
 		"": "loadIndex",
 		"adblock-parse": "loadAdblockParse",
-		"dashboard": "loadDashboard",
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
 		"uri-dencoder": "loadURIDencoder"
 	},
 	loadIndex: function() {
 		// @TODO Set up lander module
-		this.app.controller.view.main.empty();
-	},
-	loadDashboard: function() {
 		this.app.controller.load("dashboard");
 	},
 	loadQueryJSON: function() {

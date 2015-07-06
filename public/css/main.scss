@@ -103,6 +103,30 @@ a:link {
 	}
 }
 
+#dashboard {
+	box-sizing: border-box;
+	padding-top: 40px;
+	ul {
+		margin: 0 auto;
+		text-align: center;
+	}
+	li {
+		font-weight: 900;
+		font-size: 80px;
+		font-family: "uni-heavy-italic";
+		list-style-type: none;
+	}
+	li:first-child {
+		color: #56E4FF;
+	}
+	li:nth-child(2) {
+		color: #FFB796;
+	}
+	li:nth-child(3) {
+		color: #3D80CB;
+	}
+}
+
 #json {
 	font-family: "courier";
 	box-sizing: border-box;
