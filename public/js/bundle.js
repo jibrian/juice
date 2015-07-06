@@ -911,7 +911,7 @@ module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.le
 module.exports = "<!-- URI Dencoder -->\n<h2>Uri Dencoder</h2>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
 
 },{}],45:[function(require,module,exports){
-module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query Json</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t</ul>\n</div>";
+module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query &#187; Json</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t</ul>\n</div>";
 
 },{}],46:[function(require,module,exports){
 /**
