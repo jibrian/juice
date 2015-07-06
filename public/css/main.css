@@ -153,6 +153,7 @@ a:link {
 
 #traces {
   box-sizing: border-box;
+  margin-top: 20px;
   word-wrap: break-word;
   width: 100%; }
   #traces li {
