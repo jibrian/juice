@@ -7,7 +7,7 @@ $location = $headers["Location"];
 if ($location) {
 	echo json_encode($location);
 } else {
-	$output = ["End of the breadcrumbs trail"];
+	$output = ["End of the breadcrumb trail"];
 	echo json_encode($output);
 }
 
