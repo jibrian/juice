@@ -36,11 +36,10 @@ module.exports = LayoutViewPrototype.extend({
 		var keyValArr = keyValStr.split(",");
 		for (var i = 0, len = keyValArr.length; i < len; i++) {
 			var keyValPair = keyValArr[i].split(":");
-			// Account for last key value pair and don't add &
-			if (i === len - 1) {
-				query += keyValPair[0].trim() + "=" + encodeURIComponent(keyValPair[1].trim())
-			} else {
-				query += keyValPair[0].trim() + "=" + encodeURIComponent(keyValPair[1].trim()) + "&";
+			query += keyValPair[0].trim() + "=" + encodeURIComponent(keyValPair[1].trim())
+			// add & if not last key value pair
+			if (i < len - 1) {
+				query += "&";	
 			}
 		}
 
