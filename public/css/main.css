@@ -128,15 +128,6 @@ a:link {
     font-family: "uni-heavy-italic";
     list-style-type: none;
     transition: 0.5s ease; }
-  #dashboard li:first-child:hover {
-    padding: 0 0 40px 0;
-    transition: 0.5s ease; }
-  #dashboard li:nth-child(2):hover {
-    padding: 40px 0;
-    transition: 0.5s ease; }
-  #dashboard li:nth-child(3):hover {
-    padding: 40px 0 0 0;
-    transition: 0.5s ease; }
   #dashboard li:first-child {
     color: #56E4FF; }
   #dashboard li:nth-child(2) {
