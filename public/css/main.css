@@ -169,6 +169,7 @@ a:link {
 
 .processed-uri,
 .query {
+  margin-top: 20px;
   font-family: "avantgarde-light", "courier", "serif" !important;
   font-size: 20px;
   padding: 5px 0;
