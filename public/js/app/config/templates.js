@@ -8,6 +8,7 @@ module.exports = {
 		"header": require("./../templates/components/header.html"),
 		"json": require("./../templates/components/json.html"),
 		"json-query": require("./../templates/components/json-query.html"),
+		"juxtapose": require("./../templates/components/juxtapose.html"),
 		"query-json": require("./../templates/components/query-json.html"),
 		"redirect-trace": require("./../templates/components/redirect-trace.html"),
 		"traces": require("./../templates/components/traces.html"),

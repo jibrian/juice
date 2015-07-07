@@ -1,22 +1,25 @@
 /**
-* JSON-Query View
+* Juxtapose View
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
-	id: "json-query",
+	id: "juxtapose",
 	className: "component",
 	ui: {
-		"jsonTextarea": "#json-query-json",
-		"submitBtn": "button[type='submit']"
+		"leftTextarea": "#left-data",
+		"leftSubmit": "button[form='left-data']",
+		"rightTextarea": "#right-data",
+		"rightSubmit": "button[form='right-data']"
 	},
 	events: {
 		"submit": "processJSON"
 	},
 	regions: {
-		"query": ".query"
+		"leftOuput": "#left-subject",
+		"rightOuput": "#right-subject"
 	},
 	initialize: function(options) {
 		// @see layoutview.prototype

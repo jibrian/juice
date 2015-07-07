@@ -38,6 +38,7 @@ module.exports = LayoutViewPrototype.extend({
 	* Load JSON component 
 	*/
 	loadJSON: function(json) {
+		// @see controller.prototype
 		this.controller.import(["json"], ["json"], {
 			app: this.app
 		}, {

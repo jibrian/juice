@@ -8,6 +8,7 @@ module.exports = {
 	"header": require("./../components/header/index"),
 	"json": require("./../components/json/index"),
 	"json-query": require("./../components/json-query/index"),
+	"juxtapose": require("./../components/juxtapose/index"),
 	"query-json": require("./../components/query-json/index"),
 	"redirect-trace": require("../components/redirect-trace/index"),
 	"traces": require("../components/traces/index"),
