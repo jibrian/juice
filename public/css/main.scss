@@ -38,6 +38,11 @@ label {
 	display: none;
 }
 
+input,
+button {
+	text-transform: uppercase;
+}
+
 a:visited,
 a:active,
 a:link {

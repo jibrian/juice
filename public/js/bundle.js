@@ -457,7 +457,7 @@ module.exports = LayoutViewPrototype.extend({
 		"submitBtn": "button[type='submit']"
 	},
 	events: {
-		"submit": "processJSON"
+		"submit": "compareData"
 	},
 	regions: {
 		"ouput": ".output",
@@ -467,33 +467,11 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	/**
-	* Convert JSON into query string
-	* @param {object} e Event object
+	* 
 	*/
-	processJSON: function(e) {
+	compareData: function(e) {
 		e.preventDefault();
-		// @TODO need to account for commas inside keys or values
-		var query = "?";
-		var json = this.ui.jsonTextarea.val()
-		// strip curly braces and remove quotes
-		var keyValStr = json.substring(1, json.length - 1).replace(/\"||\'/g, "");
-		var keyValArr = keyValStr.split(",");
-		for (var i = 0, len = keyValArr.length; i < len; i++) {
-			var keyValPair = keyValArr[i].split(":");
-			query += keyValPair[0].trim() + "=" + encodeURIComponent(keyValPair[1].trim())
-			// add & if not last key value pair
-			if (i < len - 1) {
-				query += "&";	
-			}
-		}
-
-		this.appendQuery(query);
-	},
-	appendQuery: function(query) {
-		var p = document.createElement("p");
-		var text = document.createTextNode(query);
-		p.appendChild(text);
-		this.$el.find(".query").empty().append(p);
+		alert("Coming soon...");
 	},
 	template: function() {
 		return templates.components["juxtapose"];
@@ -1095,7 +1073,7 @@ module.exports = "<!-- JSON -> Query -->\n<h2>JSON &#187; Query</h2>\n<form name
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\"</li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],48:[function(require,module,exports){
-module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t\t<option value=\"Query\">Query</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"output\"></div>";
+module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"output\"></div>";
 
 },{}],49:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
