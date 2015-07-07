@@ -336,7 +336,7 @@ module.exports = LayoutViewPrototype.extend({
 		var query = "?";
 		var json = this.ui.jsonTextarea.val()
 		// strip curly braces and remove quotes
-		var keyValStr = json.substring(1, json.length - 1).replace(/\"||\'/g, "");
+		var keyValStr = json.substring(1, json.length - 1).replace(/\"|\'/g, "");
 		var keyValArr = keyValStr.split(",");
 		for (var i = 0, len = keyValArr.length; i < len; i++) {
 			var keyValPair = keyValArr[i].split(":");
@@ -460,18 +460,54 @@ module.exports = LayoutViewPrototype.extend({
 		"submit": "compareData"
 	},
 	regions: {
-		"ouput": ".output",
+		"leftOutput": ".left-output",
+		"rightOutput": ".right-output"
 	},
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
+
+		window.foo = this;
 	},
 	/**
-	* 
+	* @param {object} json1
+	* @param {object} json2
 	*/
+	appendJSON: function(json1, json2) {
+		this.controller.import(["json"], ["leftOutput"], {
+			app: this.app
+		}, {
+			model: new Backbone.Model(json1)
+		});
+
+		this.controller.import(["json"], ["rightOutput"], {
+			app: this.app
+		}, {
+			model: new Backbone.Model(json2)
+		});
+	},
+	/**
+	* @param {string} jsonStr String representation of JSON object
+	*/
+	parseJSONStr: function(jsonStr) {
+		var json = {};
+		// strip curly braces and remove quotes
+		var keyValStr = jsonStr.substring(1, jsonStr.length - 1).replace(/\"|\'/g, "");
+		var keyValArr = keyValStr.split(",");
+		for (var i = 0, len = keyValArr.length; i < len; i++) {
+			var keyValPair = keyValArr[i].split(":");
+			json[keyValPair[0].trim()] = keyValPair[1].trim();
+		}
+
+		return json;
+	},
 	compareData: function(e) {
 		e.preventDefault();
-		alert("Coming soon...");
+		switch (e.target["2"].value) {
+			case "JSON":
+				this.appendJSON(this.parseJSONStr(this.ui.leftTextarea.val()), this.parseJSONStr(this.ui.rightTextarea.val()));
+				break;
+		}
 	},
 	template: function() {
 		return templates.components["juxtapose"];
@@ -1070,10 +1106,10 @@ module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a h
 module.exports = "<!-- JSON -> Query -->\n<h2>JSON &#187; Query</h2>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"query\"></div>";
 
 },{}],47:[function(require,module,exports){
-module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\"</li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
+module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %>: </span><span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],48:[function(require,module,exports){
-module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"output\"></div>";
+module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],49:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";

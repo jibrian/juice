@@ -32,7 +32,7 @@ module.exports = LayoutViewPrototype.extend({
 		var query = "?";
 		var json = this.ui.jsonTextarea.val()
 		// strip curly braces and remove quotes
-		var keyValStr = json.substring(1, json.length - 1).replace(/\"||\'/g, "");
+		var keyValStr = json.substring(1, json.length - 1).replace(/\"|\'/g, "");
 		var keyValArr = keyValStr.split(",");
 		for (var i = 0, len = keyValArr.length; i < len; i++) {
 			var keyValPair = keyValArr[i].split(":");

@@ -143,7 +143,7 @@ a:link {
 	font-family: "courier";
 	box-sizing: border-box;
 	overflow-x: auto;
-	padding: 30px 60px;
+	padding: 25px 50px;
 	li {
 		list-style-type: none;
 		padding: 5px 0;
@@ -209,6 +209,20 @@ a:link {
 	h2 {
 		color: #FFB796;
 	}
+}
+
+.left-output,
+.right-output {
+	width: 50%;
+	overflow-x: auto;
+}
+
+.left-output {
+	float: left;
+}
+
+.right-output {
+	float: right;
 }
 
 .component {
