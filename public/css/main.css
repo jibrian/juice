@@ -159,7 +159,7 @@ a:link {
   #traces li {
     font-family: "avantgarde-light", "courier", "serif" !important;
     font-size: 20px;
-    list-style-type: cjk-ideographic;
+    list-style-type: decimal;
     padding: 10px 0; }
 
 #uri-dencoder h2 {
