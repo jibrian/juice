@@ -3,6 +3,7 @@
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
+var _ = require("underscore");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
@@ -24,7 +25,7 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 
-		window.foo = this;
+		window.foo = _;
 	},
 	/**
 	* @param {object} json1
@@ -47,6 +48,7 @@ module.exports = LayoutViewPrototype.extend({
 	* @param {string} jsonStr String representation of JSON object
 	*/
 	parseJSONStr: function(jsonStr) {
+		// @TODO sort the keys by alphabet
 		var json = {};
 		// strip curly braces and remove quotes
 		var keyValStr = jsonStr.substring(1, jsonStr.length - 1).replace(/\"|\'/g, "");
