@@ -12,6 +12,7 @@ module.exports = Backbone.Router.extend({
 		"": "loadIndex",
 		"adblock-parse": "loadAdblockParse",
 		"json-query": "loadJSONQuery",
+		"juxtapose": "loadJuxtapose",
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
 		"uri-dencoder": "loadURIDencoder",
@@ -22,6 +23,9 @@ module.exports = Backbone.Router.extend({
 	},
 	loadJSONQuery: function() {
 		this.app.controller.load("json-query");
+	},
+	loadJuxtapose: function() {
+		this.app.controller.load("juxtapose");
 	},
 	loadQueryJSON: function() {
 		this.app.controller.load("query-json");

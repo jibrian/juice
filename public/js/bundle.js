@@ -50,6 +50,9 @@ module.exports = ControllerPrototype.extend({
 	},
 	"json-query": function() {
 		this.inject("component", "json-query", {});
+	},
+	"juxtapose": function() {
+		this.inject("component", "juxtapose", {});
 	}
 });
 
@@ -100,6 +103,7 @@ module.exports = Backbone.Router.extend({
 		"": "loadIndex",
 		"adblock-parse": "loadAdblockParse",
 		"json-query": "loadJSONQuery",
+		"juxtapose": "loadJuxtapose",
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
 		"uri-dencoder": "loadURIDencoder",
@@ -110,6 +114,9 @@ module.exports = Backbone.Router.extend({
 	},
 	loadJSONQuery: function() {
 		this.app.controller.load("json-query");
+	},
+	loadJuxtapose: function() {
+		this.app.controller.load("juxtapose");
 	},
 	loadQueryJSON: function() {
 		this.app.controller.load("query-json");
@@ -446,16 +453,14 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	ui: {
 		"leftTextarea": "#left-data",
-		"leftSubmit": "button[form='left-data']",
 		"rightTextarea": "#right-data",
-		"rightSubmit": "button[form='right-data']"
+		"submitBtn": "button[type='submit']"
 	},
 	events: {
 		"submit": "processJSON"
 	},
 	regions: {
-		"leftOuput": "#left-subject",
-		"rightOuput": "#right-subject"
+		"ouput": ".output",
 	},
 	initialize: function(options) {
 		// @see layoutview.prototype
@@ -491,7 +496,7 @@ module.exports = LayoutViewPrototype.extend({
 		this.$el.find(".query").empty().append(p);
 	},
 	template: function() {
-		return templates.components["json-query"];
+		return templates.components["juxtapose"];
 	}
 });
 
@@ -1081,7 +1086,7 @@ module.exports = {
 module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"searchword\">\n\t<button type=\"submit\">Search</button>\n</form>";
 
 },{}],45:[function(require,module,exports){
-module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<!-- <a href=\"#adblock-parse\">Adblock Parse</a> -->\n</nav>";
+module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<!-- <a href=\"#adblock-parse\">Adblock Parse</a> -->\n</nav>";
 
 },{}],46:[function(require,module,exports){
 module.exports = "<!-- JSON -> Query -->\n<h2>JSON &#187; Query</h2>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"query\"></div>";
@@ -1090,7 +1095,7 @@ module.exports = "<!-- JSON -> Query -->\n<h2>JSON &#187; Query</h2>\n<form name
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\"</li>\n    <% } else { %>\t\n    \t<li><%= keys[i] %>:\"<%= obj[keys[i]] %>\",<li> \n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],48:[function(require,module,exports){
-module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose-left\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\"></textarea>\n\t<button type=\"submit\" form=\"left-data\">Convert</button>\n</form>\n<form name=\"juxtapose-right\">\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\"></textarea>\n\t<button type=\"submit\" form=\"right-data\">Convert</button>\n</form>\n<div class=\"json\"></div>";
+module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t\t<option value=\"Query\">Query</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"output\"></div>";
 
 },{}],49:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
@@ -1105,7 +1110,7 @@ module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.le
 module.exports = "<!-- URI Dencoder -->\n<h2>Uri Dencoder</h2>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
 
 },{}],53:[function(require,module,exports){
-module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query &#187; Json</a></li>\n\t\t<li><a href=\"#json-query\">JSON &#187; Query</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t</ul>\n</div>";
+module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query &#187; Json</a></li>\n\t\t<li><a href=\"#json-query\">JSON &#187; Query</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t\t<li><a href=\"#juxtapose\">Juxtapose</a></li>\n\t</ul>\n</div>";
 
 },{}],54:[function(require,module,exports){
 /**

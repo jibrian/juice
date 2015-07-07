@@ -136,6 +136,8 @@ a:link {
     color: #FFB796; }
   #dashboard li:nth-child(4) {
     color: #3D80CB; }
+  #dashboard li:nth-child(5) {
+    color: #59FFA1; }
 
 #json {
   font-family: "courier";
@@ -167,6 +169,9 @@ a:link {
 
 #json-query h2 {
   color: #36B1B1; }
+
+#juxtapose h2 {
+  color: #59FFA1; }
 
 .processed-uri,
 .query {

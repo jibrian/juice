@@ -49,6 +49,9 @@ module.exports = ControllerPrototype.extend({
 	},
 	"json-query": function() {
 		this.inject("component", "json-query", {});
+	},
+	"juxtapose": function() {
+		this.inject("component", "juxtapose", {});
 	}
 });
 

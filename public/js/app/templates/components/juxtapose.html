@@ -1,13 +1,16 @@
 <!-- Juxtapose -->
 <h2>Juxtapose</h2>
-<form name="juxtapose-left">
+<form name="juxtapose">
 	<label for="left-data">Left Data</label>
-	<textarea id="left-data" class="text-input"></textarea>
-	<button type="submit" form="left-data">Convert</button>
-</form>
-<form name="juxtapose-right">
+	<textarea id="left-data" class="text-input" placeholder="First"></textarea>
 	<label for="right-data">Right Data</label>
-	<textarea id="right-data" class="text-input"></textarea>
-	<button type="submit" form="right-data">Convert</button>
+	<textarea id="right-data" class="text-input" placeholder="Second"></textarea>
+	<label for="data-type">Data Type</label>
+	Data Type: 
+	<select>
+		<option value="JSON">JSON</option>
+		<option value="Query">Query</option>
+	</select>
+	<button type="submit">Convert</button>
 </form>
-<div class="json"></div>
+<div class="output"></div>

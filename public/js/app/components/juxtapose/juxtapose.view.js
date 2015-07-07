@@ -10,16 +10,14 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	ui: {
 		"leftTextarea": "#left-data",
-		"leftSubmit": "button[form='left-data']",
 		"rightTextarea": "#right-data",
-		"rightSubmit": "button[form='right-data']"
+		"submitBtn": "button[type='submit']"
 	},
 	events: {
 		"submit": "processJSON"
 	},
 	regions: {
-		"leftOuput": "#left-subject",
-		"rightOuput": "#right-subject"
+		"ouput": ".output",
 	},
 	initialize: function(options) {
 		// @see layoutview.prototype
@@ -55,7 +53,7 @@ module.exports = LayoutViewPrototype.extend({
 		this.$el.find(".query").empty().append(p);
 	},
 	template: function() {
-		return templates.components["json-query"];
+		return templates.components["juxtapose"];
 	}
 });
 
