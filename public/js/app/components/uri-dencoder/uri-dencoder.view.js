@@ -26,12 +26,16 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	encodeURI: function() {
-		var processedURI = encodeURIComponent(this.ui.uriTextarea.val());
-		this.$el.find(".processed-uri").append(processedURI);
+		this.appendURI(encodeURIComponent(this.ui.uriTextarea.val()));
 	},
 	decodeURI: function() {
-		var processedURI = decodeURIComponent(this.ui.uriTextarea.val());
-		this.$el.find(".processed-uri").append(processedURI);
+		this.appendURI(decodeURIComponent(this.ui.uriTextarea.val()));
+	},
+	appendURI: function(uri) {
+		var p = document.createElement("p");
+		var text = document.createTextNode(uri);
+		p.appendChild(text);
+		this.$el.find(".processed-uri").empty().append(p);
 	},
 	template: function() {
 		return templates.components["uri-dencoder"];

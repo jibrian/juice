@@ -103,6 +103,34 @@ a:link {
 	}
 }
 
+#dashboard {
+	box-sizing: border-box;
+	padding-top: 40px;
+	ul {
+		margin: 0 auto;
+		text-align: center;
+	}
+	li {
+		font-weight: 900;
+		font-size: 80px;
+		font-family: "uni-heavy-italic";
+		list-style-type: none;
+		transition: 0.5s ease;
+	}
+	li:first-child {
+		color: #56E4FF;
+	}
+	li:nth-child(2) {
+		color: #36B1B1;
+	}
+	li:nth-child(3) {
+		color: #FFB796;
+	}
+	li:nth-child(4) {
+		color: #3D80CB;
+	}
+}
+
 #json {
 	font-family: "courier";
 	box-sizing: border-box;
@@ -123,13 +151,14 @@ a:link {
 
 #traces {
 	box-sizing: border-box;
+	margin-top: 20px;
 	word-wrap: break-word;
 	width: 100%;
 	li {
 		font-family: "avantgarde-light", "courier", "serif" !important;
 		font-size: 20px;
 		list-style-type: cjk-ideographic;
-		padding: 5px 0;
+		padding: 10px 0;
 	}
 }
 
@@ -139,6 +168,21 @@ a:link {
 	h2 {
 		color: #3D80CB;
 	}
+}
+
+#json-query {
+	h2 {
+		color: #36B1B1;
+	}
+}
+
+.processed-uri,
+.query {
+	margin-top: 20px;
+	font-family: "avantgarde-light", "courier", "serif" !important;
+	font-size: 20px;
+	padding: 5px 0;
+	word-wrap: break-word;
 }
 
 #query-json {
@@ -154,7 +198,6 @@ a:link {
 }
 
 .component {
-	transition: 1s;
 	width: 100%;
 	h1,
 	h2,

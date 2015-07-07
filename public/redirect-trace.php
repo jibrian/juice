@@ -10,7 +10,7 @@ if (gettype($location) === "array") {
 	$output = [$location];
 	echo json_encode($output);
 } else {
-	$output = ["End of the breadcrumbs trail"];
+	$output = ["End of the breadcrumb trail"];
 	echo json_encode($output);
 }
 

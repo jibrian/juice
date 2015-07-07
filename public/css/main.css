@@ -116,6 +116,27 @@ a:link {
   .module h3 {
     margin: 20px 0; }
 
+#dashboard {
+  box-sizing: border-box;
+  padding-top: 40px; }
+  #dashboard ul {
+    margin: 0 auto;
+    text-align: center; }
+  #dashboard li {
+    font-weight: 900;
+    font-size: 80px;
+    font-family: "uni-heavy-italic";
+    list-style-type: none;
+    transition: 0.5s ease; }
+  #dashboard li:first-child {
+    color: #56E4FF; }
+  #dashboard li:nth-child(2) {
+    color: #36B1B1; }
+  #dashboard li:nth-child(3) {
+    color: #FFB796; }
+  #dashboard li:nth-child(4) {
+    color: #3D80CB; }
+
 #json {
   font-family: "courier";
   box-sizing: border-box;
@@ -132,16 +153,28 @@ a:link {
 
 #traces {
   box-sizing: border-box;
+  margin-top: 20px;
   word-wrap: break-word;
   width: 100%; }
   #traces li {
     font-family: "avantgarde-light", "courier", "serif" !important;
     font-size: 20px;
     list-style-type: cjk-ideographic;
-    padding: 5px 0; }
+    padding: 10px 0; }
 
 #uri-dencoder h2 {
   color: #3D80CB; }
+
+#json-query h2 {
+  color: #36B1B1; }
+
+.processed-uri,
+.query {
+  margin-top: 20px;
+  font-family: "avantgarde-light", "courier", "serif" !important;
+  font-size: 20px;
+  padding: 5px 0;
+  word-wrap: break-word; }
 
 #query-json h2 {
   color: #56E4FF; }
@@ -150,7 +183,6 @@ a:link {
   color: #FFB796; }
 
 .component {
-  transition: 1s;
   width: 100%; }
   .component h1,
   .component h2,

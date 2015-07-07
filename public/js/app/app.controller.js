@@ -11,7 +11,8 @@ module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		this.app = options.app;	
 		this.view = new AppView(options);
-		this.import(["header"], ["header"], options);
+		// @see controller.prototype
+		this.import(["header"], ["header"], {app: this.app});
 	},
 	/**
 	* Loads desired module into our app via app.router
@@ -31,7 +32,7 @@ module.exports = ControllerPrototype.extend({
 		controller.injectInto(this.view.main);
 	},
 	dashboard: function() {
-		// this.inject("module", "dashboard", {});
+		this.inject("module", "dashboard", {});
 	},
 	// Use quotes to keep component/module name consistent across entire app
 	"query-json": function() {
@@ -45,6 +46,9 @@ module.exports = ControllerPrototype.extend({
 	},
 	"uri-dencoder": function() {
 		this.inject("component", "uri-dencoder", {});
+	},
+	"json-query": function() {
+		this.inject("component", "json-query", {});
 	}
 });
 
