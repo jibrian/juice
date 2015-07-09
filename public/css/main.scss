@@ -151,6 +151,17 @@ a:link {
 	li:not(:last-child):not(:first-child) {
 		padding-left: 50px;
 	}
+	.key,
+	.value {
+		box-sizing: border-box;
+		padding: 3px;
+	}
+	.match {
+		background: #59FFA1;
+	}
+	.diff {
+		background: #CB483D;
+	}
 }
 
 .json {

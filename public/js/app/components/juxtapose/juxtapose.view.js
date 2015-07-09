@@ -4,6 +4,7 @@
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
 var _ = require("underscore");
+var $ = require("jquery");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
@@ -64,9 +65,21 @@ module.exports = LayoutViewPrototype.extend({
 		e.preventDefault();
 		switch (e.target["2"].value) {
 			case "JSON":
-				this.appendJSON(this.parseJSONStr(this.ui.leftTextarea.val()), this.parseJSONStr(this.ui.rightTextarea.val()));
+				var json1 = this.parseJSONStr(this.ui.leftTextarea.val());
+				var json2 = this.parseJSONStr(this.ui.rightTextarea.val());
+				this.appendJSON(json1, json2);
+				this.compareJSON(json1, json2);
 				break;
 		}
+	},
+	compareJSON: function(json1, json2) {
+		var _this = this;
+		setTimeout(function() {
+			_this.app.vent.trigger("juxtapose:json", {
+				json1: json1,
+				json2: json2
+			});
+		}, 500);
 	},
 	template: function() {
 		return templates.components["juxtapose"];

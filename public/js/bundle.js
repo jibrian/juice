@@ -396,6 +396,7 @@ module.exports = ControllerPrototype.extend({
 var ItemViewPrototype = require("itemview.prototype");
 var templates = require("templates");
 var _ = require("underscore");
+var $ = require("jquery");
 var Backbone = require("backbone");
 
 module.exports = ItemViewPrototype.extend({
@@ -405,6 +406,23 @@ module.exports = ItemViewPrototype.extend({
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
+		this.listenTo(this.app.vent, "juxtapose:json", this.filterJSON);
+	},
+	filterJSON: function(options) {
+		var $keys = this.$el.find(".key");
+		var $vals = this.$el.find(".value");
+		$keys.each(function(index, item) {
+			if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
+				$(item).addClass("match");
+				
+				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
+					$vals.eq(index).addClass("match");
+				} else {
+					$vals.eq(index).addClass("diff");
+				}
+			}
+
+		});
 	},
 	template: function(model) {
 		return _.template(templates.components.json)(model);
@@ -412,7 +430,7 @@ module.exports = ItemViewPrototype.extend({
 });
 
 
-},{"backbone":55,"itemview.prototype":36,"templates":38,"underscore":58}],17:[function(require,module,exports){
+},{"backbone":55,"itemview.prototype":36,"jquery":57,"templates":38,"underscore":58}],17:[function(require,module,exports){
 /**
 * Juxtapose Component
 * Compare 2 data objects 
@@ -447,6 +465,7 @@ module.exports = ControllerPrototype.extend({
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
 var _ = require("underscore");
+var $ = require("jquery");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
@@ -507,9 +526,21 @@ module.exports = LayoutViewPrototype.extend({
 		e.preventDefault();
 		switch (e.target["2"].value) {
 			case "JSON":
-				this.appendJSON(this.parseJSONStr(this.ui.leftTextarea.val()), this.parseJSONStr(this.ui.rightTextarea.val()));
+				var json1 = this.parseJSONStr(this.ui.leftTextarea.val());
+				var json2 = this.parseJSONStr(this.ui.rightTextarea.val());
+				this.appendJSON(json1, json2);
+				this.compareJSON(json1, json2);
 				break;
 		}
+	},
+	compareJSON: function(json1, json2) {
+		var _this = this;
+		setTimeout(function() {
+			_this.app.vent.trigger("juxtapose:json", {
+				json1: json1,
+				json2: json2
+			});
+		}, 500);
 	},
 	template: function() {
 		return templates.components["juxtapose"];
@@ -517,7 +548,7 @@ module.exports = LayoutViewPrototype.extend({
 });
 
 
-},{"backbone":55,"layoutview.prototype":37,"templates":38,"underscore":58}],20:[function(require,module,exports){
+},{"backbone":55,"jquery":57,"layoutview.prototype":37,"templates":38,"underscore":58}],20:[function(require,module,exports){
 /**
 * Query-JSON Component
 * Converts a url query string into a JSON object

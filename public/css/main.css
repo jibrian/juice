@@ -153,6 +153,14 @@ a:link {
     padding: 5px 0; }
   #json li:not(:last-child):not(:first-child) {
     padding-left: 50px; }
+  #json .key,
+  #json .value {
+    box-sizing: border-box;
+    padding: 3px; }
+  #json .match {
+    background: #59FFA1; }
+  #json .diff {
+    background: #CB483D; }
 
 .json {
   width: 100%; }
