@@ -17,6 +17,7 @@ module.exports = ItemViewPrototype.extend({
 		this.listenTo(this.app.vent, "juxtapose:json", this.filterJSON);
 	},
 	filterJSON: function(options) {
+		// @TODO check for data type match
 		var $keys = this.$el.find(".key");
 		var $vals = this.$el.find(".value");
 		$keys.each(function(index, item) {

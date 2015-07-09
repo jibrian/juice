@@ -79,7 +79,7 @@ module.exports = LayoutViewPrototype.extend({
 				json1: json1,
 				json2: json2
 			});
-		}, 500);
+		});
 	},
 	template: function() {
 		return templates.components["juxtapose"];
