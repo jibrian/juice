@@ -8,6 +8,7 @@ var AppRouter = require("app.router");
 var components = require("components");
 var modules = require("modules");
 var utilities = require("utilities");
+var entities = require("entities");
 
 module.exports = Marionette.Application.extend({
 	initialize: function(options) {
@@ -19,11 +20,12 @@ module.exports = Marionette.Application.extend({
 		this.components = components;
 		this.modules = modules;
 		this.utils = utilities;
+		this.localStorage = new entities.localStorage;
+
+		// @DEBUG
+		window.app = this;
 	},
 	onStart: function() {
 		Backbone.history.start();
-
-		// @DEBUG
-		console.log("App started");
 	}
 });

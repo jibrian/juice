@@ -6,5 +6,8 @@ module.exports = {
 	"components": {
 		"traces": require("../entities/components/traces/traces.model")
 	},
-	"modules": {}
+	"modules": {
+
+	},
+	"localStorage": require("../entities/localStorage.model")
 }
