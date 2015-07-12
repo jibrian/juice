@@ -452,7 +452,9 @@ module.exports = ItemViewPrototype.extend({
 		var $keys = this.$el.find(".key");
 		var $vals = this.$el.find(".value");
 		$keys.each(function(index, item) {
-			// if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
+			if (options.json1[item.innerHTML] === "" && options.json1[item.innerHTML] ==="") {
+				$(item).addClass("match");
+			} else if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
 				$(item).addClass("match");
 				
 				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
@@ -460,7 +462,7 @@ module.exports = ItemViewPrototype.extend({
 				} else {
 					$vals.eq(index).addClass("diff");
 				}
-			// }
+			}
 		});
 	},
 	template: function(model) {
