@@ -516,7 +516,7 @@ module.exports = LayoutViewPrototype.extend({
 		"submitBtn": "button[type='submit']"
 	},
 	events: {
-		"submit": "compareData"
+		"submit": "onSubmit"
 	},
 	regions: {
 		"leftOutput": ".left-output",
@@ -559,8 +559,18 @@ module.exports = LayoutViewPrototype.extend({
 
 		return json;
 	},
-	compareData: function(e) {
+	onSubmit: function(e) {
 		e.preventDefault();
+		var json1 = this.ui.leftTextarea.val().trim();
+		var json2 = this.ui.rightTextarea.val().trim();
+
+		this.app.controller.view.model.set({
+			"juxtaposeOne": json1,
+			"juxtaposeTwo": json2
+		});
+		this.compareData(e);
+	},
+	compareData: function(e) {
 		switch (e.target["2"].value) {
 			case "JSON":
 				var json1 = this.parseJSONStr(this.ui.leftTextarea.val());
@@ -578,6 +588,12 @@ module.exports = LayoutViewPrototype.extend({
 				json2: json2
 			});
 		});
+	},
+	onRender: function() {
+		var juxtaposedPiped = this.app.controller.view.model.get("juxtaposeOne") && this.app.controller.view.model.get("juxtaposeOne");
+		if (juxtaposedPiped) {
+			this.$el.find("form[name='juxtapose']").submit();
+		}
 	},
 	template: function(model) {
 		return _.template(templates.components["juxtapose"])(model);
