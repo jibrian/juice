@@ -32,7 +32,7 @@ module.exports = LayoutViewPrototype.extend({
 	pipe: function() {
 		var query = this.ui.queryTextarea.val().trim();
 		var json = JSON.stringify(this.convertQuery(query));
-		this.app.localStorage.set("juxtaposeOne", json);
+		this.app.controller.view.model.set("juxtaposeOne", json);
 	},
 	onSubmit: function(e) {
 		e.preventDefault();

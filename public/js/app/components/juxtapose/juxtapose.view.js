@@ -81,12 +81,6 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	template: function(model) {
 		return _.template(templates.components["juxtapose"])(model);
-	},
-	onDestroy: function() {
-		this.app.localStorage.set({
-			"juxtaposeOne": "",
-			"juxtaposeTwo": ""
-		});
 	}
 });
 

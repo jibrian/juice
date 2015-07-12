@@ -9,5 +9,6 @@ module.exports = {
 	"modules": {
 
 	},
-	"localStorage": require("../entities/localStorage.model")
+	"localStorage": require("../entities/localStorage.model"),
+	"viewState": require("../entities/viewState.model")
 }

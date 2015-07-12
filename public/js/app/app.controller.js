@@ -69,7 +69,7 @@ module.exports = ControllerPrototype.extend({
 			app: this.app
 		}, {
 			app: this.app,
-			model: this.app.localStorage
+			model: this.app.controller.view.model
 		});
 	}
 });
