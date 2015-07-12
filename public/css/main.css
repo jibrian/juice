@@ -124,7 +124,7 @@ a:link {
   .module header div {
     display: table-cell;
     vertical-align: middle;
-    text-align: right; }
+    text-align: left; }
   .component header p,
   .module header p {
     padding: 0;
