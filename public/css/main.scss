@@ -102,14 +102,13 @@ a:link {
 .component,
 .module {
 	header {
-		display: table;
 		width: 100%;
 		h2 {
-			display: table-cell;
+			display: inline-block
 		}
 		div {
-			display: table-cell;
-			vertical-align: middle;
+			display: inline-block;
+			margin-left: 40px;
 			text-align: left;
 		}
 		p {

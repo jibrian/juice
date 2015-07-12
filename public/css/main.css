@@ -115,15 +115,14 @@ a:link {
 
 .component header,
 .module header {
-  display: table;
   width: 100%; }
   .component header h2,
   .module header h2 {
-    display: table-cell; }
+    display: inline-block; }
   .component header div,
   .module header div {
-    display: table-cell;
-    vertical-align: middle;
+    display: inline-block;
+    margin-left: 40px;
     text-align: left; }
   .component header p,
   .module header p {
