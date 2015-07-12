@@ -13,11 +13,11 @@ module.exports = LayoutViewPrototype.extend({
 		"queryTextarea": "#query",
 		"select": "#uri-decode",
 		"submitBtn": "button[type='submit']",
-		"pipeBtn": "button[name='pipe']"
+		"pipeBtn": "button[type='button']",
 	},
 	events: {
 		"submit": "onSubmit",
-		"click @ui.pipeBtn": "pipe"
+		"click @ui.pipeBtn": "pipe",
 	},
 	regions: {
 		"json": ".json"
@@ -29,10 +29,10 @@ module.exports = LayoutViewPrototype.extend({
 	/**
 	* Send results into juxtapose component
 	*/
-	pipe: function() {
+	pipe: function(e) {
 		var query = this.ui.queryTextarea.val().trim();
 		var json = JSON.stringify(this.convertQuery(query));
-		this.app.controller.view.model.set("juxtaposeOne", json);
+		this.app.controller.view.model.set(e.currentTarget.name, json);
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
