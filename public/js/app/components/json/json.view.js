@@ -21,10 +21,7 @@ module.exports = ItemViewPrototype.extend({
 		var $keys = this.$el.find(".key");
 		var $vals = this.$el.find(".value");
 		$keys.each(function(index, item) {
-			if (options.json1[item.innerHTML] === "" && options.json2[item.innerHTML] ==="") {
-				$(item).addClass("match");
-				$vals.eq(index).addClass("match");
-			} else if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
+			if (options.json1.hasOwnProperty(item.innerHTML) && options.json2.hasOwnProperty(item.innerHTML)) {
 				$(item).addClass("match");
 				
 				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
