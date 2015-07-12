@@ -21,37 +21,55 @@ module.exports = ControllerPrototype.extend({
 	load: function(module) {
 		this[module]();
 	},
-	/**
-	* Use inject method to instantiate module controller and inject into our app
-	*/
-	inject: function(type, controller, options) {
-		var type = this.app.utils.processType(type);
-		options.app = this.app;
-		var controller = new this.app[type][controller].Controller(options);
-		// @see controller.prototype
-		controller.injectInto(this.view.main);
-	},
 	dashboard: function() {
-		this.inject("module", "dashboard", {});
+		this.import(["dashboard"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		}, "module");
 	},
 	// Use quotes to keep component/module name consistent across entire app
 	"query-json": function() {
-		this.inject("component", "query-json", {});
+		this.import(["query-json"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"adblock-parse": function() {
-		this.inject("component", "adblock-parse", {});
+		this.import(["adblock-parse"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"redirect-trace": function() {
-		this.inject("component", "redirect-trace", {});
+		this.import(["redirect-trace"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"uri-dencoder": function() {
-		this.inject("component", "uri-dencoder", {});
+		this.import(["uri-dencoder"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"json-query": function() {
-		this.inject("component", "json-query", {});
+		this.import(["json-query"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"juxtapose": function() {
-		this.inject("component", "juxtapose", {});
+		this.import(["juxtapose"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	}
 });
 
