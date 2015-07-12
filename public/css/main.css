@@ -194,6 +194,8 @@ a:link {
 
 #query-json h2 {
   color: #56E4FF; }
+#query-json .pipe {
+  float: right; }
 
 #redirect-trace h2 {
   color: #FFB796; }

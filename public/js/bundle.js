@@ -286,7 +286,15 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
+		this.listenTo(this.app.vent, "header:shake", this.shakeJuxtaposeLink);
 	},
+	shakeJuxtaposeLink: function() {
+		var $link = this.$el.find("a[href='#juxtapose']");
+		$link.addClass("shake");
+		setTimeout(function() {
+			$link.removeClass("shake");
+		}, 500);
+	},	
 	template: function(model) {
 		return _.template(templates.components.header)(model);
 	}
@@ -641,6 +649,7 @@ module.exports = LayoutViewPrototype.extend({
 		var query = this.ui.queryTextarea.val().trim();
 		var json = JSON.stringify(this.convertQuery(query));
 		this.app.controller.view.model.set(e.currentTarget.name, json);
+		this.app.vent.trigger("header:shake");
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
@@ -1266,7 +1275,7 @@ module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i
 module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],52:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose One</button>\n<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Two</button>\n<div class=\"json\"></div>";
+module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
 
 },{}],53:[function(require,module,exports){
 module.exports = "<!-- Redirect Trace -->\n<h2>Redirect Trace</h2>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"traces\"></div>";
