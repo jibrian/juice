@@ -123,7 +123,7 @@ a:link {
   .component header div,
   .module header div {
     display: table-cell;
-    vertical-align: top;
+    vertical-align: middle;
     text-align: right; }
   .component header p,
   .module header p {
