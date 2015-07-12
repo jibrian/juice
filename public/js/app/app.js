@@ -21,6 +21,7 @@ module.exports = Marionette.Application.extend({
 		this.modules = modules;
 		this.utils = utilities;
 		this.localStorage = new entities.localStorage;
+		this.flags = new Backbone.Model;
 
 		// @DEBUG
 		window.app = this;

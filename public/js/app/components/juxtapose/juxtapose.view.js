@@ -25,8 +25,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-
-		window.foo = _;
 	},
 	/**
 	* @param {object} json1
@@ -81,8 +79,14 @@ module.exports = LayoutViewPrototype.extend({
 			});
 		});
 	},
-	template: function() {
-		return templates.components["juxtapose"];
+	template: function(model) {
+		return _.template(templates.components["juxtapose"])(model);
+	},
+	onDestroy: function() {
+		this.app.localStorage.set({
+			"juxtaposeOne": "",
+			"juxtaposeTwo": ""
+		});
 	}
 });
 

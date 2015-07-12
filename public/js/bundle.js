@@ -69,7 +69,8 @@ module.exports = ControllerPrototype.extend({
 		this.import(["juxtapose"], ["main"], {
 			app: this.app
 		}, {
-			app: this.app
+			app: this.app,
+			model: this.app.localStorage
 		});
 	}
 });
@@ -99,6 +100,7 @@ module.exports = Marionette.Application.extend({
 		this.modules = modules;
 		this.utils = utilities;
 		this.localStorage = new entities.localStorage;
+		this.flags = new Backbone.Model;
 
 		// @DEBUG
 		window.app = this;
@@ -507,8 +509,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-
-		window.foo = _;
 	},
 	/**
 	* @param {object} json1
@@ -563,8 +563,14 @@ module.exports = LayoutViewPrototype.extend({
 			});
 		});
 	},
-	template: function() {
-		return templates.components["juxtapose"];
+	template: function(model) {
+		return _.template(templates.components["juxtapose"])(model);
+	},
+	onDestroy: function() {
+		this.app.localStorage.set({
+			"juxtaposeOne": "",
+			"juxtaposeTwo": ""
+		});
 	}
 });
 
@@ -603,6 +609,7 @@ module.exports = ControllerPrototype.extend({
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
+var _ = require("underscore");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
@@ -611,10 +618,12 @@ module.exports = LayoutViewPrototype.extend({
 	ui: {
 		"queryTextarea": "#query",
 		"select": "#uri-decode",
-		"submitBtn": "button[type='submit']"
+		"submitBtn": "button[type='submit']",
+		"pipeBtn": "button[name='pipe']"
 	},
 	events: {
-		"submit": "processQuery"
+		"submit": "onSubmit",
+		"click @ui.pipeBtn": "pipe"
 	},
 	regions: {
 		"json": ".json"
@@ -624,14 +633,30 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	/**
+	* Send results into juxtapose component
+	*/
+	pipe: function() {
+		var query = this.ui.queryTextarea.val().trim();
+		var json = JSON.stringify(this.convertQuery(query));
+		this.app.localStorage.set("juxtaposeOne", json);
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		this.processQuery(e);
+		this.ui.pipeBtn.removeClass("hide");
+	},
+	/**
 	* Parse query input and convert into JSON
 	* @param {object} e Event object
 	*/
-	processQuery: function(e) {
-		e.preventDefault();
-		if (!this.ui.queryTextarea.val()) { return; }
+	processQuery: function() {
+		if (!this.ui.queryTextarea.val()) { 
+			return; 
+		}
+
 		var query = this.ui.queryTextarea.val().trim();
 		var json = this.convertQuery(query);
+		
 		this.loadJSON(json);
 	},
 	/**
@@ -662,13 +687,13 @@ module.exports = LayoutViewPrototype.extend({
 
 		return json;
 	},
-	template: function() {
-		return templates.components["query-json"];
+	template: function(model) {
+		return _.template(templates.components["query-json"])(model);
 	}
 });
 
 
-},{"backbone":56,"layoutview.prototype":37,"templates":38}],23:[function(require,module,exports){
+},{"backbone":56,"layoutview.prototype":37,"templates":38,"underscore":59}],23:[function(require,module,exports){
 /**
 * Redirect-Trace Component
 * Traces the header path of a http request
@@ -1112,7 +1137,8 @@ var Backbone = require("backbone");
 var LocalStorageModel = Backbone.Model.extend({
 	defaults: function() {
 		return {
-			"sfsdfsdfsf": "sdfsdfsdf"
+			"juxtaposeOne": "",
+			"juxtaposeTwo": ""
 		}
 	},
 	initialize: function() {
@@ -1206,10 +1232,10 @@ module.exports = "<!-- JSON -> Query -->\n<h2>JSON &#187; Query</h2>\n<form name
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],49:[function(require,module,exports){
-module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
+module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],50:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
+module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<button class=\"hide\" type=\"button\" name=\"pipe\">Pipe Juxtapose</button>\n<div class=\"json\"></div>";
 
 },{}],51:[function(require,module,exports){
 module.exports = "<!-- Redirect Trace -->\n<h2>Redirect Trace</h2>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"traces\"></div>";

@@ -68,7 +68,8 @@ module.exports = ControllerPrototype.extend({
 		this.import(["juxtapose"], ["main"], {
 			app: this.app
 		}, {
-			app: this.app
+			app: this.app,
+			model: this.app.localStorage
 		});
 	}
 });
