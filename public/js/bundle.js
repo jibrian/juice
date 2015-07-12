@@ -541,17 +541,8 @@ module.exports = LayoutViewPrototype.extend({
 		});
 	},
 	parseJSONStr: function(jsonStr) {
-		// @TODO sort the keys by alphabet
-		var json = {};
-		// strip curly braces and remove quotes
-		var keyValStr = jsonStr.substring(1, jsonStr.length - 1).replace(/\"|\'/g, "");
-		var keyValArr = keyValStr.split(",");
-		for (var i = 0, len = keyValArr.length; i < len; i++) {
-			var keyValPair = keyValArr[i].split(":");
-			json[keyValPair[0].trim()] = keyValPair[1].trim();
-		}
-
-		return json;
+		var keyValStr = jsonStr.substring(1, jsonStr.length - 1);
+		return JSON.parse("{" + keyValStr + "}");
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
