@@ -288,29 +288,42 @@ a:link {
 	display: none !important;
 }
 
-.shake {
-	-webkit-animation: shake 0.5s ease;
-	animation: shake 0.5s ease;
+.shake-pulse {
+	-webkit-animation: shake 0.75s ease;
+	animation: shake 0.75s ease;
+}
+
+.force-link-hover {
+	color: #CB483D !important;
+	opacity: 1 !important;
 }
 
 @-webkit-keyframes shake {
 	0%, 20%, 40%, 60%, 80% {
+		-webkit-transform: translateX(-5px);
 		transform: translateX(-5px);
-		-webkit-transform: translate(-5px);
+		-webkit-transform: scale(1);
+		transform: scale(1);
 	}
 	10%, 30%, 50%, 70%, 90% {
+		-webkit-transform: translateX(5px);
 		transform: translateX(5px);
-		-webkit-transform: translate(5px);
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
 	}
 }
 
 @keyframes shake {
 	0%, 20%, 40%, 60%, 80% {
+		-webkit-transform: translateX(-5px);
 		transform: translateX(-5px);
-		-webkit-transform: translate(-5px);
+		-webkit-transform: scale(1);
+		transform: scale(1);
 	}
 	10%, 30%, 50%, 70%, 90% {
+		-webkit-transform: translateX(5px);
 		transform: translateX(5px);
-		-webkit-transform: translate(5px);
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
 	}
 }

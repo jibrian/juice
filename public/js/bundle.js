@@ -290,10 +290,10 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	shakeJuxtaposeLink: function() {
 		var $link = this.$el.find("a[href='#juxtapose']");
-		$link.addClass("shake");
+		$link.addClass("shake-pulse force-link-hover");
 		setTimeout(function() {
-			$link.removeClass("shake");
-		}, 500);
+			$link.removeClass("shake-pulse force-link-hover");
+		}, 750);
 	},	
 	template: function(model) {
 		return _.template(templates.components.header)(model);
