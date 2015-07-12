@@ -33,7 +33,8 @@ module.exports = ControllerPrototype.extend({
 		this.import(["query-json"], ["main"], {
 			app: this.app
 		}, {
-			app: this.app
+			app: this.app,
+			model: this.app.controller.view.model
 		});
 	},
 	"adblock-parse": function() {

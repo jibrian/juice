@@ -26,10 +26,6 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
-	/**
-	* @param {object} json1
-	* @param {object} json2
-	*/
 	appendJSON: function(json1, json2) {
 		this.controller.import(["json"], ["leftOutput"], {
 			app: this.app
@@ -43,9 +39,6 @@ module.exports = LayoutViewPrototype.extend({
 			model: new Backbone.Model(json2)
 		});
 	},
-	/**
-	* @param {string} jsonStr String representation of JSON object
-	*/
 	parseJSONStr: function(jsonStr) {
 		// @TODO sort the keys by alphabet
 		var json = {};

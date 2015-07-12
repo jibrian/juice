@@ -34,7 +34,8 @@ module.exports = ControllerPrototype.extend({
 		this.import(["query-json"], ["main"], {
 			app: this.app
 		}, {
-			app: this.app
+			app: this.app,
+			model: this.app.controller.view.model
 		});
 	},
 	"adblock-parse": function() {
@@ -288,8 +289,8 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 		this.listenTo(this.app.vent, "header:shake", this.shakeJuxtaposeLink);
 	},
-	shakeJuxtaposeLink: function() {
-		var $link = this.$el.find("a[href='#juxtapose']");
+	shakeJuxtaposeLink: function(options) {
+		var $link = this.$el.find("a[href='#" + options.link + "']");
 		$link.addClass("shake-pulse force-link-hover");
 		setTimeout(function() {
 			$link.removeClass("shake-pulse force-link-hover");
@@ -526,10 +527,6 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
-	/**
-	* @param {object} json1
-	* @param {object} json2
-	*/
 	appendJSON: function(json1, json2) {
 		this.controller.import(["json"], ["leftOutput"], {
 			app: this.app
@@ -543,9 +540,6 @@ module.exports = LayoutViewPrototype.extend({
 			model: new Backbone.Model(json2)
 		});
 	},
-	/**
-	* @param {string} jsonStr String representation of JSON object
-	*/
 	parseJSONStr: function(jsonStr) {
 		// @TODO sort the keys by alphabet
 		var json = {};
@@ -665,7 +659,9 @@ module.exports = LayoutViewPrototype.extend({
 		var query = this.ui.queryTextarea.val().trim();
 		var json = JSON.stringify(this.convertQuery(query));
 		this.app.controller.view.model.set(e.currentTarget.name, json);
-		this.app.vent.trigger("header:shake");
+		this.app.vent.trigger("header:shake", {
+			link: "juxtapose"
+		});
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
@@ -856,14 +852,17 @@ module.exports = ItemViewPrototype.extend({
 	id: "traces",
 	className: "component",
 	events: {
-		"click li": "test"
+		"dblclick li": "pipe"
 	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
 	},
-	test: function(e) {
-		console.log(e.currentTarget);
+	pipe: function(e) {
+		this.app.vent.trigger("header:shake", {
+			link: "query-json"
+		});
+		this.app.controller.view.model.set("query", e.currentTarget.innerHTML);
 	},
 	template: function(model) {
 		return _.template(templates.components.traces)(model);
@@ -1218,7 +1217,8 @@ var ViewStateModel = Backbone.Model.extend({
 	defaults: function() {
 		return {
 			"juxtaposeOne": "",
-			"juxtaposeTwo": ""
+			"juxtaposeTwo": "",
+			"query": ""
 		}
 	},
 });
@@ -1291,7 +1291,7 @@ module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i
 module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],52:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
+module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
 
 },{}],53:[function(require,module,exports){
 module.exports = "<!-- Redirect Trace -->\n<h2>Redirect Trace</h2>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"traces\"></div>";

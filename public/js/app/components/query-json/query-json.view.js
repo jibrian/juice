@@ -33,7 +33,9 @@ module.exports = LayoutViewPrototype.extend({
 		var query = this.ui.queryTextarea.val().trim();
 		var json = JSON.stringify(this.convertQuery(query));
 		this.app.controller.view.model.set(e.currentTarget.name, json);
-		this.app.vent.trigger("header:shake");
+		this.app.vent.trigger("header:shake", {
+			link: "juxtapose"
+		});
 	},
 	onSubmit: function(e) {
 		e.preventDefault();

@@ -11,14 +11,17 @@ module.exports = ItemViewPrototype.extend({
 	id: "traces",
 	className: "component",
 	events: {
-		"click li": "test"
+		"dblclick li": "pipe"
 	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
 	},
-	test: function(e) {
-		console.log(e.currentTarget);
+	pipe: function(e) {
+		this.app.vent.trigger("header:shake", {
+			link: "query-json"
+		});
+		this.app.controller.view.model.set("query", e.currentTarget.innerHTML);
 	},
 	template: function(model) {
 		return _.template(templates.components.traces)(model);

@@ -15,8 +15,8 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 		this.listenTo(this.app.vent, "header:shake", this.shakeJuxtaposeLink);
 	},
-	shakeJuxtaposeLink: function() {
-		var $link = this.$el.find("a[href='#juxtapose']");
+	shakeJuxtaposeLink: function(options) {
+		var $link = this.$el.find("a[href='#" + options.link + "']");
 		$link.addClass("shake-pulse force-link-hover");
 		setTimeout(function() {
 			$link.removeClass("shake-pulse force-link-hover");

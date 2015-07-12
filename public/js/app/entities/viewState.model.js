@@ -7,7 +7,8 @@ var ViewStateModel = Backbone.Model.extend({
 	defaults: function() {
 		return {
 			"juxtaposeOne": "",
-			"juxtaposeTwo": ""
+			"juxtaposeTwo": "",
+			"query": ""
 		}
 	},
 });
