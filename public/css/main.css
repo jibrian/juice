@@ -128,7 +128,8 @@ a:link {
   .component header p,
   .module header p {
     padding: 0;
-    margin: 5px 0; }
+    margin: 5px 0;
+    font-family: "avantgarde-medium"; }
 
 .module {
   margin: 50px 0; }
