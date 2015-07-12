@@ -454,6 +454,7 @@ module.exports = ItemViewPrototype.extend({
 		$keys.each(function(index, item) {
 			if (options.json1[item.innerHTML] === "" && options.json1[item.innerHTML] ==="") {
 				$(item).addClass("match");
+				$vals.eq(index).addClass("match");
 			} else if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
 				$(item).addClass("match");
 				
