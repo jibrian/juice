@@ -452,7 +452,7 @@ module.exports = ItemViewPrototype.extend({
 		var $keys = this.$el.find(".key");
 		var $vals = this.$el.find(".value");
 		$keys.each(function(index, item) {
-			if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
+			// if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
 				$(item).addClass("match");
 				
 				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
@@ -460,8 +460,7 @@ module.exports = ItemViewPrototype.extend({
 				} else {
 					$vals.eq(index).addClass("diff");
 				}
-			}
-
+			// }
 		});
 	},
 	template: function(model) {
@@ -1290,7 +1289,7 @@ module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
 
 },{}],51:[function(require,module,exports){
-module.exports = "<!-- Juxtapose -->\n<header>\n\t<h2>Juxtapose</h2>\n\t<div>\n\t\t<p>Compare 2 pieces of data</p>\n\t\t<p>Matching values are green</p>\n\t\t<p>Differences are red</p>\n\t</div>\n</header>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
+module.exports = "<!-- Juxtapose -->\n<header>\n\t<h2>Juxtapose</h2>\n\t<div>\n\t\t<p>Matching values are green</p>\n\t\t<p>Differences are red</p>\n\t\t<p>Wrap keys in double quotes por favor</p>\n\t</div>\n</header>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],52:[function(require,module,exports){
 module.exports = "<!-- Query -> JSON -->\n<header>\n\t<h2>Query &#187; JSON</h2>\n\t<div>\n\t\t<p>Convert a query string into a JSON object</p>\n\t</div>\n</header>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
