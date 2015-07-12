@@ -665,6 +665,11 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
+		var query = this.ui.queryTextarea.val().trim();
+
+		this.app.controller.view.model.set({
+			"query": query
+		});
 		this.processQuery(e);
 		this.ui.pipeBtn.removeClass("hide");
 	},
@@ -709,6 +714,12 @@ module.exports = LayoutViewPrototype.extend({
 		}
 
 		return json;
+	},
+	onRender: function() {
+		var piped = this.app.controller.view.model.get("query");
+		if (piped) {
+			this.$el.find("form[name='query-json']").submit();
+		}
 	},
 	template: function(model) {
 		return _.template(templates.components["query-json"])(model);
