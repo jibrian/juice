@@ -113,6 +113,23 @@ a:link {
   box-sizing: border-box;
   padding: 5px 0; }
 
+.component header,
+.module header {
+  display: table;
+  width: 100%; }
+  .component header h2,
+  .module header h2 {
+    display: table-cell; }
+  .component header div,
+  .module header div {
+    display: table-cell;
+    vertical-align: top;
+    text-align: right; }
+  .component header p,
+  .module header p {
+    padding: 0;
+    margin: 5px 0; }
+
 .module {
   margin: 50px 0; }
   .module h1,
@@ -175,13 +192,13 @@ a:link {
     list-style-type: decimal;
     padding: 10px 0; }
 
-#uri-dencoder h2 {
+#uri-dencoder header {
   color: #3D80CB; }
 
-#json-query h2 {
+#json-query header {
   color: #36B1B1; }
 
-#juxtapose h2 {
+#juxtapose header {
   color: #59FFA1; }
 
 .processed-uri,
@@ -192,12 +209,12 @@ a:link {
   padding: 5px 0;
   word-wrap: break-word; }
 
-#query-json h2 {
+#query-json header {
   color: #56E4FF; }
 #query-json .pipe {
   float: right; }
 
-#redirect-trace h2 {
+#redirect-trace header {
   color: #FFB796; }
 
 .left-output,

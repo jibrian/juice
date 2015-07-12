@@ -99,6 +99,26 @@ a:link {
 
 .footer {}
 
+.component,
+.module {
+	header {
+		display: table;
+		width: 100%;
+		h2 {
+			display: table-cell;
+		}
+		div {
+			display: table-cell;
+			vertical-align: top;
+			text-align: right;
+		}
+		p {
+			padding: 0;
+			margin: 5px 0;
+		}
+	}
+}
+
 .module {
 	margin: 50px 0;
 	h1,
@@ -183,19 +203,19 @@ a:link {
 .traces {}
 
 #uri-dencoder {
-	h2 {
+	header {
 		color: #3D80CB;
 	}
 }
 
 #json-query {
-	h2 {
+	header {
 		color: #36B1B1;
 	}
 }
 
 #juxtapose {
-	h2 {
+	header {
 		color: #59FFA1;
 	}
 }
@@ -210,7 +230,7 @@ a:link {
 }
 
 #query-json {
-	h2 {
+	header {
 		color: #56E4FF;
 	}
 	.pipe {
@@ -219,7 +239,7 @@ a:link {
 }
 
 #redirect-trace {
-	h2 {
+	header {
 		color: #FFB796;
 	}
 }
