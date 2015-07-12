@@ -590,7 +590,7 @@ module.exports = LayoutViewPrototype.extend({
 		});
 	},
 	onRender: function() {
-		var juxtaposedPiped = this.app.controller.view.model.get("juxtaposeOne") && this.app.controller.view.model.get("juxtaposeOne");
+		var juxtaposedPiped = this.app.controller.view.model.get("juxtaposeOne") && this.app.controller.view.model.get("juxtaposeTwo");
 		if (juxtaposedPiped) {
 			this.$el.find("form[name='juxtapose']").submit();
 		}
