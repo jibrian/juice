@@ -12,10 +12,12 @@ module.exports = LayoutViewPrototype.extend({
 	ui: {
 		"clipsTitleInput": "#clipboard-title",
 		"clipsTextarea": "#clipboard-clip",
-		"submitBtn": "button[type='submit']"
+		"submitBtn": "button[type='submit']",
+		"clearAllBtn": "button[type='button']"
 	},
 	events: {
-		"submit": "onSubmit"
+		"submit": "onSubmit",
+		"click @ui.clearAllBtn": "clearAll"
 	},
 	regions: {
 		"clips": ".clips"
@@ -27,6 +29,10 @@ module.exports = LayoutViewPrototype.extend({
 	onSubmit: function(e) {
 		e.preventDefault();
 		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
+		this.render();
+	},
+	clearAll: function() {
+		this.model.clear();
 		this.render();
 	},
 	template: function(model) {

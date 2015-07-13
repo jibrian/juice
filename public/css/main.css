@@ -203,16 +203,32 @@ a:link {
 #juxtapose header {
   color: #59FFA1; }
 
-#clipboard header {
-  color: #B15824; }
-#clipboard .clips {
-  border: 1px solid black;
-  height: 500px;
-  width: 66%;
-  float: left; }
-#clipboard form[name='clipboard'] {
-  float: right;
-  width: 30%; }
+#clipboard {
+  font-family: "avantgarde-book", "courier", "serif" !important; }
+  #clipboard header {
+    color: #B15824; }
+  #clipboard ul.clips {
+    display: inline-block;
+    height: 500px;
+    width: 70%;
+    padding: 0; }
+    #clipboard ul.clips li {
+      padding: 10px 0;
+      overflow-x: scroll; }
+  #clipboard form[name='clipboard'] {
+    display: inline-block;
+    width: 25%;
+    padding-left: 30px; }
+  #clipboard button[name='clear'] {
+    float: right; }
+  #clipboard h4 {
+    margin: 0 !important;
+    padding: 5px 0 !important;
+    text-transform: uppercase;
+    text-decoration: underline; }
+  #clipboard p {
+    margin: 0 !important;
+    padding: 0 !important; }
 
 .processed-uri,
 .query {

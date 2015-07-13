@@ -2,15 +2,19 @@
 <header>
 	<h2>Clipboard</h2>
 </header>
-<div class="clips">
+<ul class="clips">
 	<% for (var key in obj) { %>
-		<p><%= key %>: <%= obj[key] %></p>
+		<li>
+			<h4><%= key %></h4>
+			<p><%= obj[key] %></p>
+		</li>
 	<% } %>
-</div>
+</ul>
 <form name="clipboard">
 	<label for="clipboard-title">Clips</label>
-	<input id="clipboard-title" class="text-input" />
+	<input id="clipboard-title" class="text-input" placeholder="Title" />
 	<label for="clipboard-clip">Clips</label>
 	<textarea id="clipboard-clip" class="text-input"></textarea>
 	<button type="submit">Save</button>
+	<button type="button" name="clear">Clear All</button>
 </form>

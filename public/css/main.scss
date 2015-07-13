@@ -224,18 +224,37 @@ a:link {
 }
 
 #clipboard {
+	font-family: "avantgarde-book", "courier", "serif" !important;
 	header {
 		color: #B15824;
 	}
-	.clips {
-		border: 1px solid black;
+	ul.clips {
+		display: inline-block;
 		height: 500px;
-		width: 66%;
-		float: left;
+		width: 70%;
+		padding: 0;
+		li {
+			padding: 10px 0;
+			overflow-x: scroll;
+		}
 	}
 	form[name='clipboard'] {
+		display: inline-block;
+		width: 25%;
+		padding-left: 30px;
+	}
+	button[name='clear'] {
 		float: right;
-		width: 30%;
+	}
+	h4 {
+		margin: 0 !important;
+		padding: 5px 0 !important;
+		text-transform: uppercase;
+		text-decoration: underline;
+	}
+	p {
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 }
 

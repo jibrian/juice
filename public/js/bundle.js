@@ -295,10 +295,12 @@ module.exports = LayoutViewPrototype.extend({
 	ui: {
 		"clipsTitleInput": "#clipboard-title",
 		"clipsTextarea": "#clipboard-clip",
-		"submitBtn": "button[type='submit']"
+		"submitBtn": "button[type='submit']",
+		"clearAllBtn": "button[type='button']"
 	},
 	events: {
-		"submit": "onSubmit"
+		"submit": "onSubmit",
+		"click @ui.clearAllBtn": "clearAll"
 	},
 	regions: {
 		"clips": ".clips"
@@ -310,6 +312,10 @@ module.exports = LayoutViewPrototype.extend({
 	onSubmit: function(e) {
 		e.preventDefault();
 		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
+		this.render();
+	},
+	clearAll: function() {
+		this.model.clear();
 		this.render();
 	},
 	template: function(model) {
@@ -1356,7 +1362,7 @@ module.exports = {
 module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"searchword\">\n\t<button type=\"submit\">Search</button>\n</form>";
 
 },{}],51:[function(require,module,exports){
-module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n</header>\n<div class=\"clips\">\n\t<% for (var key in obj) { %>\n\t\t<p><%= key %>: <%= obj[key] %></p>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n</form>";
+module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n</header>\n<ul class=\"clips\">\n\t<% for (var key in obj) { %>\n\t\t<li>\n\t\t\t<h4><%= key %></h4>\n\t\t\t<p><%= obj[key] %></p>\n\t\t</li>\n\t<% } %>\n</ul>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
 
 },{}],52:[function(require,module,exports){
 module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n</nav>";
