@@ -229,10 +229,12 @@ a:link {
 		color: #B15824;
 	}
 	.clips {
+		box-sizing: border-box;
 		vertical-align: top;
 		display: inline-block;
 		width: 70%;
-		padding: 0;
+		padding: 10px;
+		background: #FFF7F0;
 		article {
 			box-sizing: border-box;
 			padding: 10px 0;
