@@ -2,14 +2,20 @@
 <header>
 	<h2>Clipboard</h2>
 </header>
-<ul class="clips">
-	<% for (var key in obj) { %>
-		<li>
-			<h4><%= key %></h4>
-			<p><%= obj[key] %></p>
-		</li>
+<div class="clips">
+	<% if (Object.keys(obj).length > 0) { %>
+		<% for (var key in obj) { %>
+			<article>
+				<h4><%= key %></h4>
+				<p><%= obj[key] %></p>
+			</article>
+		<% } %>
+	<% } else { %>
+		<article>
+			<h5>Blank.</h5>
+		</article>
 	<% } %>
-</ul>
+</div>
 <form name="clipboard">
 	<label for="clipboard-title">Clips</label>
 	<input id="clipboard-title" class="text-input" placeholder="Title" />
