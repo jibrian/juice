@@ -210,7 +210,7 @@ a:link {
   #clipboard .clips {
     box-sizing: border-box;
     vertical-align: top;
-    min-height: 400px;
+    min-height: 486px;
     display: inline-block;
     width: 70%;
     padding: 10px;
