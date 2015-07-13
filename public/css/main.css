@@ -216,6 +216,7 @@ a:link {
     padding: 10px;
     background: #FFF7F0; }
     #clipboard .clips article {
+      cursor: pointer;
       box-sizing: border-box;
       padding: 10px 0;
       overflow-x: scroll; }

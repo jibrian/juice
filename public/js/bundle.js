@@ -300,7 +300,8 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	events: {
 		"submit": "onSubmit",
-		"click @ui.clearAllBtn": "clearAll"
+		"click @ui.clearAllBtn": "clearAll",
+		"dblclick article": "removeClip"
 	},
 	regions: {
 		"clips": ".clips"
@@ -313,6 +314,11 @@ module.exports = LayoutViewPrototype.extend({
 		e.preventDefault();
 		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
 		this.render();
+	},
+	removeClip: function(e) {
+		var key = e.currentTarget.getAttribute("data-key");
+		this.model.unset(key);
+		this.render(); 
 	},
 	clearAll: function() {
 		this.model.clear();
@@ -1362,7 +1368,7 @@ module.exports = {
 module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"searchword\">\n\t<button type=\"submit\">Search</button>\n</form>";
 
 },{}],51:[function(require,module,exports){
-module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n</header>\n<div class=\"clips\">\n\t<% if (Object.keys(obj).length > 0) { %>\n\t\t<% for (var key in obj) { %>\n\t\t\t<article>\n\t\t\t\t<h4><%= key %></h4>\n\t\t\t\t<p><%= obj[key] %></p>\n\t\t\t</article>\n\t\t<% } %>\n\t<% } else { %>\n\t\t<article>\n\t\t\t<h5>Blank.</h5>\n\t\t</article>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
+module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n\t<div>\n\t\t<p>Save your random ideas here</p>\n\t\t<p>Double click clip to remove</p>\n\t</div>\n</header>\n<div class=\"clips\">\n\t<% if (Object.keys(obj).length > 0) { %>\n\t\t<% for (var key in obj) { %>\n\t\t\t<article class=\"clip\" data-key=\"<%= key %>\">\n\t\t\t\t<h4><%= key %></h4>\n\t\t\t\t<p><%= obj[key] %></p>\n\t\t\t</article>\n\t\t<% } %>\n\t<% } else { %>\n\t\t<article>\n\t\t\t<h5>Blank.</h5>\n\t\t</article>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
 
 },{}],52:[function(require,module,exports){
 module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n</nav>";

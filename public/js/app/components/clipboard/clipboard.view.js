@@ -17,7 +17,8 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	events: {
 		"submit": "onSubmit",
-		"click @ui.clearAllBtn": "clearAll"
+		"click @ui.clearAllBtn": "clearAll",
+		"dblclick article": "removeClip"
 	},
 	regions: {
 		"clips": ".clips"
@@ -30,6 +31,11 @@ module.exports = LayoutViewPrototype.extend({
 		e.preventDefault();
 		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
 		this.render();
+	},
+	removeClip: function(e) {
+		var key = e.currentTarget.getAttribute("data-key");
+		this.model.unset(key);
+		this.render(); 
 	},
 	clearAll: function() {
 		this.model.clear();
