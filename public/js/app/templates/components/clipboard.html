@@ -1,0 +1,16 @@
+<!-- Clipboard Component -->
+<header>
+	<h2>Clipboard</h2>
+</header>
+<div class="clips">
+	<% for (var key in obj) { %>
+		<p><%= key %>: <%= obj[key] %></p>
+	<% } %>
+</div>
+<form name="clipboard">
+	<label for="clipboard-title">Clips</label>
+	<input id="clipboard-title" class="text-input" />
+	<label for="clipboard-clip">Clips</label>
+	<textarea id="clipboard-clip" class="text-input"></textarea>
+	<button type="submit">Save</button>
+</form>

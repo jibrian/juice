@@ -6,8 +6,7 @@ var Backbone = require("backbone");
 var LocalStorageModel = Backbone.Model.extend({
 	defaults: function() {
 		return {
-			"juxtaposeOne": "",
-			"juxtaposeTwo": ""
+		
 		}
 	},
 	initialize: function() {

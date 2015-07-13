@@ -38,7 +38,6 @@ label {
 	display: none;
 }
 
-input,
 button {
 	text-transform: uppercase;
 }
@@ -156,6 +155,9 @@ a:link {
 	li:nth-child(5) {
 		color: #59FFA1;
 	}
+	li:nth-child(6) {
+		color: #B15824;
+	}
 }
 
 #json {
@@ -218,6 +220,22 @@ a:link {
 #juxtapose {
 	header {
 		color: #59FFA1;
+	}
+}
+
+#clipboard {
+	header {
+		color: #B15824;
+	}
+	.clips {
+		border: 1px solid black;
+		height: 500px;
+		width: 66%;
+		float: left;
+	}
+	form[name='clipboard'] {
+		float: right;
+		width: 30%;
 	}
 }
 
@@ -284,6 +302,19 @@ a:link {
 		padding: 15px;
 		resize: vertical;
 		width: 100%;
+	}
+	input {
+		border: none;
+		border-top: 1px solid black;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+		width: 100%;
+		font-family: "avantgarde-medium", "courier", "serif" !important;
+		font-size: 20px;
+		padding: 15px;
+		box-sizing: border-box;
+		margin: 0;
+		outline: none;
 	}
 	select,
 	button {

@@ -69,7 +69,6 @@ h3 {
 label {
   display: none; }
 
-input,
 button {
   text-transform: uppercase; }
 
@@ -158,6 +157,8 @@ a:link {
     color: #3D80CB; }
   #dashboard li:nth-child(5) {
     color: #59FFA1; }
+  #dashboard li:nth-child(6) {
+    color: #B15824; }
 
 #json {
   font-family: "courier";
@@ -201,6 +202,17 @@ a:link {
 
 #juxtapose header {
   color: #59FFA1; }
+
+#clipboard header {
+  color: #B15824; }
+#clipboard .clips {
+  border: 1px solid black;
+  height: 500px;
+  width: 66%;
+  float: left; }
+#clipboard form[name='clipboard'] {
+  float: right;
+  width: 30%; }
 
 .processed-uri,
 .query {
@@ -252,6 +264,18 @@ a:link {
     padding: 15px;
     resize: vertical;
     width: 100%; }
+  .component input {
+    border: none;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    width: 100%;
+    font-family: "avantgarde-medium", "courier", "serif" !important;
+    font-size: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none; }
   .component select,
   .component button {
     border: 1px solid black;

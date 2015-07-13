@@ -16,6 +16,7 @@ module.exports = Backbone.Router.extend({
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
 		"uri-dencoder": "loadURIDencoder",
+		"clipboard": "loadClipboard"
 	},
 	loadIndex: function() {
 		// @TODO Set up lander module
@@ -35,9 +36,9 @@ module.exports = Backbone.Router.extend({
 	},
 	loadURIDencoder: function() {
 		this.app.controller.load("uri-dencoder");
+	},
+	loadClipboard: function() {
+		this.app.controller.load("clipboard");
 	}
-	// loadAdblockParse: function() {
-	// 	this.app.controller.load("adblock-parse");
-	// }
 });
 
