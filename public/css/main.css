@@ -208,6 +208,7 @@ a:link {
   #clipboard header {
     color: #B15824; }
   #clipboard ul.clips {
+    min-height: 1px;
     display: inline-block;
     height: 500px;
     width: 70%;
