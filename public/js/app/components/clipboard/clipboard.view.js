@@ -29,9 +29,12 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
-		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
-		this.render();
+		this.saveClip();
 	},
+	saveClip: function() {
+		// @TODO need a way to handle double titles 
+		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
+	}
 	removeClip: function(e) {
 		var key = e.currentTarget.getAttribute("data-key");
 		this.model.unset(key);
