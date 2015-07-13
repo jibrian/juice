@@ -1287,11 +1287,7 @@ var LocalStorageModel = Backbone.Model.extend({
 	},
 	sync: function() {
 		var data = this.toJSON();
-
-		if (!Object.keys(data).length) {
-			window.localStorage.clear();
-			return;
-		}
+		window.localStorage.clear();
 
 		for (var key in data) {
 			window.localStorage.setItem(key, data[key]);
