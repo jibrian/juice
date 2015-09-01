@@ -12,10 +12,12 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	ui: {
 		"urlTextarea": "#url-textarea",
-		"submitBtn": "form[name='redirect-trace'] button[type='submit']"
+		"submitBtn": "form[name='redirect-trace'] button[type='submit']",
+		"clearBtn": "button[name='clear']"
 	},
 	events: {
-		"submit": "requestRedirects"
+		"submit": "requestRedirects",
+		"click @ui.clearBtn": "clearInput"
 	},
 	regions: {
 		"traces": ".traces"
@@ -24,19 +26,27 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
+	clearInput: function() {
+		this.ui.urlTextarea.val("");
+	},
 	/**
 	* Instantiates trace model and request redirects from API
 	* After model has populated, load into our app
 	* @param {object} e Event object
 	*/
 	requestRedirects: function(e) {
-		e.preventDefault();
+		if (e) {
+			e.preventDefault();
+		}
+
 		var _this = this;
 		var traceModel = new entities.components.traces;
 		// @see trace.model
 		traceModel.fetchByUrl(_this.ui.urlTextarea.val()).then(function() {
 			_this.loadTrace(traceModel);
-		})
+		});
+
+		this.app.controller.view.model.set("redirect-trace", this.ui.urlTextarea.val());
 	},
 	/**
 	* Load Trace component with populated Backbone model
@@ -58,6 +68,12 @@ module.exports = LayoutViewPrototype.extend({
 		var _this = this;
 		this.model.fetchByUrl(this.ui.urlTextarea.val());
 	},	
+	onRender: function() {
+		if (this.app.controller.view.model.get("redirect-trace")) {
+			this.ui.urlTextarea.val(this.app.controller.view.model.get("redirect-trace"));
+			this.requestRedirects();
+		}
+	},
 	template: function() {
 		return templates.components["redirect-trace"];
 	}
