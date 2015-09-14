@@ -444,10 +444,12 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	ui: {
 		"jsonTextarea": "#json-query-json",
-		"submitBtn": "button[type='submit']"
+		"submitBtn": "button[type='submit']",
+		"clearBtn": "button[name='clear']"
 	},
 	events: {
-		"submit": "processJSON"
+		"submit": "processJSON",
+		"click @ui.clearBtn": "clearInput" 
 	},
 	regions: {
 		"query": ".query"
@@ -456,12 +458,17 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
+	clearInput: function() {
+		this.ui.jsonTextarea.val("");
+	},
 	/**
 	* Convert JSON into query string
 	* @param {object} e Event object
 	*/
 	processJSON: function(e) {
-		e.preventDefault();
+		if (e) {
+			e.preventDefault();
+		}
 		// @TODO need to account for commas inside keys or values
 		var query = "?";
 		var json = this.ui.jsonTextarea.val()
@@ -478,12 +485,19 @@ module.exports = LayoutViewPrototype.extend({
 		}
 
 		this.appendQuery(query);
+		this.app.controller.view.model.set("json-query", this.ui.jsonTextarea.val());
 	},
 	appendQuery: function(query) {
 		var p = document.createElement("p");
 		var text = document.createTextNode(query);
 		p.appendChild(text);
 		this.$el.find(".query").empty().append(p);
+	},
+	onRender: function() {
+		if (this.app.controller.view.model.get("json-query")) {
+			this.ui.jsonTextarea.val(this.app.controller.view.model.get("json-query"));
+			this.processJSON();
+		}
 	},
 	template: function() {
 		return templates.components["json-query"];
@@ -720,11 +734,13 @@ module.exports = LayoutViewPrototype.extend({
 		"queryTextarea": "#query",
 		"select": "#uri-decode",
 		"submitBtn": "button[type='submit']",
-		"pipeBtn": "button[type='button']",
+		"pipeBtn": ".pipe button[type='button']",
+		"clearBtn": "button[name='clear']"
 	},
 	events: {
 		"submit": "onSubmit",
 		"click @ui.pipeBtn": "pipe",
+		"click @ui.clearBtn": "clearInput"
 	},
 	regions: {
 		"json": ".json"
@@ -732,6 +748,9 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
+	},
+	clearInput: function() {
+		this.ui.queryTextarea.val("");
 	},
 	/**
 	* Send results into juxtapose component
@@ -850,10 +869,12 @@ module.exports = LayoutViewPrototype.extend({
 	className: "component",
 	ui: {
 		"urlTextarea": "#url-textarea",
-		"submitBtn": "form[name='redirect-trace'] button[type='submit']"
+		"submitBtn": "form[name='redirect-trace'] button[type='submit']",
+		"clearBtn": "button[name='clear']"
 	},
 	events: {
-		"submit": "requestRedirects"
+		"submit": "requestRedirects",
+		"click @ui.clearBtn": "clearInput"
 	},
 	regions: {
 		"traces": ".traces"
@@ -862,19 +883,27 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
+	clearInput: function() {
+		this.ui.urlTextarea.val("");
+	},
 	/**
 	* Instantiates trace model and request redirects from API
 	* After model has populated, load into our app
 	* @param {object} e Event object
 	*/
 	requestRedirects: function(e) {
-		e.preventDefault();
+		if (e) {
+			e.preventDefault();
+		}
+
 		var _this = this;
 		var traceModel = new entities.components.traces;
 		// @see trace.model
 		traceModel.fetchByUrl(_this.ui.urlTextarea.val()).then(function() {
 			_this.loadTrace(traceModel);
-		})
+		});
+
+		this.app.controller.view.model.set("redirect-trace", this.ui.urlTextarea.val());
 	},
 	/**
 	* Load Trace component with populated Backbone model
@@ -896,6 +925,12 @@ module.exports = LayoutViewPrototype.extend({
 		var _this = this;
 		this.model.fetchByUrl(this.ui.urlTextarea.val());
 	},	
+	onRender: function() {
+		if (this.app.controller.view.model.get("redirect-trace")) {
+			this.ui.urlTextarea.val(this.app.controller.view.model.get("redirect-trace"));
+			this.requestRedirects();
+		}
+	},
 	template: function() {
 		return templates.components["redirect-trace"];
 	}
@@ -1003,11 +1038,13 @@ module.exports = LayoutViewPrototype.extend({
 	ui: {
 		"uriTextarea": "#uri-string",
 		"encodeBtn": "button[name='encode']",
-		"decodeBtn": "button[name='decode']"
+		"decodeBtn": "button[name='decode']",
+		"clearBtn": "button[name='clear']"
 	},
 	events: {
 		"click @ui.encodeBtn": "encodeURI",
-		"click @ui.decodeBtn": "decodeURI"
+		"click @ui.decodeBtn": "decodeURI",
+		"click @ui.clearBtn": "clearInput"
 	},
 	regions: {
 		"uri": ".process-uri"
@@ -1016,17 +1053,36 @@ module.exports = LayoutViewPrototype.extend({
 		// @see layoutview.prototype
 		this.inherit(options);
 	},
+	clearInput: function() {
+		this.ui.uriTextarea.val("");
+	},
 	encodeURI: function() {
-		this.appendURI(encodeURIComponent(this.ui.uriTextarea.val()));
+		var encoded = encodeURIComponent(this.ui.uriTextarea.val());
+		this.appendURI(encoded);
+		this.app.controller.view.model.set({
+			"uri-dencoder": this.ui.uriTextarea.val(),
+			"uri-dencoder-output": encoded
+		});
 	},
 	decodeURI: function() {
-		this.appendURI(decodeURIComponent(this.ui.uriTextarea.val()));
+		var decoded = decodeURIComponent(this.ui.uriTextarea.val());
+		this.appendURI(decoded);
+		this.app.controller.view.model.set({
+			"uri-dencoder": this.ui.uriTextarea.val(),
+			"uri-dencoder-output": decoded
+		});
 	},
 	appendURI: function(uri) {
 		var p = document.createElement("p");
 		var text = document.createTextNode(uri);
 		p.appendChild(text);
 		this.$el.find(".processed-uri").empty().append(p);
+	},
+	onRender: function() {
+		if (this.app.controller.view.model.get("uri-dencoder")) {
+			this.ui.uriTextarea.val(this.app.controller.view.model.get("uri-dencoder"));
+			this.appendURI(this.app.controller.view.model.get("uri-dencoder-output"));
+		}
 	},
 	template: function() {
 		return templates.components["uri-dencoder"];
@@ -1368,13 +1424,13 @@ module.exports = {
 module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"searchword\">\n\t<button type=\"submit\">Search</button>\n</form>";
 
 },{}],51:[function(require,module,exports){
-module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n\t<div>\n\t\t<p>Save your random ideas here</p>\n\t\t<p>Double click clip to remove</p>\n\t</div>\n</header>\n<div class=\"clips\">\n\t<% if (Object.keys(obj).length > 0) { %>\n\t\t<% for (var key in obj) { %>\n\t\t\t<article class=\"clip\" data-key=\"<%= key %>\">\n\t\t\t\t<h4><%= key %></h4>\n\t\t\t\t<p><%= obj[key] %></p>\n\t\t\t</article>\n\t\t<% } %>\n\t<% } else { %>\n\t\t<p>Blank.</p>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
+module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n\t<div>\n\t\t<p>Double click clip to remove</p>\n\t</div>\n</header>\n<div class=\"clips\">\n\t<% if (Object.keys(obj).length > 0) { %>\n\t\t<% for (var key in obj) { %>\n\t\t\t<article class=\"clip\" data-key=\"<%= key %>\">\n\t\t\t\t<h4><%= key %></h4>\n\t\t\t\t<p><%= obj[key] %></p>\n\t\t\t</article>\n\t\t<% } %>\n\t<% } else { %>\n\t\t<p>Blank.</p>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
 
 },{}],52:[function(require,module,exports){
 module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n</nav>";
 
 },{}],53:[function(require,module,exports){
-module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n\t<div>\n\t\t<p>Convert a JSON object into a query string</p>\n\t</div>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"query\"></div>";
+module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n\t<button type=\"button\" name=\"clear\">Clear</button>\n</form>\n<div class=\"query\"></div>";
 
 },{}],54:[function(require,module,exports){
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
@@ -1383,16 +1439,16 @@ module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i
 module.exports = "<!-- Juxtapose -->\n<header>\n\t<h2>Juxtapose</h2>\n\t<div>\n\t\t<p>Matching values are green</p>\n\t\t<p>Differences are red</p>\n\t\t<p>Wrap keys in double quotes por favor</p>\n\t</div>\n</header>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],56:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<header>\n\t<h2>Query &#187; JSON</h2>\n\t<div>\n\t\t<p>Convert a query string into a JSON object</p>\n\t</div>\n</header>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
+module.exports = "<!-- Query -> JSON -->\n<header>\n\t<h2>Query &#187; JSON</h2>\n</header>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<button name=\"clear\" type=\"button\">Clear</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
 
 },{}],57:[function(require,module,exports){
-module.exports = "<!-- Redirect Trace -->\n<header>\n\t<h2>Redirect Trace</h2>\n\t<div>\n\t\t<p>Get redirect paths of a URL</p>\n\t\t<p>Double click results to pipe to Query &#187; JSON</p>\n\t</div>\n</header>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"traces\"></div>";
+module.exports = "<!-- Redirect Trace -->\n<header>\n\t<h2>Redirect Trace</h2>\n\t<div>\n\t\t<p>Double click results to pipe to Query &#187; JSON</p>\n\t</div>\n</header>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n\t<button type=\"button\" name=\"clear\">Clear</button>\n</form>\n<div class=\"traces\"></div>";
 
 },{}],58:[function(require,module,exports){
 module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.length; i < len; i++) { %>\n\t<li><%= traces[i] %></li>\n<% } %>";
 
 },{}],59:[function(require,module,exports){
-module.exports = "<!-- URI Dencoder -->\n<header>\n\t<h2>Uri Dencoder</h2>\n\t<div>\n\t\t<p>URI Encode or decode a string</p>\n\t</div>\n</header>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
+module.exports = "<!-- URI Dencoder -->\n<header>\n\t<h2>Uri Dencoder</h2>\n</header>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n\t<button name=\"clear\" type=\"button\">Clear</button>\n</form>\n<div class=\"processed-uri\"></div>";
 
 },{}],60:[function(require,module,exports){
 module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query &#187; Json</a></li>\n\t\t<li><a href=\"#json-query\">JSON &#187; Query</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t\t<li><a href=\"#juxtapose\">Juxtapose</a></li>\n\t\t<li><a href=\"#clipboard\">Clipboard</a></li>\n\t</ul>\n</div>";
