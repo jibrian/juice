@@ -40,6 +40,7 @@
     "templates": "./public/js/app/config/templates.js",
     "modules": "./public/js/app/config/modules.js",
     "utilities": "./public/js/app/config/utilities.js",
+    "behaviors": "./public/js/app/config/behaviors.js",
     "entities": "./public/js/app/config/entities.js",
     "controller.prototype": "./public/js/app/config/prototypes/controller.prototype.js",
     "layoutview.prototype": "./public/js/app/config/prototypes/layoutview.prototype.js",

@@ -12,7 +12,8 @@ module.exports = {
 		"query-json": require("./../templates/components/query-json.html"),
 		"redirect-trace": require("./../templates/components/redirect-trace.html"),
 		"traces": require("./../templates/components/traces.html"),
-		"uri-dencoder": require("./../templates/components/uri-dencoder.html")
+		"uri-dencoder": require("./../templates/components/uri-dencoder.html"),
+		"clipboard": require("./../templates/components/clipboard.html")
 	},
 	"modules": {
 		"dashboard": require("./../templates/modules/dashboard.html")

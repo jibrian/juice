@@ -1,0 +1,28 @@
+<!-- Clipboard Component -->
+<header>
+	<h2>Clipboard</h2>
+	<div>
+		<p>Save your random ideas here</p>
+		<p>Double click clip to remove</p>
+	</div>
+</header>
+<div class="clips">
+	<% if (Object.keys(obj).length > 0) { %>
+		<% for (var key in obj) { %>
+			<article class="clip" data-key="<%= key %>">
+				<h4><%= key %></h4>
+				<p><%= obj[key] %></p>
+			</article>
+		<% } %>
+	<% } else { %>
+		<p>Blank.</p>
+	<% } %>
+</div>
+<form name="clipboard">
+	<label for="clipboard-title">Clips</label>
+	<input id="clipboard-title" class="text-input" placeholder="Title" />
+	<label for="clipboard-clip">Clips</label>
+	<textarea id="clipboard-clip" class="text-input"></textarea>
+	<button type="submit">Save</button>
+	<button type="button" name="clear">Clear All</button>
+</form>

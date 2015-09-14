@@ -69,7 +69,6 @@ h3 {
 label {
   display: none; }
 
-input,
 button {
   text-transform: uppercase; }
 
@@ -104,7 +103,7 @@ a:link {
 
 #app-main {
   width: 100%;
-  margin: 40px 0; }
+  margin: 20px 0; }
 
 #app-footer {
   width: 100%; }
@@ -112,6 +111,23 @@ a:link {
 .header {
   box-sizing: border-box;
   padding: 5px 0; }
+
+.component header,
+.module header {
+  width: 100%; }
+  .component header h2,
+  .module header h2 {
+    display: inline-block; }
+  .component header div,
+  .module header div {
+    display: inline-block;
+    margin-left: 40px;
+    text-align: left; }
+  .component header p,
+  .module header p {
+    padding: 0;
+    margin: 5px 0;
+    font-family: "avantgarde-medium"; }
 
 .module {
   margin: 50px 0; }
@@ -121,8 +137,7 @@ a:link {
     margin: 20px 0; }
 
 #dashboard {
-  box-sizing: border-box;
-  padding-top: 40px; }
+  box-sizing: border-box; }
   #dashboard ul {
     margin: 0 auto;
     text-align: center; }
@@ -142,6 +157,8 @@ a:link {
     color: #3D80CB; }
   #dashboard li:nth-child(5) {
     color: #59FFA1; }
+  #dashboard li:nth-child(6) {
+    color: #B15824; }
 
 #json {
   font-family: "courier";
@@ -171,19 +188,54 @@ a:link {
   word-wrap: break-word;
   width: 100%; }
   #traces li {
+    cursor: pointer;
     font-family: "avantgarde-light", "courier", "serif" !important;
     font-size: 20px;
     list-style-type: decimal;
     padding: 10px 0; }
 
-#uri-dencoder h2 {
+#uri-dencoder header {
   color: #3D80CB; }
 
-#json-query h2 {
+#json-query header {
   color: #36B1B1; }
 
-#juxtapose h2 {
+#juxtapose header {
   color: #59FFA1; }
+
+#clipboard {
+  font-family: "avantgarde-book", "courier", "serif" !important; }
+  #clipboard header {
+    color: #B15824; }
+  #clipboard .clips {
+    box-sizing: border-box;
+    vertical-align: top;
+    min-height: 486px;
+    display: inline-block;
+    width: 70%;
+    padding: 10px;
+    background: #FFF7F0; }
+    #clipboard .clips article {
+      cursor: pointer;
+      box-sizing: border-box;
+      padding: 10px 0;
+      overflow-x: scroll; }
+  #clipboard form[name='clipboard'] {
+    display: inline-block;
+    width: 25%;
+    padding-left: 30px; }
+  #clipboard button[name='clear'] {
+    float: right; }
+  #clipboard textarea {
+    height: 400px; }
+  #clipboard h4 {
+    margin: 0 !important;
+    padding: 5px 0 !important;
+    text-transform: uppercase;
+    text-decoration: underline; }
+  #clipboard p {
+    margin: 0 !important;
+    padding: 0 !important; }
 
 .processed-uri,
 .query {
@@ -193,10 +245,12 @@ a:link {
   padding: 5px 0;
   word-wrap: break-word; }
 
-#query-json h2 {
+#query-json header {
   color: #56E4FF; }
+#query-json .pipe {
+  float: right; }
 
-#redirect-trace h2 {
+#redirect-trace header {
   color: #FFB796; }
 
 .left-output,
@@ -233,6 +287,18 @@ a:link {
     padding: 15px;
     resize: vertical;
     width: 100%; }
+  .component input {
+    border: none;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    width: 100%;
+    font-family: "avantgarde-medium", "courier", "serif" !important;
+    font-size: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none; }
   .component select,
   .component button {
     border: 1px solid black;
@@ -242,5 +308,45 @@ a:link {
     box-sizing: border-box;
     padding: 5px;
     font-family: "avantgarde-medium", "courier", "serif" !important; }
+
+.show-block {
+  display: block !important; }
+
+.show-inline-block {
+  display: inline-block !important; }
+
+.hide {
+  display: none !important; }
+
+.shake-pulse {
+  -webkit-animation: shake 0.75s ease;
+  animation: shake 0.75s ease; }
+
+.force-link-hover {
+  color: #CB483D !important;
+  opacity: 1 !important; }
+
+@-webkit-keyframes shake {
+  0%, 20%, 40%, 60%, 80% {
+    -webkit-transform: translateX(-5px);
+    transform: translateX(-5px);
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  10%, 30%, 50%, 70%, 90% {
+    -webkit-transform: translateX(5px);
+    transform: translateX(5px);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); } }
+@keyframes shake {
+  0%, 20%, 40%, 60%, 80% {
+    -webkit-transform: translateX(-5px);
+    transform: translateX(-5px);
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  10%, 30%, 50%, 70%, 90% {
+    -webkit-transform: translateX(5px);
+    transform: translateX(5px);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); } }
 
 /*# sourceMappingURL=main.css.map */

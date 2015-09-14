@@ -16,7 +16,7 @@ module.exports = LayoutViewPrototype.extend({
 		"submitBtn": "button[type='submit']"
 	},
 	events: {
-		"submit": "compareData"
+		"submit": "onSubmit"
 	},
 	regions: {
 		"leftOutput": ".left-output",
@@ -25,13 +25,7 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-
-		window.foo = _;
 	},
-	/**
-	* @param {object} json1
-	* @param {object} json2
-	*/
 	appendJSON: function(json1, json2) {
 		this.controller.import(["json"], ["leftOutput"], {
 			app: this.app
@@ -45,24 +39,22 @@ module.exports = LayoutViewPrototype.extend({
 			model: new Backbone.Model(json2)
 		});
 	},
-	/**
-	* @param {string} jsonStr String representation of JSON object
-	*/
 	parseJSONStr: function(jsonStr) {
-		// @TODO sort the keys by alphabet
-		var json = {};
-		// strip curly braces and remove quotes
-		var keyValStr = jsonStr.substring(1, jsonStr.length - 1).replace(/\"|\'/g, "");
-		var keyValArr = keyValStr.split(",");
-		for (var i = 0, len = keyValArr.length; i < len; i++) {
-			var keyValPair = keyValArr[i].split(":");
-			json[keyValPair[0].trim()] = keyValPair[1].trim();
-		}
+		var keyValStr = jsonStr.substring(1, jsonStr.length - 1);
+		return JSON.parse("{" + keyValStr + "}");
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		var json1 = this.ui.leftTextarea.val().trim();
+		var json2 = this.ui.rightTextarea.val().trim();
 
-		return json;
+		this.app.controller.view.model.set({
+			"juxtaposeOne": json1,
+			"juxtaposeTwo": json2
+		});
+		this.compareData(e);
 	},
 	compareData: function(e) {
-		e.preventDefault();
 		switch (e.target["2"].value) {
 			case "JSON":
 				var json1 = this.parseJSONStr(this.ui.leftTextarea.val());
@@ -81,8 +73,14 @@ module.exports = LayoutViewPrototype.extend({
 			});
 		});
 	},
-	template: function() {
-		return templates.components["juxtapose"];
+	onRender: function() {
+		var juxtaposedPiped = this.app.controller.view.model.get("juxtaposeOne") && this.app.controller.view.model.get("juxtaposeTwo");
+		if (juxtaposedPiped) {
+			this.$el.find("form[name='juxtapose']").submit();
+		}
+	},
+	template: function(model) {
+		return _.template(templates.components["juxtapose"])(model);
 	}
 });
 

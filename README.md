@@ -1,2 +1,2 @@
-# juice-alpha
+# juice
 52.25.48.233

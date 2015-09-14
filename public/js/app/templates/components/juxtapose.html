@@ -1,10 +1,17 @@
 <!-- Juxtapose -->
-<h2>Juxtapose</h2>
+<header>
+	<h2>Juxtapose</h2>
+	<div>
+		<p>Matching values are green</p>
+		<p>Differences are red</p>
+		<p>Wrap keys in double quotes por favor</p>
+	</div>
+</header>
 <form name="juxtapose">
 	<label for="left-data">Left Data</label>
-	<textarea id="left-data" class="text-input" placeholder="First"></textarea>
+	<textarea id="left-data" class="text-input" placeholder="First"><%= juxtaposeOne %></textarea>
 	<label for="right-data">Right Data</label>
-	<textarea id="right-data" class="text-input" placeholder="Second"></textarea>
+	<textarea id="right-data" class="text-input" placeholder="Second"><%= juxtaposeTwo %></textarea>
 	<label for="data-type">Data Type</label>
 	Data Type: 
 	<select>

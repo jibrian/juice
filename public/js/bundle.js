@@ -7,6 +7,7 @@ var ControllerPrototype = require("controller.prototype");
 var modules = require("modules");
 var AppView = require("app.view");
 var Backbone = require("backbone");
+var entities = require("entities");
 
 module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
@@ -22,42 +23,70 @@ module.exports = ControllerPrototype.extend({
 	load: function(module) {
 		this[module]();
 	},
-	/**
-	* Use inject method to instantiate module controller and inject into our app
-	*/
-	inject: function(type, controller, options) {
-		var type = this.app.utils.processType(type);
-		options.app = this.app;
-		var controller = new this.app[type][controller].Controller(options);
-		// @see controller.prototype
-		controller.injectInto(this.view.main);
-	},
 	dashboard: function() {
-		this.inject("module", "dashboard", {});
+		this.import(["dashboard"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		}, "modules");
 	},
 	// Use quotes to keep component/module name consistent across entire app
 	"query-json": function() {
-		this.inject("component", "query-json", {});
+		this.import(["query-json"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app,
+			model: this.app.controller.view.model
+		});
 	},
 	"adblock-parse": function() {
-		this.inject("component", "adblock-parse", {});
+		this.import(["adblock-parse"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"redirect-trace": function() {
-		this.inject("component", "redirect-trace", {});
+		this.import(["redirect-trace"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"uri-dencoder": function() {
-		this.inject("component", "uri-dencoder", {});
+		this.import(["uri-dencoder"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"json-query": function() {
-		this.inject("component", "json-query", {});
+		this.import(["json-query"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app
+		});
 	},
 	"juxtapose": function() {
-		this.inject("component", "juxtapose", {});
+		this.import(["juxtapose"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app,
+			model: this.app.controller.view.model
+		});
+	},
+	"clipboard": function() {
+		this.import(["clipboard"], ["main"], {
+			app: this.app
+		}, {
+			app: this.app,
+			model: new entities.localStorage
+		});
 	}
 });
 
 
-},{"app.view":4,"backbone":55,"controller.prototype":35,"modules":34}],2:[function(require,module,exports){
+},{"app.view":4,"backbone":62,"controller.prototype":39,"entities":37,"modules":38}],2:[function(require,module,exports){
 /**
 * App bootstrap
 */
@@ -68,6 +97,9 @@ var AppRouter = require("app.router");
 var components = require("components");
 var modules = require("modules");
 var utilities = require("utilities");
+var entities = require("entities");
+var behaviors = require("behaviors");
+
 
 module.exports = Marionette.Application.extend({
 	initialize: function(options) {
@@ -79,16 +111,22 @@ module.exports = Marionette.Application.extend({
 		this.components = components;
 		this.modules = modules;
 		this.utils = utilities;
+		this.localStorage = new entities.localStorage;
+		this.flags = new Backbone.Model;
+		this.behaviors = behaviors;
+
+		// @DEBUG
+		window.app = this;
 	},
 	onStart: function() {
 		Backbone.history.start();
-
-		// @DEBUG
-		console.log("App started");
+		Marionette.Behaviors.behaviorsLookup = function() {
+			return this.behaviors; 
+		};
 	}
 });
 
-},{"app.controller":1,"app.router":3,"backbone":55,"components":32,"marionette":56,"modules":34,"utilities":39}],3:[function(require,module,exports){
+},{"app.controller":1,"app.router":3,"backbone":62,"behaviors":35,"components":36,"entities":37,"marionette":63,"modules":38,"utilities":43}],3:[function(require,module,exports){
 /**
 * App Router
 * @see app.controller.load
@@ -107,6 +145,7 @@ module.exports = Backbone.Router.extend({
 		"query-json": "loadQueryJSON",
 		"redirect-trace": "loadRedirectTrace",
 		"uri-dencoder": "loadURIDencoder",
+		"clipboard": "loadClipboard"
 	},
 	loadIndex: function() {
 		// @TODO Set up lander module
@@ -126,18 +165,19 @@ module.exports = Backbone.Router.extend({
 	},
 	loadURIDencoder: function() {
 		this.app.controller.load("uri-dencoder");
+	},
+	loadClipboard: function() {
+		this.app.controller.load("clipboard");
 	}
-	// loadAdblockParse: function() {
-	// 	this.app.controller.load("adblock-parse");
-	// }
 });
 
 
-},{"backbone":55}],4:[function(require,module,exports){
+},{"backbone":62}],4:[function(require,module,exports){
 /**
 * App View
 */
 var Marionette = require("marionette");
+var entities = require("entities");
 
 module.exports = Marionette.LayoutView.extend({
 	el: "html",
@@ -145,11 +185,12 @@ module.exports = Marionette.LayoutView.extend({
 		"header": "#app-header",
 		"main": "#app-main",
 		"footer": "#app-footer"
-	}
+	},
+	model: new entities.viewState
 });
 
 
-},{"marionette":56}],5:[function(require,module,exports){
+},{"entities":37,"marionette":63}],5:[function(require,module,exports){
 /**
 * Adblock Controller
 */
@@ -166,7 +207,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],6:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],6:[function(require,module,exports){
 /**
 * Adblock View
 */
@@ -211,7 +252,7 @@ module.exports = LayoutViewPrototype.extend({
 });
 
 
-},{"backbone":55,"jquery":57,"layoutview.prototype":37,"templates":38,"underscore":58}],7:[function(require,module,exports){
+},{"backbone":62,"jquery":64,"layoutview.prototype":41,"templates":42,"underscore":65}],7:[function(require,module,exports){
 /**
 * Adblock Component
 * Search through adblock filters for keywords
@@ -223,6 +264,87 @@ module.exports = {
 
 
 },{"./adblock-parse.controller":5,"./adblock-parse.view":6}],8:[function(require,module,exports){
+/**
+* Clipboard Controller
+*/
+var ControllerPrototype = require("controller.prototype");
+var components = require("marionette");
+
+module.exports = ControllerPrototype.extend({
+	name: "clipboard",
+	type: "component",
+	initialize: function(options) {
+		// @see controller.prototype
+		this.inherit(options);
+	}
+});
+
+
+},{"controller.prototype":39,"marionette":63}],9:[function(require,module,exports){
+/**
+* Clipboard View
+*/
+var LayoutViewPrototype = require("layoutview.prototype");
+var Backbone = require("backbone");
+var _ = require("underscore");
+var templates = require("templates");
+
+module.exports = LayoutViewPrototype.extend({
+	id: "clipboard",
+	className: "component",
+	ui: {
+		"clipsTitleInput": "#clipboard-title",
+		"clipsTextarea": "#clipboard-clip",
+		"submitBtn": "button[type='submit']",
+		"clearAllBtn": "button[type='button']"
+	},
+	events: {
+		"submit": "onSubmit",
+		"click @ui.clearAllBtn": "clearAll",
+		"dblclick article": "removeClip"
+	},
+	regions: {
+		"clips": ".clips"
+	},
+	initialize: function(options) {
+		// @see layoutview.prototype
+		this.inherit(options);
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		this.saveClip();
+	},
+	saveClip: function() {
+		// @TODO need a way to handle double titles 
+		this.model.set(this.ui.clipsTitleInput.val().trim(), this.ui.clipsTextarea.val().trim());
+		this.render();
+	},
+	removeClip: function(e) {
+		var key = e.currentTarget.getAttribute("data-key");
+		this.model.unset(key);
+		this.render(); 
+	},
+	clearAll: function() {
+		this.model.clear();
+		this.render();
+	},
+	template: function(model) {
+		return _.template(templates.components["clipboard"])(model);
+	}
+});
+
+
+},{"backbone":62,"layoutview.prototype":41,"templates":42,"underscore":65}],10:[function(require,module,exports){
+/**
+* Clipboard Component
+*/
+module.exports = {
+	Controller: require("./clipboard.controller"),
+	View: require("./clipboard.view")
+}
+
+
+},{"./clipboard.controller":8,"./clipboard.view":9}],11:[function(require,module,exports){
 /**
 * Header Component Controller
 * @constructor
@@ -240,7 +362,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35}],9:[function(require,module,exports){
+},{"controller.prototype":39}],12:[function(require,module,exports){
 /**
 * Header Component View
 */
@@ -256,14 +378,22 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
+		this.listenTo(this.app.vent, "header:shake", this.shakeJuxtaposeLink);
 	},
+	shakeJuxtaposeLink: function(options) {
+		var $link = this.$el.find("a[href='#" + options.link + "']");
+		$link.addClass("shake-pulse force-link-hover");
+		setTimeout(function() {
+			$link.removeClass("shake-pulse force-link-hover");
+		}, 750);
+	},	
 	template: function(model) {
 		return _.template(templates.components.header)(model);
 	}
 });
 
 
-},{"backbone":55,"layoutview.prototype":37,"templates":38,"underscore":58}],10:[function(require,module,exports){
+},{"backbone":62,"layoutview.prototype":41,"templates":42,"underscore":65}],13:[function(require,module,exports){
 /**
 * Header Component
 */
@@ -273,7 +403,7 @@ module.exports = {
 }
 
 
-},{"./header.controller":8,"./header.view":9}],11:[function(require,module,exports){
+},{"./header.controller":11,"./header.view":12}],14:[function(require,module,exports){
 /**
 * JSON-Query Component
 * Converts a url query string into a JSON object
@@ -284,7 +414,7 @@ module.exports = {
 }
 
 
-},{"./json-query.controller":12,"./json-query.view":13}],12:[function(require,module,exports){
+},{"./json-query.controller":15,"./json-query.view":16}],15:[function(require,module,exports){
 /**
 * JSON-Query Controller
 */
@@ -301,7 +431,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],13:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],16:[function(require,module,exports){
 /**
 * JSON-Query View
 */
@@ -361,7 +491,7 @@ module.exports = LayoutViewPrototype.extend({
 });
 
 
-},{"backbone":55,"layoutview.prototype":37,"templates":38}],14:[function(require,module,exports){
+},{"backbone":62,"layoutview.prototype":41,"templates":42}],17:[function(require,module,exports){
 /**
 * JSON Component
 * Renders a styled JSON object 
@@ -372,7 +502,7 @@ module.exports = {
 }
 
 
-},{"./json.controller":15,"./json.view":16}],15:[function(require,module,exports){
+},{"./json.controller":18,"./json.view":19}],18:[function(require,module,exports){
 /**
 * JSON Controller
 */
@@ -389,7 +519,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],16:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],19:[function(require,module,exports){
 /**
 * JSON View
 */
@@ -413,7 +543,7 @@ module.exports = ItemViewPrototype.extend({
 		var $keys = this.$el.find(".key");
 		var $vals = this.$el.find(".value");
 		$keys.each(function(index, item) {
-			if (options.json1[item.innerHTML] && options.json2[item.innerHTML]) {
+			if (options.json1.hasOwnProperty(item.innerHTML) && options.json2.hasOwnProperty(item.innerHTML)) {
 				$(item).addClass("match");
 				
 				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
@@ -422,7 +552,6 @@ module.exports = ItemViewPrototype.extend({
 					$vals.eq(index).addClass("diff");
 				}
 			}
-
 		});
 	},
 	template: function(model) {
@@ -431,7 +560,7 @@ module.exports = ItemViewPrototype.extend({
 });
 
 
-},{"backbone":55,"itemview.prototype":36,"jquery":57,"templates":38,"underscore":58}],17:[function(require,module,exports){
+},{"backbone":62,"itemview.prototype":40,"jquery":64,"templates":42,"underscore":65}],20:[function(require,module,exports){
 /**
 * Juxtapose Component
 * Compare 2 data objects 
@@ -442,7 +571,7 @@ module.exports = {
 }
 
 
-},{"./juxtapose.controller":18,"./juxtapose.view":19}],18:[function(require,module,exports){
+},{"./juxtapose.controller":21,"./juxtapose.view":22}],21:[function(require,module,exports){
 /**
 * Juxtapose Controller
 */
@@ -459,7 +588,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],19:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],22:[function(require,module,exports){
 /**
 * Juxtapose View
 */
@@ -478,7 +607,7 @@ module.exports = LayoutViewPrototype.extend({
 		"submitBtn": "button[type='submit']"
 	},
 	events: {
-		"submit": "compareData"
+		"submit": "onSubmit"
 	},
 	regions: {
 		"leftOutput": ".left-output",
@@ -487,13 +616,7 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-
-		window.foo = _;
 	},
-	/**
-	* @param {object} json1
-	* @param {object} json2
-	*/
 	appendJSON: function(json1, json2) {
 		this.controller.import(["json"], ["leftOutput"], {
 			app: this.app
@@ -507,24 +630,22 @@ module.exports = LayoutViewPrototype.extend({
 			model: new Backbone.Model(json2)
 		});
 	},
-	/**
-	* @param {string} jsonStr String representation of JSON object
-	*/
 	parseJSONStr: function(jsonStr) {
-		// @TODO sort the keys by alphabet
-		var json = {};
-		// strip curly braces and remove quotes
-		var keyValStr = jsonStr.substring(1, jsonStr.length - 1).replace(/\"|\'/g, "");
-		var keyValArr = keyValStr.split(",");
-		for (var i = 0, len = keyValArr.length; i < len; i++) {
-			var keyValPair = keyValArr[i].split(":");
-			json[keyValPair[0].trim()] = keyValPair[1].trim();
-		}
+		var keyValStr = jsonStr.substring(1, jsonStr.length - 1);
+		return JSON.parse("{" + keyValStr + "}");
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		var json1 = this.ui.leftTextarea.val().trim();
+		var json2 = this.ui.rightTextarea.val().trim();
 
-		return json;
+		this.app.controller.view.model.set({
+			"juxtaposeOne": json1,
+			"juxtaposeTwo": json2
+		});
+		this.compareData(e);
 	},
 	compareData: function(e) {
-		e.preventDefault();
 		switch (e.target["2"].value) {
 			case "JSON":
 				var json1 = this.parseJSONStr(this.ui.leftTextarea.val());
@@ -543,13 +664,19 @@ module.exports = LayoutViewPrototype.extend({
 			});
 		});
 	},
-	template: function() {
-		return templates.components["juxtapose"];
+	onRender: function() {
+		var juxtaposedPiped = this.app.controller.view.model.get("juxtaposeOne") && this.app.controller.view.model.get("juxtaposeTwo");
+		if (juxtaposedPiped) {
+			this.$el.find("form[name='juxtapose']").submit();
+		}
+	},
+	template: function(model) {
+		return _.template(templates.components["juxtapose"])(model);
 	}
 });
 
 
-},{"backbone":55,"jquery":57,"layoutview.prototype":37,"templates":38,"underscore":58}],20:[function(require,module,exports){
+},{"backbone":62,"jquery":64,"layoutview.prototype":41,"templates":42,"underscore":65}],23:[function(require,module,exports){
 /**
 * Query-JSON Component
 * Converts a url query string into a JSON object
@@ -560,7 +687,7 @@ module.exports = {
 }
 
 
-},{"./query-json.controller":21,"./query-json.view":22}],21:[function(require,module,exports){
+},{"./query-json.controller":24,"./query-json.view":25}],24:[function(require,module,exports){
 /**
 * Query-JSON Controller
 */
@@ -577,12 +704,13 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],22:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],25:[function(require,module,exports){
 /**
 * Query-JSON View
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
+var _ = require("underscore");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
@@ -591,10 +719,12 @@ module.exports = LayoutViewPrototype.extend({
 	ui: {
 		"queryTextarea": "#query",
 		"select": "#uri-decode",
-		"submitBtn": "button[type='submit']"
+		"submitBtn": "button[type='submit']",
+		"pipeBtn": "button[type='button']",
 	},
 	events: {
-		"submit": "processQuery"
+		"submit": "onSubmit",
+		"click @ui.pipeBtn": "pipe",
 	},
 	regions: {
 		"json": ".json"
@@ -604,14 +734,38 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	/**
+	* Send results into juxtapose component
+	*/
+	pipe: function(e) {
+		var query = this.ui.queryTextarea.val().trim();
+		var json = JSON.stringify(this.convertQuery(query));
+		this.app.controller.view.model.set(e.currentTarget.name, json);
+		this.app.vent.trigger("header:shake", {
+			link: "juxtapose"
+		});
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		var query = this.ui.queryTextarea.val().trim();
+
+		this.app.controller.view.model.set({
+			"query": query
+		});
+		this.processQuery(e);
+		this.ui.pipeBtn.removeClass("hide");
+	},
+	/**
 	* Parse query input and convert into JSON
 	* @param {object} e Event object
 	*/
-	processQuery: function(e) {
-		e.preventDefault();
-		if (!this.ui.queryTextarea.val()) { return; }
+	processQuery: function() {
+		if (!this.ui.queryTextarea.val()) { 
+			return; 
+		}
+
 		var query = this.ui.queryTextarea.val().trim();
 		var json = this.convertQuery(query);
+		
 		this.loadJSON(json);
 	},
 	/**
@@ -642,13 +796,19 @@ module.exports = LayoutViewPrototype.extend({
 
 		return json;
 	},
-	template: function() {
-		return templates.components["query-json"];
+	onRender: function() {
+		var piped = this.app.controller.view.model.get("query");
+		if (piped) {
+			this.$el.find("form[name='query-json']").submit();
+		}
+	},
+	template: function(model) {
+		return _.template(templates.components["query-json"])(model);
 	}
 });
 
 
-},{"backbone":55,"layoutview.prototype":37,"templates":38}],23:[function(require,module,exports){
+},{"backbone":62,"layoutview.prototype":41,"templates":42,"underscore":65}],26:[function(require,module,exports){
 /**
 * Redirect-Trace Component
 * Traces the header path of a http request
@@ -658,7 +818,7 @@ module.exports = {
 	View: require("./redirect-trace.view")
 }
 
-},{"./redirect-trace.controller":24,"./redirect-trace.view":25}],24:[function(require,module,exports){
+},{"./redirect-trace.controller":27,"./redirect-trace.view":28}],27:[function(require,module,exports){
 /**
 * Redirect-Trace Controller
 */
@@ -675,7 +835,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],25:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],28:[function(require,module,exports){
 /**
 * Redirect-Trace View
 */
@@ -742,7 +902,7 @@ module.exports = LayoutViewPrototype.extend({
 });
 
 
-},{"backbone":55,"entities":33,"jquery":57,"layoutview.prototype":37,"templates":38}],26:[function(require,module,exports){
+},{"backbone":62,"entities":37,"jquery":64,"layoutview.prototype":41,"templates":42}],29:[function(require,module,exports){
 /**
 * Traces Component
 * Renders a url redirects 
@@ -753,7 +913,7 @@ module.exports = {
 }
 
 
-},{"./traces.controller":27,"./traces.view":28}],27:[function(require,module,exports){
+},{"./traces.controller":30,"./traces.view":31}],30:[function(require,module,exports){
 /**
 * Traces Controller
 */
@@ -770,7 +930,7 @@ module.exports = ControllerPrototype.extend({
 });
 
 
-},{"controller.prototype":35,"marionette":56}],28:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],31:[function(require,module,exports){
 /**
 * Traces View
 */
@@ -784,14 +944,17 @@ module.exports = ItemViewPrototype.extend({
 	id: "traces",
 	className: "component",
 	events: {
-		"click li": "test"
+		"dblclick li": "pipe"
 	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
 	},
-	test: function(e) {
-		console.log(e.currentTarget);
+	pipe: function(e) {
+		this.app.vent.trigger("header:shake", {
+			link: "query-json"
+		});
+		this.app.controller.view.model.set("query", e.currentTarget.innerHTML);
 	},
 	template: function(model) {
 		return _.template(templates.components.traces)(model);
@@ -799,7 +962,7 @@ module.exports = ItemViewPrototype.extend({
 });
 
 
-},{"backbone":55,"itemview.prototype":36,"templates":38,"underscore":58}],29:[function(require,module,exports){
+},{"backbone":62,"itemview.prototype":40,"templates":42,"underscore":65}],32:[function(require,module,exports){
 /**
 * URI Dencoder Component
 * Decodes/Encodes URI
@@ -809,7 +972,7 @@ module.exports = {
 	View: require("./uri-dencoder.view")
 }
 
-},{"./uri-dencoder.controller":30,"./uri-dencoder.view":31}],30:[function(require,module,exports){
+},{"./uri-dencoder.controller":33,"./uri-dencoder.view":34}],33:[function(require,module,exports){
 /**
 * URI Dencoder Controller
 */
@@ -825,7 +988,7 @@ module.exports = ControllerPrototype.extend({
 	}
 });
 
-},{"controller.prototype":35,"marionette":56}],31:[function(require,module,exports){
+},{"controller.prototype":39,"marionette":63}],34:[function(require,module,exports){
 /**
 * URI Dencoder Controller
 */
@@ -871,7 +1034,19 @@ module.exports = LayoutViewPrototype.extend({
 });
 
 
-},{"backbone":55,"layoutview.prototype":37,"templates":38}],32:[function(require,module,exports){
+},{"backbone":62,"layoutview.prototype":41,"templates":42}],35:[function(require,module,exports){
+/**
+* Marionette Behaviors
+*/
+var Marionette = require("marionette");
+
+var Behaviors = {
+
+};
+
+module.exports = Behaviors;
+
+},{"marionette":63}],36:[function(require,module,exports){
 /**
 * Components
 * An object with all our component index files for easy access
@@ -886,9 +1061,10 @@ module.exports = {
 	"query-json": require("./../components/query-json/index"),
 	"redirect-trace": require("../components/redirect-trace/index"),
 	"traces": require("../components/traces/index"),
-	"uri-dencoder": require("../components/uri-dencoder/index")
+	"uri-dencoder": require("../components/uri-dencoder/index"),
+	"clipboard": require("../components/clipboard/index")
 }
-},{"../components/redirect-trace/index":23,"../components/traces/index":26,"../components/uri-dencoder/index":29,"./../components/adblock-parse/index":7,"./../components/header/index":10,"./../components/json-query/index":11,"./../components/json/index":14,"./../components/juxtapose/index":17,"./../components/query-json/index":20}],33:[function(require,module,exports){
+},{"../components/clipboard/index":10,"../components/redirect-trace/index":26,"../components/traces/index":29,"../components/uri-dencoder/index":32,"./../components/adblock-parse/index":7,"./../components/header/index":13,"./../components/json-query/index":14,"./../components/json/index":17,"./../components/juxtapose/index":20,"./../components/query-json/index":23}],37:[function(require,module,exports){
 /**
 * Entities (Models/Collections)
 * An object with all our models and collections for easy access
@@ -897,9 +1073,13 @@ module.exports = {
 	"components": {
 		"traces": require("../entities/components/traces/traces.model")
 	},
-	"modules": {}
+	"modules": {
+
+	},
+	"localStorage": require("../entities/localStorage.model"),
+	"viewState": require("../entities/viewState.model")
 }
-},{"../entities/components/traces/traces.model":40}],34:[function(require,module,exports){
+},{"../entities/components/traces/traces.model":44,"../entities/localStorage.model":45,"../entities/viewState.model":46}],38:[function(require,module,exports){
 /**
 * Modules
 * An object with all our module index files for easy access
@@ -907,7 +1087,7 @@ module.exports = {
 module.exports = {
 	"dashboard": require("./../modules/dashboard/index")
 } 
-},{"./../modules/dashboard/index":43}],35:[function(require,module,exports){
+},{"./../modules/dashboard/index":49}],39:[function(require,module,exports){
 /**
 * Controller Prototype
 * A base marionette controller contructor
@@ -949,21 +1129,22 @@ module.exports = Marionette.Controller.extend({
 	* @param {object} componentOptions Options passed to our controllers
 	* @param {object} viewOptions Options passed to our views
 	*   which correlate with the components by index
+	* @param {string} type Module or component
 	*/
-	import: function(components, parentRegions, componentOptions, viewOptions) {
+	import: function(components, parentRegions, componentOptions, viewOptions, type) {
 		var _this = this;
 		var componentOptions = componentOptions || {};
 		componentOptions.app = this.app;
 		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
-				var controller = new _this.app.components[components[i]].Controller(componentOptions);
+				var controller = new _this.app[type || "components"][components[i]].Controller(componentOptions);
 				controller.injectInto(_this.view[parentRegions[i]], viewOptions)
 			}
 		});
 	}
 });
-},{"marionette":56}],36:[function(require,module,exports){
+},{"marionette":63}],40:[function(require,module,exports){
 /**
 * ItemView Prototype
 * A base marionette itemview contructor
@@ -983,7 +1164,7 @@ module.exports = Marionette.ItemView.extend({
 		}
 	}
 });
-},{"marionette":56}],37:[function(require,module,exports){
+},{"marionette":63}],41:[function(require,module,exports){
 /**
 * LayoutView Prototype
 * A base marionette layoutview contructor
@@ -1003,7 +1184,7 @@ module.exports = Marionette.LayoutView.extend({
 		}
 	}
 });
-},{"marionette":56}],38:[function(require,module,exports){
+},{"marionette":63}],42:[function(require,module,exports){
 /**
 * Templates
 * An object with our html templates for easy access
@@ -1018,13 +1199,14 @@ module.exports = {
 		"query-json": require("./../templates/components/query-json.html"),
 		"redirect-trace": require("./../templates/components/redirect-trace.html"),
 		"traces": require("./../templates/components/traces.html"),
-		"uri-dencoder": require("./../templates/components/uri-dencoder.html")
+		"uri-dencoder": require("./../templates/components/uri-dencoder.html"),
+		"clipboard": require("./../templates/components/clipboard.html")
 	},
 	"modules": {
 		"dashboard": require("./../templates/modules/dashboard.html")
 	}
 }
-},{"./../templates/components/adblock-parse.html":44,"./../templates/components/header.html":45,"./../templates/components/json-query.html":46,"./../templates/components/json.html":47,"./../templates/components/juxtapose.html":48,"./../templates/components/query-json.html":49,"./../templates/components/redirect-trace.html":50,"./../templates/components/traces.html":51,"./../templates/components/uri-dencoder.html":52,"./../templates/modules/dashboard.html":53}],39:[function(require,module,exports){
+},{"./../templates/components/adblock-parse.html":50,"./../templates/components/clipboard.html":51,"./../templates/components/header.html":52,"./../templates/components/json-query.html":53,"./../templates/components/json.html":54,"./../templates/components/juxtapose.html":55,"./../templates/components/query-json.html":56,"./../templates/components/redirect-trace.html":57,"./../templates/components/traces.html":58,"./../templates/components/uri-dencoder.html":59,"./../templates/modules/dashboard.html":60}],43:[function(require,module,exports){
 /**
 * Utilities
 * Helper functions 
@@ -1053,7 +1235,7 @@ module.exports = {
 	 
 	}
 }
-},{}],40:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /**
 * Traces Model
 */
@@ -1079,7 +1261,59 @@ module.exports = Backbone.Model.extend({
 		});
 	}
 });
-},{"backbone":55,"jquery":57}],41:[function(require,module,exports){
+},{"backbone":62,"jquery":64}],45:[function(require,module,exports){
+/**
+* Browser Local Storage Model
+*/
+var Backbone = require("backbone");
+
+var LocalStorageModel = Backbone.Model.extend({
+	defaults: function() {
+		return {
+		
+		}
+	},
+	initialize: function() {
+		this.fetch();
+		this.listenTo(this, "change", this.handleChange);
+	},
+	handleChange: function() {
+		this.sync();
+	},
+	fetch: function() {
+		this.set(window.localStorage);
+		// remove length property is it default to localstorage
+		this.unset("length", {silent: true});
+	},
+	sync: function() {
+		var data = this.toJSON();
+		window.localStorage.clear();
+
+		for (var key in data) {
+			window.localStorage.setItem(key, data[key]);
+		}
+	},
+});
+
+module.exports = LocalStorageModel
+},{"backbone":62}],46:[function(require,module,exports){
+/**
+* Browser Local Storage Model
+*/
+var Backbone = require("backbone");
+
+var ViewStateModel = Backbone.Model.extend({
+	defaults: function() {
+		return {
+			"juxtaposeOne": "",
+			"juxtaposeTwo": "",
+			"query": ""
+		}
+	},
+});
+
+module.exports = ViewStateModel
+},{"backbone":62}],47:[function(require,module,exports){
 /**
 * Dashboard Module Controller
 * @constructor
@@ -1097,7 +1331,7 @@ module.exports = ControllerPrototype.extend({
 });	
 
 
-},{"controller.prototype":35}],42:[function(require,module,exports){
+},{"controller.prototype":39}],48:[function(require,module,exports){
 /**
 * Dashboard Module View
 * Handle views for apps components
@@ -1121,7 +1355,7 @@ module.exports = Marionette.LayoutView.extend({
 });
 
 
-},{"marionette":56,"templates":38}],43:[function(require,module,exports){
+},{"marionette":63,"templates":42}],49:[function(require,module,exports){
 /**
 * Dashboard Module
 */
@@ -1130,37 +1364,40 @@ module.exports = {
 	View: require("./dashboard.view")
 }
 
-},{"./dashboard.controller":41,"./dashboard.view":42}],44:[function(require,module,exports){
+},{"./dashboard.controller":47,"./dashboard.view":48}],50:[function(require,module,exports){
 module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"searchword\">\n\t<button type=\"submit\">Search</button>\n</form>";
 
-},{}],45:[function(require,module,exports){
-module.exports = "<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<!-- <a href=\"#adblock-parse\">Adblock Parse</a> -->\n</nav>";
-
-},{}],46:[function(require,module,exports){
-module.exports = "<!-- JSON -> Query -->\n<h2>JSON &#187; Query</h2>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"query\"></div>";
-
-},{}],47:[function(require,module,exports){
-module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
-
-},{}],48:[function(require,module,exports){
-module.exports = "<!-- Juxtapose -->\n<h2>Juxtapose</h2>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
-
-},{}],49:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<h2>Query &#187; JSON</h2>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"json\"></div>";
-
-},{}],50:[function(require,module,exports){
-module.exports = "<!-- Redirect Trace -->\n<h2>Redirect Trace</h2>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"traces\"></div>";
-
 },{}],51:[function(require,module,exports){
-module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.length; i < len; i++) { %>\n\t<li><%= traces[i] %></li>\n<% } %>";
+module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n\t<div>\n\t\t<p>Save your random ideas here</p>\n\t\t<p>Double click clip to remove</p>\n\t</div>\n</header>\n<div class=\"clips\">\n\t<% if (Object.keys(obj).length > 0) { %>\n\t\t<% for (var key in obj) { %>\n\t\t\t<article class=\"clip\" data-key=\"<%= key %>\">\n\t\t\t\t<h4><%= key %></h4>\n\t\t\t\t<p><%= obj[key] %></p>\n\t\t\t</article>\n\t\t<% } %>\n\t<% } else { %>\n\t\t<p>Blank.</p>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
 
 },{}],52:[function(require,module,exports){
-module.exports = "<!-- URI Dencoder -->\n<h2>Uri Dencoder</h2>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
+module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n</nav>";
 
 },{}],53:[function(require,module,exports){
-module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query &#187; Json</a></li>\n\t\t<li><a href=\"#json-query\">JSON &#187; Query</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t\t<li><a href=\"#juxtapose\">Juxtapose</a></li>\n\t</ul>\n</div>";
+module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n\t<div>\n\t\t<p>Convert a JSON object into a query string</p>\n\t</div>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n</form>\n<div class=\"query\"></div>";
 
 },{}],54:[function(require,module,exports){
+module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
+
+},{}],55:[function(require,module,exports){
+module.exports = "<!-- Juxtapose -->\n<header>\n\t<h2>Juxtapose</h2>\n\t<div>\n\t\t<p>Matching values are green</p>\n\t\t<p>Differences are red</p>\n\t\t<p>Wrap keys in double quotes por favor</p>\n\t</div>\n</header>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
+
+},{}],56:[function(require,module,exports){
+module.exports = "<!-- Query -> JSON -->\n<header>\n\t<h2>Query &#187; JSON</h2>\n\t<div>\n\t\t<p>Convert a query string into a JSON object</p>\n\t</div>\n</header>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
+
+},{}],57:[function(require,module,exports){
+module.exports = "<!-- Redirect Trace -->\n<header>\n\t<h2>Redirect Trace</h2>\n\t<div>\n\t\t<p>Get redirect paths of a URL</p>\n\t\t<p>Double click results to pipe to Query &#187; JSON</p>\n\t</div>\n</header>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n</form>\n<div class=\"traces\"></div>";
+
+},{}],58:[function(require,module,exports){
+module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.length; i < len; i++) { %>\n\t<li><%= traces[i] %></li>\n<% } %>";
+
+},{}],59:[function(require,module,exports){
+module.exports = "<!-- URI Dencoder -->\n<header>\n\t<h2>Uri Dencoder</h2>\n\t<div>\n\t\t<p>URI Encode or decode a string</p>\n\t</div>\n</header>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n</form>\n<div class=\"processed-uri\"></div>";
+
+},{}],60:[function(require,module,exports){
+module.exports = "<!-- Dashboard -->\n<div class=\"main\">\n\t<ul>\n\t\t<li><a href=\"#query-json\">Query &#187; Json</a></li>\n\t\t<li><a href=\"#json-query\">JSON &#187; Query</a></li>\n\t\t<li><a href=\"#redirect-trace\">Redirect Trace</a></li>\n\t\t<li><a href=\"#uri-dencoder\">Uri Dencoder</a></li>\n\t\t<li><a href=\"#juxtapose\">Juxtapose</a></li>\n\t\t<li><a href=\"#clipboard\">Clipboard</a></li>\n\t</ul>\n</div>";
+
+},{}],61:[function(require,module,exports){
 /**
 * Entry point for our app
 */
@@ -1168,7 +1405,7 @@ var App = require("./app/app.js");
 var app = new App;
 
 app.start();
-},{"./app/app.js":2}],55:[function(require,module,exports){
+},{"./app/app.js":2}],62:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.1
 
@@ -3046,7 +3283,7 @@ app.start();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"jquery":57,"underscore":58}],56:[function(require,module,exports){
+},{"jquery":64,"underscore":65}],63:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.2
@@ -3069,7 +3306,7 @@ app.start();
 (function(t,e){if("function"==typeof define&&define.amd)define(["backbone","underscore"],function(i,n){return t.Marionette=t.Mn=e(t,i,n)});else if("undefined"!=typeof exports){var i=require("backbone"),n=require("underscore");module.exports=e(t,i,n)}else t.Marionette=t.Mn=e(t,t.Backbone,t._)})(this,function(t,e,i){"use strict";(function(t,e){var i=t.ChildViewContainer;return t.ChildViewContainer=function(t,e){var i=function(t){this._views={},this._indexByModel={},this._indexByCustom={},this._updateLength(),e.each(t,this.add,this)};e.extend(i.prototype,{add:function(t,e){var i=t.cid;return this._views[i]=t,t.model&&(this._indexByModel[t.model.cid]=i),e&&(this._indexByCustom[e]=i),this._updateLength(),this},findByModel:function(t){return this.findByModelCid(t.cid)},findByModelCid:function(t){var e=this._indexByModel[t];return this.findByCid(e)},findByCustom:function(t){var e=this._indexByCustom[t];return this.findByCid(e)},findByIndex:function(t){return e.values(this._views)[t]},findByCid:function(t){return this._views[t]},remove:function(t){var i=t.cid;return t.model&&delete this._indexByModel[t.model.cid],e.any(this._indexByCustom,function(t,e){return t===i?(delete this._indexByCustom[e],!0):void 0},this),delete this._views[i],this._updateLength(),this},call:function(t){this.apply(t,e.tail(arguments))},apply:function(t,i){e.each(this._views,function(n){e.isFunction(n[t])&&n[t].apply(n,i||[])})},_updateLength:function(){this.length=e.size(this._views)}});var n=["forEach","each","map","find","detect","filter","select","reject","every","all","some","any","include","contains","invoke","toArray","first","initial","rest","last","without","isEmpty","pluck","reduce"];return e.each(n,function(t){i.prototype[t]=function(){var i=e.values(this._views),n=[i].concat(e.toArray(arguments));return e[t].apply(e,n)}}),i}(t,e),t.ChildViewContainer.VERSION="0.1.7",t.ChildViewContainer.noConflict=function(){return t.ChildViewContainer=i,this},t.ChildViewContainer})(e,i),function(t,e){var i=t.Wreqr,n=t.Wreqr={};return t.Wreqr.VERSION="1.3.3",t.Wreqr.noConflict=function(){return t.Wreqr=i,this},n.Handlers=function(t,e){var i=function(t){this.options=t,this._wreqrHandlers={},e.isFunction(this.initialize)&&this.initialize(t)};return i.extend=t.Model.extend,e.extend(i.prototype,t.Events,{setHandlers:function(t){e.each(t,function(t,i){var n=null;e.isObject(t)&&!e.isFunction(t)&&(n=t.context,t=t.callback),this.setHandler(i,t,n)},this)},setHandler:function(t,e,i){var n={callback:e,context:i};this._wreqrHandlers[t]=n,this.trigger("handler:add",t,e,i)},hasHandler:function(t){return!!this._wreqrHandlers[t]},getHandler:function(t){var e=this._wreqrHandlers[t];if(e)return function(){return e.callback.apply(e.context,arguments)}},removeHandler:function(t){delete this._wreqrHandlers[t]},removeAllHandlers:function(){this._wreqrHandlers={}}}),i}(t,e),n.CommandStorage=function(){var i=function(t){this.options=t,this._commands={},e.isFunction(this.initialize)&&this.initialize(t)};return e.extend(i.prototype,t.Events,{getCommands:function(t){var e=this._commands[t];return e||(e={command:t,instances:[]},this._commands[t]=e),e},addCommand:function(t,e){var i=this.getCommands(t);i.instances.push(e)},clearCommands:function(t){var e=this.getCommands(t);e.instances=[]}}),i}(),n.Commands=function(t,e){return t.Handlers.extend({storageType:t.CommandStorage,constructor:function(e){this.options=e||{},this._initializeStorage(this.options),this.on("handler:add",this._executeCommands,this),t.Handlers.prototype.constructor.apply(this,arguments)},execute:function(t){t=arguments[0];var i=e.rest(arguments);this.hasHandler(t)?this.getHandler(t).apply(this,i):this.storage.addCommand(t,i)},_executeCommands:function(t,i,n){var r=this.storage.getCommands(t);e.each(r.instances,function(t){i.apply(n,t)}),this.storage.clearCommands(t)},_initializeStorage:function(t){var i,n=t.storageType||this.storageType;i=e.isFunction(n)?new n:n,this.storage=i}})}(n,e),n.RequestResponse=function(t,e){return t.Handlers.extend({request:function(t){return this.hasHandler(t)?this.getHandler(t).apply(this,e.rest(arguments)):void 0}})}(n,e),n.EventAggregator=function(t,e){var i=function(){};return i.extend=t.Model.extend,e.extend(i.prototype,t.Events),i}(t,e),n.Channel=function(){var i=function(e){this.vent=new t.Wreqr.EventAggregator,this.reqres=new t.Wreqr.RequestResponse,this.commands=new t.Wreqr.Commands,this.channelName=e};return e.extend(i.prototype,{reset:function(){return this.vent.off(),this.vent.stopListening(),this.reqres.removeAllHandlers(),this.commands.removeAllHandlers(),this},connectEvents:function(t,e){return this._connect("vent",t,e),this},connectCommands:function(t,e){return this._connect("commands",t,e),this},connectRequests:function(t,e){return this._connect("reqres",t,e),this},_connect:function(t,i,n){if(i){n=n||this;var r="vent"===t?"on":"setHandler";e.each(i,function(i,s){this[t][r](s,e.bind(i,n))},this)}}}),i}(n),n.radio=function(t,e){var i=function(){this._channels={},this.vent={},this.commands={},this.reqres={},this._proxyMethods()};e.extend(i.prototype,{channel:function(t){if(!t)throw Error("Channel must receive a name");return this._getChannel(t)},_getChannel:function(e){var i=this._channels[e];return i||(i=new t.Channel(e),this._channels[e]=i),i},_proxyMethods:function(){e.each(["vent","commands","reqres"],function(t){e.each(n[t],function(e){this[t][e]=r(this,t,e)},this)},this)}});var n={vent:["on","off","trigger","once","stopListening","listenTo","listenToOnce"],commands:["execute","setHandler","setHandlers","removeHandler","removeAllHandlers"],reqres:["request","setHandler","setHandlers","removeHandler","removeAllHandlers"]},r=function(t,i,n){return function(r){var s=t._getChannel(r)[i];return s[n].apply(s,e.rest(arguments))}};return new i}(n,e),t.Wreqr}(e,i);var n=t.Marionette,r=t.Mn,s=e.Marionette={};s.VERSION="2.4.2",s.noConflict=function(){return t.Marionette=n,t.Mn=r,this},e.Marionette=s,s.Deferred=e.$.Deferred,s.extend=e.Model.extend,s.isNodeAttached=function(t){return e.$.contains(document.documentElement,t)},s.mergeOptions=function(t,e){t&&i.extend(this,i.pick(t,e))},s.getOption=function(t,e){return t&&e?t.options&&void 0!==t.options[e]?t.options[e]:t[e]:void 0},s.proxyGetOption=function(t){return s.getOption(this,t)},s._getValue=function(t,e,n){return i.isFunction(t)&&(t=n?t.apply(e,n):t.call(e)),t},s.normalizeMethods=function(t){return i.reduce(t,function(t,e,n){return i.isFunction(e)||(e=this[e]),e&&(t[n]=e),t},{},this)},s.normalizeUIString=function(t,e){return t.replace(/@ui\.[a-zA-Z_$0-9]*/g,function(t){return e[t.slice(4)]})},s.normalizeUIKeys=function(t,e){return i.reduce(t,function(t,i,n){var r=s.normalizeUIString(n,e);return t[r]=i,t},{})},s.normalizeUIValues=function(t,e,n){return i.each(t,function(r,o){i.isString(r)?t[o]=s.normalizeUIString(r,e):i.isObject(r)&&i.isArray(n)&&(i.extend(r,s.normalizeUIValues(i.pick(r,n),e)),i.each(n,function(t){var n=r[t];i.isString(n)&&(r[t]=s.normalizeUIString(n,e))}))}),t},s.actAsCollection=function(t,e){var n=["forEach","each","map","find","detect","filter","select","reject","every","all","some","any","include","contains","invoke","toArray","first","initial","rest","last","without","isEmpty","pluck"];i.each(n,function(n){t[n]=function(){var t=i.values(i.result(this,e)),r=[t].concat(i.toArray(arguments));return i[n].apply(i,r)}})};var o=s.deprecate=function(t,e){i.isObject(t)&&(t=t.prev+" is going to be removed in the future. "+"Please use "+t.next+" instead."+(t.url?" See: "+t.url:"")),void 0!==e&&e||o._cache[t]||(o._warn("Deprecation warning: "+t),o._cache[t]=!0)};o._warn="undefined"!=typeof console&&(console.warn||console.log)||function(){},o._cache={},s._triggerMethod=function(){function t(t,e,i){return i.toUpperCase()}var e=/(^|:)(\w)/gi;return function(n,r,s){var o=3>arguments.length;o&&(s=r,r=s[0]);var h,a="on"+r.replace(e,t),d=n[a];return i.isFunction(d)&&(h=d.apply(n,o?i.rest(s):s)),i.isFunction(n.trigger)&&(o+s.length>1?n.trigger.apply(n,o?s:[r].concat(i.drop(s,0))):n.trigger(r)),h}}(),s.triggerMethod=function(){return s._triggerMethod(this,arguments)},s.triggerMethodOn=function(t){var e=i.isFunction(t.triggerMethod)?t.triggerMethod:s.triggerMethod;return e.apply(t,i.rest(arguments))},s.MonitorDOMRefresh=function(t){function e(){t._isShown=!0,r()}function n(){t._isRendered=!0,r()}function r(){t._isShown&&t._isRendered&&s.isNodeAttached(t.el)&&i.isFunction(t.triggerMethod)&&t.triggerMethod("dom:refresh")}t.on({show:e,render:n})},function(t){function e(e,n,r,s){var o=s.split(/\s+/);i.each(o,function(i){var s=e[i];if(!s)throw new t.Error('Method "'+i+'" was configured as an event handler, but does not exist.');e.listenTo(n,r,s)})}function n(t,e,i,n){t.listenTo(e,i,n)}function r(t,e,n,r){var s=r.split(/\s+/);i.each(s,function(i){var r=t[i];t.stopListening(e,n,r)})}function s(t,e,i,n){t.stopListening(e,i,n)}function o(e,n,r,s,o){if(n&&r){if(!i.isObject(r))throw new t.Error({message:"Bindings must be an object or function.",url:"marionette.functions.html#marionettebindentityevents"});r=t._getValue(r,e),i.each(r,function(t,r){i.isFunction(t)?s(e,n,r,t):o(e,n,r,t)})}}t.bindEntityEvents=function(t,i,r){o(t,i,r,n,e)},t.unbindEntityEvents=function(t,e,i){o(t,e,i,s,r)},t.proxyBindEntityEvents=function(e,i){return t.bindEntityEvents(this,e,i)},t.proxyUnbindEntityEvents=function(e,i){return t.unbindEntityEvents(this,e,i)}}(s);var h=["description","fileName","lineNumber","name","message","number"];return s.Error=s.extend.call(Error,{urlRoot:"http://marionettejs.com/docs/v"+s.VERSION+"/",constructor:function(t,e){i.isObject(t)?(e=t,t=e.message):e||(e={});var n=Error.call(this,t);i.extend(this,i.pick(n,h),i.pick(e,h)),this.captureStackTrace(),e.url&&(this.url=this.urlRoot+e.url)},captureStackTrace:function(){Error.captureStackTrace&&Error.captureStackTrace(this,s.Error)},toString:function(){return this.name+": "+this.message+(this.url?" See: "+this.url:"")}}),s.Error.extend=s.extend,s.Callbacks=function(){this._deferred=s.Deferred(),this._callbacks=[]},i.extend(s.Callbacks.prototype,{add:function(t,e){var n=i.result(this._deferred,"promise");this._callbacks.push({cb:t,ctx:e}),n.then(function(i){e&&(i.context=e),t.call(i.context,i.options)})},run:function(t,e){this._deferred.resolve({options:t,context:e})},reset:function(){var t=this._callbacks;this._deferred=s.Deferred(),this._callbacks=[],i.each(t,function(t){this.add(t.cb,t.ctx)},this)}}),s.Controller=function(t){this.options=t||{},i.isFunction(this.initialize)&&this.initialize(this.options)},s.Controller.extend=s.extend,i.extend(s.Controller.prototype,e.Events,{destroy:function(){return s._triggerMethod(this,"before:destroy",arguments),s._triggerMethod(this,"destroy",arguments),this.stopListening(),this.off(),this},triggerMethod:s.triggerMethod,mergeOptions:s.mergeOptions,getOption:s.proxyGetOption}),s.Object=function(t){this.options=i.extend({},i.result(this,"options"),t),this.initialize.apply(this,arguments)},s.Object.extend=s.extend,i.extend(s.Object.prototype,e.Events,{initialize:function(){},destroy:function(){return this.triggerMethod("before:destroy"),this.triggerMethod("destroy"),this.stopListening(),this},triggerMethod:s.triggerMethod,mergeOptions:s.mergeOptions,getOption:s.proxyGetOption,bindEntityEvents:s.proxyBindEntityEvents,unbindEntityEvents:s.proxyUnbindEntityEvents}),s.Region=s.Object.extend({constructor:function(t){if(this.options=t||{},this.el=this.getOption("el"),this.el=this.el instanceof e.$?this.el[0]:this.el,!this.el)throw new s.Error({name:"NoElError",message:'An "el" must be specified for a region.'});this.$el=this.getEl(this.el),s.Object.call(this,t)},show:function(t,e){if(this._ensureElement()){this._ensureViewIsIntact(t);var n=e||{},r=t!==this.currentView,o=!!n.preventDestroy,h=!!n.forceShow,a=!!this.currentView,d=r&&!o,l=r||h;if(a&&this.triggerMethod("before:swapOut",this.currentView,this,e),this.currentView&&delete this.currentView._parent,d?this.empty():a&&l&&this.currentView.off("destroy",this.empty,this),l){t.once("destroy",this.empty,this),t.render(),t._parent=this,a&&this.triggerMethod("before:swap",t,this,e),this.triggerMethod("before:show",t,this,e),s.triggerMethodOn(t,"before:show",t,this,e),a&&this.triggerMethod("swapOut",this.currentView,this,e);var c=s.isNodeAttached(this.el),u=[],g=i.extend({triggerBeforeAttach:this.triggerBeforeAttach,triggerAttach:this.triggerAttach},n);return c&&g.triggerBeforeAttach&&(u=this._displayedViews(t),this._triggerAttach(u,"before:")),this.attachHtml(t),this.currentView=t,c&&g.triggerAttach&&(u=this._displayedViews(t),this._triggerAttach(u)),a&&this.triggerMethod("swap",t,this,e),this.triggerMethod("show",t,this,e),s.triggerMethodOn(t,"show",t,this,e),this}return this}},triggerBeforeAttach:!0,triggerAttach:!0,_triggerAttach:function(t,e){var n=(e||"")+"attach";i.each(t,function(t){s.triggerMethodOn(t,n,t,this)},this)},_displayedViews:function(t){return i.union([t],i.result(t,"_getNestedViews")||[])},_ensureElement:function(){if(i.isObject(this.el)||(this.$el=this.getEl(this.el),this.el=this.$el[0]),!this.$el||0===this.$el.length){if(this.getOption("allowMissingEl"))return!1;throw new s.Error('An "el" '+this.$el.selector+" must exist in DOM")}return!0},_ensureViewIsIntact:function(t){if(!t)throw new s.Error({name:"ViewNotValid",message:"The view passed is undefined and therefore invalid. You must pass a view instance to show."});if(t.isDestroyed)throw new s.Error({name:"ViewDestroyedError",message:'View (cid: "'+t.cid+'") has already been destroyed and cannot be used.'})},getEl:function(t){return e.$(t,s._getValue(this.options.parentEl,this))},attachHtml:function(t){this.$el.contents().detach(),this.el.appendChild(t.el)},empty:function(t){var e=this.currentView,i=s._getValue(t,"preventDestroy",this);return e?(e.off("destroy",this.empty,this),this.triggerMethod("before:empty",e),i||this._destroyView(),this.triggerMethod("empty",e),delete this.currentView,i&&this.$el.contents().detach(),this):void 0},_destroyView:function(){var t=this.currentView;t.destroy&&!t.isDestroyed?t.destroy():t.remove&&(t.remove(),t.isDestroyed=!0)},attachView:function(t){return this.currentView=t,this},hasView:function(){return!!this.currentView},reset:function(){return this.empty(),this.$el&&(this.el=this.$el.selector),delete this.$el,this}},{buildRegion:function(t,e){if(i.isString(t))return this._buildRegionFromSelector(t,e);if(t.selector||t.el||t.regionClass)return this._buildRegionFromObject(t,e);if(i.isFunction(t))return this._buildRegionFromRegionClass(t);throw new s.Error({message:"Improper region configuration type.",url:"marionette.region.html#region-configuration-types"})},_buildRegionFromSelector:function(t,e){return new e({el:t})},_buildRegionFromObject:function(t,e){var n=t.regionClass||e,r=i.omit(t,"selector","regionClass");return t.selector&&!r.el&&(r.el=t.selector),new n(r)},_buildRegionFromRegionClass:function(t){return new t}}),s.RegionManager=s.Controller.extend({constructor:function(t){this._regions={},this.length=0,s.Controller.call(this,t),this.addRegions(this.getOption("regions"))},addRegions:function(t,e){return t=s._getValue(t,this,arguments),i.reduce(t,function(t,n,r){return i.isString(n)&&(n={selector:n}),n.selector&&(n=i.defaults({},n,e)),t[r]=this.addRegion(r,n),t},{},this)},addRegion:function(t,e){var i;return i=e instanceof s.Region?e:s.Region.buildRegion(e,s.Region),this.triggerMethod("before:add:region",t,i),i._parent=this,this._store(t,i),this.triggerMethod("add:region",t,i),i},get:function(t){return this._regions[t]},getRegions:function(){return i.clone(this._regions)},removeRegion:function(t){var e=this._regions[t];return this._remove(t,e),e},removeRegions:function(){var t=this.getRegions();return i.each(this._regions,function(t,e){this._remove(e,t)},this),t},emptyRegions:function(){var t=this.getRegions();return i.invoke(t,"empty"),t},destroy:function(){return this.removeRegions(),s.Controller.prototype.destroy.apply(this,arguments)},_store:function(t,e){this._regions[t]||this.length++,this._regions[t]=e},_remove:function(t,e){this.triggerMethod("before:remove:region",t,e),e.empty(),e.stopListening(),delete e._parent,delete this._regions[t],this.length--,this.triggerMethod("remove:region",t,e)}}),s.actAsCollection(s.RegionManager.prototype,"_regions"),s.TemplateCache=function(t){this.templateId=t},i.extend(s.TemplateCache,{templateCaches:{},get:function(t,e){var i=this.templateCaches[t];return i||(i=new s.TemplateCache(t),this.templateCaches[t]=i),i.load(e)},clear:function(){var t,e=i.toArray(arguments),n=e.length;if(n>0)for(t=0;n>t;t++)delete this.templateCaches[e[t]];else this.templateCaches={}}}),i.extend(s.TemplateCache.prototype,{load:function(t){if(this.compiledTemplate)return this.compiledTemplate;var e=this.loadTemplate(this.templateId,t);return this.compiledTemplate=this.compileTemplate(e,t),this.compiledTemplate},loadTemplate:function(t){var i=e.$(t).html();if(!i||0===i.length)throw new s.Error({name:"NoTemplateError",message:'Could not find template: "'+t+'"'});return i},compileTemplate:function(t,e){return i.template(t,e)}}),s.Renderer={render:function(t,e){if(!t)throw new s.Error({name:"TemplateNotFoundError",message:"Cannot render the template since its false, null or undefined."});var n=i.isFunction(t)?t:s.TemplateCache.get(t);return n(e)}},s.View=e.View.extend({isDestroyed:!1,constructor:function(t){i.bindAll(this,"render"),t=s._getValue(t,this),this.options=i.extend({},i.result(this,"options"),t),this._behaviors=s.Behaviors(this),e.View.call(this,this.options),s.MonitorDOMRefresh(this)},getTemplate:function(){return this.getOption("template")},serializeModel:function(t){return t.toJSON.apply(t,i.rest(arguments))},mixinTemplateHelpers:function(t){t=t||{};var e=this.getOption("templateHelpers");return e=s._getValue(e,this),i.extend(t,e)},normalizeUIKeys:function(t){var e=i.result(this,"_uiBindings");return s.normalizeUIKeys(t,e||i.result(this,"ui"))},normalizeUIValues:function(t,e){var n=i.result(this,"ui"),r=i.result(this,"_uiBindings");return s.normalizeUIValues(t,r||n,e)},configureTriggers:function(){if(this.triggers){var t=this.normalizeUIKeys(i.result(this,"triggers"));return i.reduce(t,function(t,e,i){return t[i]=this._buildViewTrigger(e),t},{},this)}},delegateEvents:function(t){return this._delegateDOMEvents(t),this.bindEntityEvents(this.model,this.getOption("modelEvents")),this.bindEntityEvents(this.collection,this.getOption("collectionEvents")),i.each(this._behaviors,function(t){t.bindEntityEvents(this.model,t.getOption("modelEvents")),t.bindEntityEvents(this.collection,t.getOption("collectionEvents"))},this),this},_delegateDOMEvents:function(t){var n=s._getValue(t||this.events,this);n=this.normalizeUIKeys(n),i.isUndefined(t)&&(this.events=n);var r={},o=i.result(this,"behaviorEvents")||{},h=this.configureTriggers(),a=i.result(this,"behaviorTriggers")||{};i.extend(r,o,n,h,a),e.View.prototype.delegateEvents.call(this,r)},undelegateEvents:function(){return e.View.prototype.undelegateEvents.apply(this,arguments),this.unbindEntityEvents(this.model,this.getOption("modelEvents")),this.unbindEntityEvents(this.collection,this.getOption("collectionEvents")),i.each(this._behaviors,function(t){t.unbindEntityEvents(this.model,t.getOption("modelEvents")),t.unbindEntityEvents(this.collection,t.getOption("collectionEvents"))},this),this},_ensureViewIsIntact:function(){if(this.isDestroyed)throw new s.Error({name:"ViewDestroyedError",message:'View (cid: "'+this.cid+'") has already been destroyed and cannot be used.'})},destroy:function(){if(this.isDestroyed)return this;var t=i.toArray(arguments);return this.triggerMethod.apply(this,["before:destroy"].concat(t)),this.isDestroyed=!0,this.triggerMethod.apply(this,["destroy"].concat(t)),this.unbindUIElements(),this.isRendered=!1,this.remove(),i.invoke(this._behaviors,"destroy",t),this},bindUIElements:function(){this._bindUIElements(),i.invoke(this._behaviors,this._bindUIElements)},_bindUIElements:function(){if(this.ui){this._uiBindings||(this._uiBindings=this.ui);var t=i.result(this,"_uiBindings");this.ui={},i.each(t,function(t,e){this.ui[e]=this.$(t)},this)}},unbindUIElements:function(){this._unbindUIElements(),i.invoke(this._behaviors,this._unbindUIElements)},_unbindUIElements:function(){this.ui&&this._uiBindings&&(i.each(this.ui,function(t,e){delete this.ui[e]},this),this.ui=this._uiBindings,delete this._uiBindings)},_buildViewTrigger:function(t){var e=i.isObject(t),n=i.defaults({},e?t:{},{preventDefault:!0,stopPropagation:!0}),r=e?n.event:t;return function(t){t&&(t.preventDefault&&n.preventDefault&&t.preventDefault(),t.stopPropagation&&n.stopPropagation&&t.stopPropagation());var e={view:this,model:this.model,collection:this.collection};this.triggerMethod(r,e)}},setElement:function(){var t=e.View.prototype.setElement.apply(this,arguments);return i.invoke(this._behaviors,"proxyViewProperties",this),t},triggerMethod:function(){var t=s._triggerMethod(this,arguments);return this._triggerEventOnBehaviors(arguments),this._triggerEventOnParentLayout(arguments[0],i.rest(arguments)),t},_triggerEventOnBehaviors:function(t){for(var e=s._triggerMethod,i=this._behaviors,n=0,r=i&&i.length;r>n;n++)e(i[n],t)},_triggerEventOnParentLayout:function(t,e){var n=this._parentLayoutView();if(n){var r=s.getOption(n,"childViewEventPrefix"),o=r+":"+t;s._triggerMethod(n,[o,this].concat(e));var h=s.getOption(n,"childEvents"),a=n.normalizeMethods(h);a&&i.isFunction(a[t])&&a[t].apply(n,[this].concat(e))}},_getImmediateChildren:function(){return[]},_getNestedViews:function(){var t=this._getImmediateChildren();return t.length?i.reduce(t,function(t,e){return e._getNestedViews?t.concat(e._getNestedViews()):t},t):t},_getAncestors:function(){for(var t=[],e=this._parent;e;)t.push(e),e=e._parent;return t},_parentLayoutView:function(){var t=this._getAncestors();return i.find(t,function(t){return t instanceof s.LayoutView})},normalizeMethods:s.normalizeMethods,mergeOptions:s.mergeOptions,getOption:s.proxyGetOption,bindEntityEvents:s.proxyBindEntityEvents,unbindEntityEvents:s.proxyUnbindEntityEvents}),s.ItemView=s.View.extend({constructor:function(){s.View.apply(this,arguments)},serializeData:function(){if(!this.model&&!this.collection)return{};var t=[this.model||this.collection];return arguments.length&&t.push.apply(t,arguments),this.model?this.serializeModel.apply(this,t):{items:this.serializeCollection.apply(this,t)}},serializeCollection:function(t){return t.toJSON.apply(t,i.rest(arguments))},render:function(){return this._ensureViewIsIntact(),this.triggerMethod("before:render",this),this._renderTemplate(),this.isRendered=!0,this.bindUIElements(),this.triggerMethod("render",this),this},_renderTemplate:function(){var t=this.getTemplate();if(t!==!1){if(!t)throw new s.Error({name:"UndefinedTemplateError",message:"Cannot render the template since it is null or undefined."});var e=this.mixinTemplateHelpers(this.serializeData()),i=s.Renderer.render(t,e,this);return this.attachElContent(i),this}},attachElContent:function(t){return this.$el.html(t),this}}),s.CollectionView=s.View.extend({childViewEventPrefix:"childview",sort:!0,constructor:function(){this.once("render",this._initialEvents),this._initChildViewStorage(),s.View.apply(this,arguments),this.on({"before:show":this._onBeforeShowCalled,show:this._onShowCalled,"before:attach":this._onBeforeAttachCalled,attach:this._onAttachCalled}),this.initRenderBuffer()},initRenderBuffer:function(){this._bufferedChildren=[]},startBuffering:function(){this.initRenderBuffer(),this.isBuffering=!0},endBuffering:function(){var t,e=this._isShown&&s.isNodeAttached(this.el);this.isBuffering=!1,this._isShown&&this._triggerMethodMany(this._bufferedChildren,this,"before:show"),e&&this._triggerBeforeAttach&&(t=this._getNestedViews(),this._triggerMethodMany(t,this,"before:attach")),this.attachBuffer(this,this._createBuffer()),e&&this._triggerAttach&&(t=this._getNestedViews(),this._triggerMethodMany(t,this,"attach")),this._isShown&&this._triggerMethodMany(this._bufferedChildren,this,"show"),this.initRenderBuffer()},_triggerMethodMany:function(t,e,n){var r=i.drop(arguments,3);i.each(t,function(t){s.triggerMethodOn.apply(t,[t,n,t,e].concat(r))})},_initialEvents:function(){this.collection&&(this.listenTo(this.collection,"add",this._onCollectionAdd),this.listenTo(this.collection,"remove",this._onCollectionRemove),this.listenTo(this.collection,"reset",this.render),this.getOption("sort")&&this.listenTo(this.collection,"sort",this._sortViews))},_onCollectionAdd:function(t,e,n){var r;if(r=void 0!==n.at?n.at:i.indexOf(this._filteredSortedModels(),t),this._shouldAddChild(t,r)){this.destroyEmptyView();var s=this.getChildView(t);this.addChild(t,s,r)}},_onCollectionRemove:function(t){var e=this.children.findByModel(t);this.removeChildView(e),this.checkEmpty()},_onBeforeShowCalled:function(){this._triggerBeforeAttach=this._triggerAttach=!1,this.children.each(function(t){s.triggerMethodOn(t,"before:show",t)})},_onShowCalled:function(){this.children.each(function(t){s.triggerMethodOn(t,"show",t)})},_onBeforeAttachCalled:function(){this._triggerBeforeAttach=!0},_onAttachCalled:function(){this._triggerAttach=!0},render:function(){return this._ensureViewIsIntact(),this.triggerMethod("before:render",this),this._renderChildren(),this.isRendered=!0,this.triggerMethod("render",this),this},reorder:function(){var t=this.children,e=this._filteredSortedModels(),n=i.find(e,function(e){return!t.findByModel(e)});if(n)this.render();else{var r=i.map(e,function(e,i){var n=t.findByModel(e);return n._index=i,n.el});this.triggerMethod("before:reorder"),this._appendReorderedChildren(r),this.triggerMethod("reorder")}},resortView:function(){s.getOption(this,"reorderOnSort")?this.reorder():this.render()},_sortViews:function(){var t=this._filteredSortedModels(),e=i.find(t,function(t,e){var i=this.children.findByModel(t);return!i||i._index!==e},this);e&&this.resortView()},_emptyViewIndex:-1,_appendReorderedChildren:function(t){this.$el.append(t)},_renderChildren:function(){this.destroyEmptyView(),this.destroyChildren({checkEmpty:!1}),this.isEmpty(this.collection)?this.showEmptyView():(this.triggerMethod("before:render:collection",this),this.startBuffering(),this.showCollection(),this.endBuffering(),this.triggerMethod("render:collection",this),this.children.isEmpty()&&this.showEmptyView())},showCollection:function(){var t,e=this._filteredSortedModels();i.each(e,function(e,i){t=this.getChildView(e),this.addChild(e,t,i)},this)},_filteredSortedModels:function(){var t,e=this.getViewComparator();return t=e?i.isString(e)||1===e.length?this.collection.sortBy(e,this):i.clone(this.collection.models).sort(i.bind(e,this)):this.collection.models,this.getOption("filter")&&(t=i.filter(t,function(t,e){return this._shouldAddChild(t,e)},this)),t},showEmptyView:function(){var t=this.getEmptyView();if(t&&!this._showingEmptyView){this.triggerMethod("before:render:empty"),this._showingEmptyView=!0;var i=new e.Model;this.addEmptyView(i,t),this.triggerMethod("render:empty")}},destroyEmptyView:function(){this._showingEmptyView&&(this.triggerMethod("before:remove:empty"),this.destroyChildren(),delete this._showingEmptyView,this.triggerMethod("remove:empty"))},getEmptyView:function(){return this.getOption("emptyView")},addEmptyView:function(t,e){var n,r=this._isShown&&!this.isBuffering&&s.isNodeAttached(this.el),o=this.getOption("emptyViewOptions")||this.getOption("childViewOptions");i.isFunction(o)&&(o=o.call(this,t,this._emptyViewIndex));var h=this.buildChildView(t,e,o);h._parent=this,this.proxyChildEvents(h),this._isShown&&s.triggerMethodOn(h,"before:show",h),this.children.add(h),r&&this._triggerBeforeAttach&&(n=[h].concat(h._getNestedViews()),h.once("render",function(){this._triggerMethodMany(n,this,"before:attach")},this)),this.renderChildView(h,this._emptyViewIndex),r&&this._triggerAttach&&(n=[h].concat(h._getNestedViews()),this._triggerMethodMany(n,this,"attach")),this._isShown&&s.triggerMethodOn(h,"show",h)},getChildView:function(){var t=this.getOption("childView");if(!t)throw new s.Error({name:"NoChildViewError",message:'A "childView" must be specified'});return t},addChild:function(t,e,i){var n=this.getOption("childViewOptions");n=s._getValue(n,this,[t,i]);var r=this.buildChildView(t,e,n);return this._updateIndices(r,!0,i),this.triggerMethod("before:add:child",r),this._addChildView(r,i),this.triggerMethod("add:child",r),r._parent=this,r},_updateIndices:function(t,e,i){this.getOption("sort")&&(e&&(t._index=i),this.children.each(function(i){i._index>=t._index&&(i._index+=e?1:-1)}))},_addChildView:function(t,e){var i,n=this._isShown&&!this.isBuffering&&s.isNodeAttached(this.el);this.proxyChildEvents(t),this._isShown&&!this.isBuffering&&s.triggerMethodOn(t,"before:show",t),this.children.add(t),n&&this._triggerBeforeAttach&&(i=[t].concat(t._getNestedViews()),t.once("render",function(){this._triggerMethodMany(i,this,"before:attach")},this)),this.renderChildView(t,e),n&&this._triggerAttach&&(i=[t].concat(t._getNestedViews()),this._triggerMethodMany(i,this,"attach")),this._isShown&&!this.isBuffering&&s.triggerMethodOn(t,"show",t)},renderChildView:function(t,e){return t.render(),this.attachHtml(this,t,e),t},buildChildView:function(t,e,n){var r=i.extend({model:t},n);return new e(r)},removeChildView:function(t){return t&&(this.triggerMethod("before:remove:child",t),t.destroy?t.destroy():t.remove&&t.remove(),delete t._parent,this.stopListening(t),this.children.remove(t),this.triggerMethod("remove:child",t),this._updateIndices(t,!1)),t},isEmpty:function(){return!this.collection||0===this.collection.length},checkEmpty:function(){this.isEmpty(this.collection)&&this.showEmptyView()},attachBuffer:function(t,e){t.$el.append(e)},_createBuffer:function(){var t=document.createDocumentFragment();return i.each(this._bufferedChildren,function(e){t.appendChild(e.el)}),t},attachHtml:function(t,e,i){t.isBuffering?t._bufferedChildren.splice(i,0,e):t._insertBefore(e,i)||t._insertAfter(e)},_insertBefore:function(t,e){var i,n=this.getOption("sort")&&this.children.length-1>e;return n&&(i=this.children.find(function(t){return t._index===e+1})),i?(i.$el.before(t.el),!0):!1},_insertAfter:function(t){this.$el.append(t.el)},_initChildViewStorage:function(){this.children=new e.ChildViewContainer},destroy:function(){return this.isDestroyed?this:(this.triggerMethod("before:destroy:collection"),this.destroyChildren({checkEmpty:!1}),this.triggerMethod("destroy:collection"),s.View.prototype.destroy.apply(this,arguments))},destroyChildren:function(t){var e=t||{},n=!0,r=this.children.map(i.identity);return i.isUndefined(e.checkEmpty)||(n=e.checkEmpty),this.children.each(this.removeChildView,this),n&&this.checkEmpty(),r},_shouldAddChild:function(t,e){var n=this.getOption("filter");return!i.isFunction(n)||n.call(this,t,e,this.collection)},proxyChildEvents:function(t){var e=this.getOption("childViewEventPrefix");this.listenTo(t,"all",function(){var n=i.toArray(arguments),r=n[0],s=this.normalizeMethods(i.result(this,"childEvents"));n[0]=e+":"+r,n.splice(1,0,t),s!==void 0&&i.isFunction(s[r])&&s[r].apply(this,n.slice(1)),this.triggerMethod.apply(this,n)})},_getImmediateChildren:function(){return i.values(this.children._views)},getViewComparator:function(){return this.getOption("viewComparator")}}),s.CompositeView=s.CollectionView.extend({constructor:function(){s.CollectionView.apply(this,arguments)},_initialEvents:function(){this.collection&&(this.listenTo(this.collection,"add",this._onCollectionAdd),this.listenTo(this.collection,"remove",this._onCollectionRemove),this.listenTo(this.collection,"reset",this._renderChildren),this.getOption("sort")&&this.listenTo(this.collection,"sort",this._sortViews))},getChildView:function(){var t=this.getOption("childView")||this.constructor;return t},serializeData:function(){var t={};return this.model&&(t=i.partial(this.serializeModel,this.model).apply(this,arguments)),t},render:function(){return this._ensureViewIsIntact(),this._isRendering=!0,this.resetChildViewContainer(),this.triggerMethod("before:render",this),this._renderTemplate(),this._renderChildren(),this._isRendering=!1,this.isRendered=!0,this.triggerMethod("render",this),this
 },_renderChildren:function(){(this.isRendered||this._isRendering)&&s.CollectionView.prototype._renderChildren.call(this)},_renderTemplate:function(){var t={};t=this.serializeData(),t=this.mixinTemplateHelpers(t),this.triggerMethod("before:render:template");var e=this.getTemplate(),i=s.Renderer.render(e,t,this);this.attachElContent(i),this.bindUIElements(),this.triggerMethod("render:template")},attachElContent:function(t){return this.$el.html(t),this},attachBuffer:function(t,e){var i=this.getChildViewContainer(t);i.append(e)},_insertAfter:function(t){var e=this.getChildViewContainer(this,t);e.append(t.el)},_appendReorderedChildren:function(t){var e=this.getChildViewContainer(this);e.append(t)},getChildViewContainer:function(t){if(t.$childViewContainer)return t.$childViewContainer;var e,i=s.getOption(t,"childViewContainer");if(i){var n=s._getValue(i,t);if(e="@"===n.charAt(0)&&t.ui?t.ui[n.substr(4)]:t.$(n),0>=e.length)throw new s.Error({name:"ChildViewContainerMissingError",message:'The specified "childViewContainer" was not found: '+t.childViewContainer})}else e=t.$el;return t.$childViewContainer=e,e},resetChildViewContainer:function(){this.$childViewContainer&&(this.$childViewContainer=void 0)}}),s.LayoutView=s.ItemView.extend({regionClass:s.Region,options:{destroyImmediate:!1},childViewEventPrefix:"childview",constructor:function(t){t=t||{},this._firstRender=!0,this._initializeRegions(t),s.ItemView.call(this,t)},render:function(){return this._ensureViewIsIntact(),this._firstRender?this._firstRender=!1:this._reInitializeRegions(),s.ItemView.prototype.render.apply(this,arguments)},destroy:function(){return this.isDestroyed?this:(this.getOption("destroyImmediate")===!0&&this.$el.remove(),this.regionManager.destroy(),s.ItemView.prototype.destroy.apply(this,arguments))},showChildView:function(t,e){return this.getRegion(t).show(e)},getChildView:function(t){return this.getRegion(t).currentView},addRegion:function(t,e){var i={};return i[t]=e,this._buildRegions(i)[t]},addRegions:function(t){return this.regions=i.extend({},this.regions,t),this._buildRegions(t)},removeRegion:function(t){return delete this.regions[t],this.regionManager.removeRegion(t)},getRegion:function(t){return this.regionManager.get(t)},getRegions:function(){return this.regionManager.getRegions()},_buildRegions:function(t){var e={regionClass:this.getOption("regionClass"),parentEl:i.partial(i.result,this,"el")};return this.regionManager.addRegions(t,e)},_initializeRegions:function(t){var e;this._initRegionManager(),e=s._getValue(this.regions,this,[t])||{};var n=this.getOption.call(t,"regions");n=s._getValue(n,this,[t]),i.extend(e,n),e=this.normalizeUIValues(e,["selector","el"]),this.addRegions(e)},_reInitializeRegions:function(){this.regionManager.invoke("reset")},getRegionManager:function(){return new s.RegionManager},_initRegionManager:function(){this.regionManager=this.getRegionManager(),this.regionManager._parent=this,this.listenTo(this.regionManager,"before:add:region",function(t){this.triggerMethod("before:add:region",t)}),this.listenTo(this.regionManager,"add:region",function(t,e){this[t]=e,this.triggerMethod("add:region",t,e)}),this.listenTo(this.regionManager,"before:remove:region",function(t){this.triggerMethod("before:remove:region",t)}),this.listenTo(this.regionManager,"remove:region",function(t,e){delete this[t],this.triggerMethod("remove:region",t,e)})},_getImmediateChildren:function(){return i.chain(this.regionManager.getRegions()).pluck("currentView").compact().value()}}),s.Behavior=s.Object.extend({constructor:function(t,e){this.view=e,this.defaults=i.result(this,"defaults")||{},this.options=i.extend({},this.defaults,t),this.ui=i.extend({},i.result(e,"ui"),i.result(this,"ui")),s.Object.apply(this,arguments)},$:function(){return this.view.$.apply(this.view,arguments)},destroy:function(){return this.stopListening(),this},proxyViewProperties:function(t){this.$el=t.$el,this.el=t.el}}),s.Behaviors=function(t,e){function i(t,n){return e.isObject(t.behaviors)?(n=i.parseBehaviors(t,n||e.result(t,"behaviors")),i.wrap(t,n,e.keys(o)),n):{}}function n(t,e){this._view=t,this._behaviors=e,this._triggers={}}function r(t){return t._uiBindings||t.ui}var s=/^(\S+)\s*(.*)$/,o={behaviorTriggers:function(t,e){var i=new n(this,e);return i.buildBehaviorTriggers()},behaviorEvents:function(i,n){var o={};return e.each(n,function(i,n){var h={},a=e.clone(e.result(i,"events"))||{};a=t.normalizeUIKeys(a,r(i));var d=0;e.each(a,function(t,r){var o=r.match(s),a=o[1]+"."+[this.cid,n,d++," "].join(""),l=o[2],c=a+l,u=e.isFunction(t)?t:i[t];h[c]=e.bind(u,i)},this),o=e.extend(o,h)},this),o}};return e.extend(i,{behaviorsLookup:function(){throw new t.Error({message:"You must define where your behaviors are stored.",url:"marionette.behaviors.html#behaviorslookup"})},getBehaviorClass:function(e,n){return e.behaviorClass?e.behaviorClass:t._getValue(i.behaviorsLookup,this,[e,n])[n]},parseBehaviors:function(t,n){return e.chain(n).map(function(n,r){var s=i.getBehaviorClass(n,r),o=new s(n,t),h=i.parseBehaviors(t,e.result(o,"behaviors"));return[o].concat(h)}).flatten().value()},wrap:function(t,i,n){e.each(n,function(n){t[n]=e.partial(o[n],t[n],i)})}}),e.extend(n.prototype,{buildBehaviorTriggers:function(){return e.each(this._behaviors,this._buildTriggerHandlersForBehavior,this),this._triggers},_buildTriggerHandlersForBehavior:function(i,n){var s=e.clone(e.result(i,"triggers"))||{};s=t.normalizeUIKeys(s,r(i)),e.each(s,e.bind(this._setHandlerForBehavior,this,i,n))},_setHandlerForBehavior:function(t,e,i,n){var r=n.replace(/^\S+/,function(t){return t+"."+"behaviortriggers"+e});this._triggers[r]=this._view._buildViewTrigger(i)}}),i}(s,i),s.AppRouter=e.Router.extend({constructor:function(t){this.options=t||{},e.Router.apply(this,arguments);var i=this.getOption("appRoutes"),n=this._getController();this.processAppRoutes(n,i),this.on("route",this._processOnRoute,this)},appRoute:function(t,e){var i=this._getController();this._addAppRoute(i,t,e)},_processOnRoute:function(t,e){if(i.isFunction(this.onRoute)){var n=i.invert(this.getOption("appRoutes"))[t];this.onRoute(t,n,e)}},processAppRoutes:function(t,e){if(e){var n=i.keys(e).reverse();i.each(n,function(i){this._addAppRoute(t,i,e[i])},this)}},_getController:function(){return this.getOption("controller")},_addAppRoute:function(t,e,n){var r=t[n];if(!r)throw new s.Error('Method "'+n+'" was not found on the controller');this.route(e,n,i.bind(r,t))},mergeOptions:s.mergeOptions,getOption:s.proxyGetOption,triggerMethod:s.triggerMethod,bindEntityEvents:s.proxyBindEntityEvents,unbindEntityEvents:s.proxyUnbindEntityEvents}),s.Application=s.Object.extend({constructor:function(t){this._initializeRegions(t),this._initCallbacks=new s.Callbacks,this.submodules={},i.extend(this,t),this._initChannel(),s.Object.call(this,t)},execute:function(){this.commands.execute.apply(this.commands,arguments)},request:function(){return this.reqres.request.apply(this.reqres,arguments)},addInitializer:function(t){this._initCallbacks.add(t)},start:function(t){this.triggerMethod("before:start",t),this._initCallbacks.run(t,this),this.triggerMethod("start",t)},addRegions:function(t){return this._regionManager.addRegions(t)},emptyRegions:function(){return this._regionManager.emptyRegions()},removeRegion:function(t){return this._regionManager.removeRegion(t)},getRegion:function(t){return this._regionManager.get(t)},getRegions:function(){return this._regionManager.getRegions()},module:function(t,e){var n=s.Module.getClass(e),r=i.toArray(arguments);return r.unshift(this),n.create.apply(n,r)},getRegionManager:function(){return new s.RegionManager},_initializeRegions:function(t){var e=i.isFunction(this.regions)?this.regions(t):this.regions||{};this._initRegionManager();var n=s.getOption(t,"regions");return i.isFunction(n)&&(n=n.call(this,t)),i.extend(e,n),this.addRegions(e),this},_initRegionManager:function(){this._regionManager=this.getRegionManager(),this._regionManager._parent=this,this.listenTo(this._regionManager,"before:add:region",function(){s._triggerMethod(this,"before:add:region",arguments)}),this.listenTo(this._regionManager,"add:region",function(t,e){this[t]=e,s._triggerMethod(this,"add:region",arguments)}),this.listenTo(this._regionManager,"before:remove:region",function(){s._triggerMethod(this,"before:remove:region",arguments)}),this.listenTo(this._regionManager,"remove:region",function(t){delete this[t],s._triggerMethod(this,"remove:region",arguments)})},_initChannel:function(){this.channelName=i.result(this,"channelName")||"global",this.channel=i.result(this,"channel")||e.Wreqr.radio.channel(this.channelName),this.vent=i.result(this,"vent")||this.channel.vent,this.commands=i.result(this,"commands")||this.channel.commands,this.reqres=i.result(this,"reqres")||this.channel.reqres}}),s.Module=function(t,e,n){this.moduleName=t,this.options=i.extend({},this.options,n),this.initialize=n.initialize||this.initialize,this.submodules={},this._setupInitializersAndFinalizers(),this.app=e,i.isFunction(this.initialize)&&this.initialize(t,e,this.options)},s.Module.extend=s.extend,i.extend(s.Module.prototype,e.Events,{startWithParent:!0,initialize:function(){},addInitializer:function(t){this._initializerCallbacks.add(t)},addFinalizer:function(t){this._finalizerCallbacks.add(t)},start:function(t){this._isInitialized||(i.each(this.submodules,function(e){e.startWithParent&&e.start(t)}),this.triggerMethod("before:start",t),this._initializerCallbacks.run(t,this),this._isInitialized=!0,this.triggerMethod("start",t))},stop:function(){this._isInitialized&&(this._isInitialized=!1,this.triggerMethod("before:stop"),i.invoke(this.submodules,"stop"),this._finalizerCallbacks.run(void 0,this),this._initializerCallbacks.reset(),this._finalizerCallbacks.reset(),this.triggerMethod("stop"))},addDefinition:function(t,e){this._runModuleDefinition(t,e)},_runModuleDefinition:function(t,n){if(t){var r=i.flatten([this,this.app,e,s,e.$,i,n]);t.apply(this,r)}},_setupInitializersAndFinalizers:function(){this._initializerCallbacks=new s.Callbacks,this._finalizerCallbacks=new s.Callbacks},triggerMethod:s.triggerMethod}),i.extend(s.Module,{create:function(t,e,n){var r=t,s=i.drop(arguments,3);e=e.split(".");var o=e.length,h=[];return h[o-1]=n,i.each(e,function(e,i){var o=r;r=this._getModule(o,e,t,n),this._addModuleDefinition(o,r,h[i],s)},this),r},_getModule:function(t,e,n,r){var s=i.extend({},r),o=this.getClass(r),h=t[e];return h||(h=new o(e,n,s),t[e]=h,t.submodules[e]=h),h},getClass:function(t){var e=s.Module;return t?t.prototype instanceof e?t:t.moduleClass||e:e},_addModuleDefinition:function(t,e,i,n){var r=this._getDefine(i),s=this._getStartWithParent(i,e);r&&e.addDefinition(r,n),this._addStartWithParent(t,e,s)},_getStartWithParent:function(t,e){var n;return i.isFunction(t)&&t.prototype instanceof s.Module?(n=e.constructor.prototype.startWithParent,i.isUndefined(n)?!0:n):i.isObject(t)?(n=t.startWithParent,i.isUndefined(n)?!0:n):!0},_getDefine:function(t){return!i.isFunction(t)||t.prototype instanceof s.Module?i.isObject(t)?t.define:null:t},_addStartWithParent:function(t,e,i){e.startWithParent=e.startWithParent&&i,e.startWithParent&&!e.startWithParentIsConfigured&&(e.startWithParentIsConfigured=!0,t.addInitializer(function(t){e.startWithParent&&e.start(t)}))}}),s});
 
-},{"backbone":55,"underscore":58}],57:[function(require,module,exports){
+},{"backbone":62,"underscore":65}],64:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.11.1
  * http://jquery.com/
@@ -13379,7 +13616,7 @@ return jQuery;
 
 }));
 
-},{}],58:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -14929,7 +15166,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[54])
+},{}]},{},[61])
 
 
 //# sourceMappingURL=bundle.js.map

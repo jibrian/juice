@@ -12,5 +12,6 @@ module.exports = {
 	"query-json": require("./../components/query-json/index"),
 	"redirect-trace": require("../components/redirect-trace/index"),
 	"traces": require("../components/traces/index"),
-	"uri-dencoder": require("../components/uri-dencoder/index")
+	"uri-dencoder": require("../components/uri-dencoder/index"),
+	"clipboard": require("../components/clipboard/index")
 }

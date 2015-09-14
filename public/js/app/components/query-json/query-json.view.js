@@ -3,6 +3,7 @@
 */
 var LayoutViewPrototype = require("layoutview.prototype");
 var Backbone = require("backbone");
+var _ = require("underscore");
 var templates = require("templates");
 
 module.exports = LayoutViewPrototype.extend({
@@ -11,10 +12,12 @@ module.exports = LayoutViewPrototype.extend({
 	ui: {
 		"queryTextarea": "#query",
 		"select": "#uri-decode",
-		"submitBtn": "button[type='submit']"
+		"submitBtn": "button[type='submit']",
+		"pipeBtn": "button[type='button']",
 	},
 	events: {
-		"submit": "processQuery"
+		"submit": "onSubmit",
+		"click @ui.pipeBtn": "pipe",
 	},
 	regions: {
 		"json": ".json"
@@ -24,14 +27,38 @@ module.exports = LayoutViewPrototype.extend({
 		this.inherit(options);
 	},
 	/**
+	* Send results into juxtapose component
+	*/
+	pipe: function(e) {
+		var query = this.ui.queryTextarea.val().trim();
+		var json = JSON.stringify(this.convertQuery(query));
+		this.app.controller.view.model.set(e.currentTarget.name, json);
+		this.app.vent.trigger("header:shake", {
+			link: "juxtapose"
+		});
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		var query = this.ui.queryTextarea.val().trim();
+
+		this.app.controller.view.model.set({
+			"query": query
+		});
+		this.processQuery(e);
+		this.ui.pipeBtn.removeClass("hide");
+	},
+	/**
 	* Parse query input and convert into JSON
 	* @param {object} e Event object
 	*/
-	processQuery: function(e) {
-		e.preventDefault();
-		if (!this.ui.queryTextarea.val()) { return; }
+	processQuery: function() {
+		if (!this.ui.queryTextarea.val()) { 
+			return; 
+		}
+
 		var query = this.ui.queryTextarea.val().trim();
 		var json = this.convertQuery(query);
+		
 		this.loadJSON(json);
 	},
 	/**
@@ -62,8 +89,14 @@ module.exports = LayoutViewPrototype.extend({
 
 		return json;
 	},
-	template: function() {
-		return templates.components["query-json"];
+	onRender: function() {
+		var piped = this.app.controller.view.model.get("query");
+		if (piped) {
+			this.$el.find("form[name='query-json']").submit();
+		}
+	},
+	template: function(model) {
+		return _.template(templates.components["query-json"])(model);
 	}
 });
 

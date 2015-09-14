@@ -39,15 +39,16 @@ module.exports = Marionette.Controller.extend({
 	* @param {object} componentOptions Options passed to our controllers
 	* @param {object} viewOptions Options passed to our views
 	*   which correlate with the components by index
+	* @param {string} type Module or component
 	*/
-	import: function(components, parentRegions, componentOptions, viewOptions) {
+	import: function(components, parentRegions, componentOptions, viewOptions, type) {
 		var _this = this;
 		var componentOptions = componentOptions || {};
 		componentOptions.app = this.app;
 		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
-				var controller = new _this.app.components[components[i]].Controller(componentOptions);
+				var controller = new _this.app[type || "components"][components[i]].Controller(componentOptions);
 				controller.injectInto(_this.view[parentRegions[i]], viewOptions)
 			}
 		});
