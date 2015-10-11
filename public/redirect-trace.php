@@ -1,7 +1,7 @@
 <?php
 
 $url = $_GET["url"];
-$headers = get_headers($url, 1);
+$headers = getallheaders($url, 1);
 $location = $headers["Location"];
 
 if (gettype($location) === "array") {
