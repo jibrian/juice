@@ -4066,8 +4066,7 @@ module.exports = LayoutViewPrototype.extend({
 		"clearBtn": "button[name='clear']"
 	},
 	events: {
-		"submit": "processJSON",
-		"click @ui.clearBtn": "clearInput" 
+		"submit": "processJSON"
 	},
 	regions: {
 		"query": ".query"
@@ -4075,9 +4074,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-	},
-	clearInput: function() {
-		this.ui.jsonTextarea.val("");
 	},
 	/**
 	* Convert JSON into query string
@@ -4357,8 +4353,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	events: {
 		"submit": "onSubmit",
-		"click @ui.pipeBtn": "pipe",
-		"click @ui.clearBtn": "clearInput"
+		"click @ui.pipeBtn": "pipe"
 	},
 	regions: {
 		"json": ".json"
@@ -4366,9 +4361,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-	},
-	clearInput: function() {
-		this.ui.queryTextarea.val("");
 	},
 	/**
 	* Send results into juxtapose component
@@ -4491,8 +4483,7 @@ module.exports = LayoutViewPrototype.extend({
 		'clearBtn': 'button[name="clear"]'
 	},
 	events: {
-		'submit': 'requestRedirects',
-		'click @ui.clearBtn': 'clearInput'
+		'submit': 'requestRedirects'
 	},
 	regions: {
 		'traces': '.traces'
@@ -4506,9 +4497,6 @@ module.exports = LayoutViewPrototype.extend({
 		}, {
 			collection: new entities.components.traces
 		});
-	},
-	clearInput: function() {
-		this.ui.urlTextarea.val('');
 	},
 	/**
 	 * Instantiates trace model and request redirects from API
@@ -4693,15 +4681,16 @@ module.exports = ItemViewPrototype.extend({
 	ui: {
 		'unixInput': 'input[name="unix"]',
 		'formatSelector': 'select[name="format"]',
-		'output': '.datetime'
+		'output': '.datetime',
+		'clearButton': 'button[name="clear"]'
 	},
 	events: {
-		'submit': 'onSubmit' 
+		'submit': 'onSubmit', 
 	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
-
+		// leave this in so we can play with moment library in dev console
 		window.moment = moment;
 	},
 	convertUnixToDatetime: function(unix, format) {
@@ -4710,7 +4699,7 @@ module.exports = ItemViewPrototype.extend({
 		switch (format.toLowerCase()) {
 			case 'iso':
 				momentFormat = '';				
-				break;
+				break;	
 		}
 
 		var processed = moment(parseInt(unix)).format(momentFormat);
@@ -4777,8 +4766,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	events: {
 		"click @ui.encodeBtn": "encodeURI",
-		"click @ui.decodeBtn": "decodeURI",
-		"click @ui.clearBtn": "clearInput"
+		"click @ui.decodeBtn": "decodeURI"
 	},
 	regions: {
 		"uri": ".process-uri"
@@ -4786,9 +4774,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-	},
-	clearInput: function() {
-		this.ui.uriTextarea.val("");
 	},
 	encodeURI: function() {
 		var encoded = encodeURIComponent(this.ui.uriTextarea.val());
@@ -5194,7 +5179,7 @@ module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n
 module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n\t<a href=\"#unix\">Unix</a>\n</nav>\n";
 
 },{}],59:[function(require,module,exports){
-module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<butto)n type=\"submit\">Convert</button>\n\t<button type=\"button\" name=\"clear\">Clear</button>\n</form>\n<div class=\"query\"></div>\n";
+module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<butto)n type=\"submit\">Convert</button>\n\t<button type=\"reset\" name=\"clear\">Clear</button>\n</form>\n<div class=\"query\"></div>\n";
 
 },{}],60:[function(require,module,exports){
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
@@ -5203,10 +5188,10 @@ module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i
 module.exports = "<!-- Juxtapose -->\n<header>\n\t<h2>Juxtapose</h2>\n\t<div>\n\t\t<p>Matching values are green</p>\n\t\t<p>Differences are red</p>\n\t\t<p>Wrap keys in double quotes por favor</p>\n\t</div>\n</header>\n<form name=\"juxtapose\">\n\t<label for=\"left-data\">Left Data</label>\n\t<textarea id=\"left-data\" class=\"text-input\" placeholder=\"First\"><%= juxtaposeOne %></textarea>\n\t<label for=\"right-data\">Right Data</label>\n\t<textarea id=\"right-data\" class=\"text-input\" placeholder=\"Second\"><%= juxtaposeTwo %></textarea>\n\t<label for=\"data-type\">Data Type</label>\n\tData Type: \n\t<select>\n\t\t<option value=\"JSON\">JSON</option>\n\t</select>\n\t<button type=\"submit\">Compare</button>\n</form>\n<div class=\"left-output\"></div>\n<div class=\"right-output\"></div>";
 
 },{}],62:[function(require,module,exports){
-module.exports = "<!-- Query -> JSON -->\n<header>\n\t<h2>Query &#187; JSON</h2>\n</header>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<button name=\"clear\" type=\"button\">Clear</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>";
+module.exports = "<!-- Query -> JSON -->\n<header>\n\t<h2>Query &#187; JSON</h2>\n</header>\n<form name=\"query-json\">\n\t<label for=\"query\">Query</label>\n\t<textarea id=\"query\" class=\"text-input\"><%= query %></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\tDecode URI?\n\t<select id=\"uri-decode\" name=\"uri-decode\">\n\t\t<option value=\"yes\">Yes</option>\n\t\t<option value=\"no\">No</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<button name=\"clear\" type=\"reset\">Clear</button>\n\t<div class=\"pipe\">\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeOne\">Pipe Juxtapose Input One</button>\n\t\t<button class=\"hide\" type=\"button\" name=\"juxtaposeTwo\">Pipe Juxtapose Input Two</button>\n\t</div>\n</form>\n<div class=\"json\"></div>\n";
 
 },{}],63:[function(require,module,exports){
-module.exports = "<!-- Redirect Trace -->\n<header>\n\t<h2>Redirect Trace</h2>\n\t<div>\n\t\t<p>Double click results to pipe to Query &#187; JSON</p>\n\t</div>\n</header>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n\t<button type=\"button\" name=\"clear\">Clear</button>\n</form>\n<div class=\"traces\"></div>";
+module.exports = "<!-- Redirect Trace -->\n<header>\n\t<h2>Redirect Trace</h2>\n\t<div>\n\t\t<p>Double click results to pipe to Query &#187; JSON</p>\n\t</div>\n</header>\n<form name=\"redirect-trace\">\n\t<label for=\"url-textarea\">Url</label>\n\t<textarea id=\"url-textarea\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Trace</button>\n\t<button type=\"reset\" name=\"clear\">Clear</button>\n</form>\n<div class=\"traces\"></div>\n";
 
 },{}],64:[function(require,module,exports){
 module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.length; i < len; i++) { %>\n\t<li><%= traces[i] %></li>\n<% } %>";
@@ -5215,7 +5200,7 @@ module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.le
 module.exports = "<%= url %>";
 
 },{}],66:[function(require,module,exports){
-module.exports = "<!-- UNIX -->\n<header>\n\t<h2>Unix</h2>\n</header>\n<form name=\"unix-to-stamp\">\n\t<label for=\"unix-to-stamp\">Timeunix</label>\n\t<input type=\"text\" name=\"unix\" placeholder=\"Timeunix\" />\n\t<select name=\"format\">\n\t\t<option value=\"iso\">ISO</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<button type=\"clear\" name=\"clear\">Clear</button>\n</form>\t\t\n<div class=\"datetime\"></div>\n";
+module.exports = "<!-- UNIX -->\n<header>\n\t<h2>Unix</h2>\n</header>\n<form name=\"unix-to-stamp\">\n\t<label for=\"unix-to-stamp\">Timeunix</label>\n\t<input type=\"text\" name=\"unix\" placeholder=\"Timeunix\" />\n\t<select name=\"format\">\n\t\t<option value=\"iso\">ISO</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<button type=\"reset\" name=\"clear\">Clear</button>\n</form>\t\t\n<div class=\"datetime\"></div>\n";
 
 },{}],67:[function(require,module,exports){
 module.exports = "<!-- URI Dencoder -->\n<header>\n\t<h2>Uri Dencoder</h2>\n</header>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n\t<button name=\"clear\" type=\"button\">Clear</button>\n</form>\n<div class=\"processed-uri\"></div>";

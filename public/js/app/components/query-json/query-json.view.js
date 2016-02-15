@@ -18,8 +18,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	events: {
 		"submit": "onSubmit",
-		"click @ui.pipeBtn": "pipe",
-		"click @ui.clearBtn": "clearInput"
+		"click @ui.pipeBtn": "pipe"
 	},
 	regions: {
 		"json": ".json"
@@ -27,9 +26,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-	},
-	clearInput: function() {
-		this.ui.queryTextarea.val("");
 	},
 	/**
 	* Send results into juxtapose component

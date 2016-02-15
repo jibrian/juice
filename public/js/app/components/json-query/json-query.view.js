@@ -14,8 +14,7 @@ module.exports = LayoutViewPrototype.extend({
 		"clearBtn": "button[name='clear']"
 	},
 	events: {
-		"submit": "processJSON",
-		"click @ui.clearBtn": "clearInput" 
+		"submit": "processJSON"
 	},
 	regions: {
 		"query": ".query"
@@ -23,9 +22,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-	},
-	clearInput: function() {
-		this.ui.jsonTextarea.val("");
 	},
 	/**
 	* Convert JSON into query string

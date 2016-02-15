@@ -17,8 +17,7 @@ module.exports = LayoutViewPrototype.extend({
 	},
 	events: {
 		"click @ui.encodeBtn": "encodeURI",
-		"click @ui.decodeBtn": "decodeURI",
-		"click @ui.clearBtn": "clearInput"
+		"click @ui.decodeBtn": "decodeURI"
 	},
 	regions: {
 		"uri": ".process-uri"
@@ -26,9 +25,6 @@ module.exports = LayoutViewPrototype.extend({
 	initialize: function(options) {
 		// @see layoutview.prototype
 		this.inherit(options);
-	},
-	clearInput: function() {
-		this.ui.uriTextarea.val("");
 	},
 	encodeURI: function() {
 		var encoded = encodeURIComponent(this.ui.uriTextarea.val());

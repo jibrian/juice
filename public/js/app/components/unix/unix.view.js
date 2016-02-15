@@ -15,15 +15,16 @@ module.exports = ItemViewPrototype.extend({
 	ui: {
 		'unixInput': 'input[name="unix"]',
 		'formatSelector': 'select[name="format"]',
-		'output': '.datetime'
+		'output': '.datetime',
+		'clearButton': 'button[name="clear"]'
 	},
 	events: {
-		'submit': 'onSubmit' 
+		'submit': 'onSubmit', 
 	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
-
+		// leave this in so we can play with moment library in dev console
 		window.moment = moment;
 	},
 	convertUnixToDatetime: function(unix, format) {
@@ -32,7 +33,7 @@ module.exports = ItemViewPrototype.extend({
 		switch (format.toLowerCase()) {
 			case 'iso':
 				momentFormat = '';				
-				break;
+				break;	
 		}
 
 		var processed = moment(parseInt(unix)).format(momentFormat);

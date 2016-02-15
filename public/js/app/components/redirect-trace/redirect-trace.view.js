@@ -16,8 +16,7 @@ module.exports = LayoutViewPrototype.extend({
 		'clearBtn': 'button[name="clear"]'
 	},
 	events: {
-		'submit': 'requestRedirects',
-		'click @ui.clearBtn': 'clearInput'
+		'submit': 'requestRedirects'
 	},
 	regions: {
 		'traces': '.traces'
@@ -31,9 +30,6 @@ module.exports = LayoutViewPrototype.extend({
 		}, {
 			collection: new entities.components.traces
 		});
-	},
-	clearInput: function() {
-		this.ui.urlTextarea.val('');
 	},
 	/**
 	 * Instantiates trace model and request redirects from API
