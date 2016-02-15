@@ -1,12 +1,12 @@
 /**
- * LayoutView Prototype
- * A base marionette layoutview contructor
- * Contains methods we want on all layoutviews
+ * CollectionView Prototype
+ * A base marionette collectionview contructor
+ * Contains methods we want on all collectionview
  * @constructor
  */
 var Marionette = require("marionette");
 
-module.exports = Marionette.LayoutView.extend({
+module.exports = Marionette.CollectionView.extend({
 	/**
 	* Attach all references passed by options to the controller
 	* @param {object} options 

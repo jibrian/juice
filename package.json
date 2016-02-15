@@ -46,7 +46,8 @@
     "entities": "./public/js/app/config/entities.js",
     "controller.prototype": "./public/js/app/config/prototypes/controller.prototype.js",
     "layoutview.prototype": "./public/js/app/config/prototypes/layoutview.prototype.js",
-    "itemview.prototype": "./public/js/app/config/prototypes/itemview.prototype.js"
+    "itemview.prototype": "./public/js/app/config/prototypes/itemview.prototype.js",
+    "collectionview.prototype": "./public/js/app/config/prototypes/collectionview.prototype.js"
   },
   "browserify-shim": {
     "jquery": {

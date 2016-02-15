@@ -1,17 +1,36 @@
 <?php
+/**
+  * Redirect-Trace API
+  */
+class RedirectTrace {
 
-$url = $_GET["url"];
-$headers = getallheaders($url, 1);
-$location = $headers["Location"];
+	public static function trace($start_url, $redirects = [], $handle = NULL) {
+		if (is_null($handle)) {
+			$handle = curl_init();
+		}
 
-if (gettype($location) === "array") {
-	echo json_encode($location);
-} else if (gettype($location) === "string") {
-	$output = [$location];
-	echo json_encode($output);
-} else {
-	$output = ["End of the breadcrumb trail"];
-	echo json_encode($output);
+		curl_setopt($handle, CURLOPT_URL, $start_url);
+		curl_setopt($handle, CURLOPT_NOBODY  , true);
+		curl_exec($handle);
+
+		if(!curl_errno($handle)) {
+ 			$info = curl_getinfo($handle);
+
+ 			if (!empty($info['redirect_url'])) {
+ 				$redirects[] = [
+ 					'url' => $info['redirect_url']
+ 				];
+ 			}
+		}
+
+		if (!empty($info['redirect_url'])) {
+			self::trace($info['redirect_url'], $redirects, $handle);
+		} else {
+			curl_close($handle);
+			
+			echo json_encode($redirects);
+		}
+	}
 }
 
-?>
+RedirectTrace::trace($_GET["url"]);

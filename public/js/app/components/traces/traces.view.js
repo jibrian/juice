@@ -1,27 +1,42 @@
 /**
-* Traces View
-*/
-var ItemViewPrototype = require("itemview.prototype");
-var templates = require("templates");
-var _ = require("underscore");
-var Backbone = require("backbone");
+ * Traces View
+ */
+var CollectionViewPrototype = require('collectionview.prototype');
+var TracesItemView = require('./traces.itemview.js');
+var templates = require('templates');
+var _ = require('underscore');
+var Backbone = require('backbone');
 
-module.exports = ItemViewPrototype.extend({
-	tagName: "ul",
-	id: "traces",
-	className: "component",
-	events: {
-		"dblclick li": "pipe"
-	},
+module.exports = CollectionViewPrototype.extend({
+	tagName: 'ul',
+	id: 'traces',
+	className: 'component',
+	childView: TracesItemView,
+	childViewOptions: function(model, index) {
+		return {
+			model: model,
+			childIndex: index,
+			app: this.app
+		}
+  	},
 	initialize: function(options) {
+		var _this = this;
 		// @see itemview.prototype
 		this.inherit(options);
+		
+		this.listenTo(this.app.vent, 'traces:add', this.fetchTraces); //@listenTo
 	},
-	pipe: function(e) {
-		this.app.vent.trigger("header:shake", {
-			link: "query-json"
+	fetchTraces: function(url) {
+		var _this = this;
+
+		this.collection.fetchByUrl(url).then(function() {
+			_this.app.controller.view.model.set('traces', _this.collection.models);
 		});
-		this.app.controller.view.model.set("query", e.currentTarget.innerHTML);
+	},
+	onRender: function() {
+		if (this.app.controller.view.model.get('traces')) {
+			this.collection.add(this.app.controller.view.model.get('traces'));
+		} 
 	},
 	template: function(model) {
 		return _.template(templates.components.traces)(model);

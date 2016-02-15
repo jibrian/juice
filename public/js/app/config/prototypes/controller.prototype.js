@@ -1,11 +1,11 @@
 /**
-* Controller Prototype
-* A base marionette controller contructor
-* Contains methods we want on all controllers
-* @constructor
-* @requires name and type(component/module) properties on initialization
-*   name and type must be consistent through the component
-*/
+ * Controller Prototype
+ * A base marionette controller contructor
+ * Contains methods we want on all controllers
+ * @constructor
+ * @requires name and type(component/module) properties on initialization
+ *   name and type must be consistent through the component
+ */
 var Marionette = require("marionette");
 
 module.exports = Marionette.Controller.extend({
@@ -48,8 +48,11 @@ module.exports = Marionette.Controller.extend({
 		// @requires injectInto to attach view to controller
 		setTimeout(function() {
 			for (var i = 0, len = components.length; i < len; i++) {
-				var controller = new _this.app[type || "components"][components[i]].Controller(componentOptions);
-				controller.injectInto(_this.view[parentRegions[i]], viewOptions)
+				// Need this try for now cause the async calls mess up loading between tabs
+				try {
+					var controller = new _this.app[type || "components"][components[i]].Controller(componentOptions);
+					controller.injectInto(_this.view[parentRegions[i]], viewOptions)
+				} catch(err) {}
 			}
 		});
 	}

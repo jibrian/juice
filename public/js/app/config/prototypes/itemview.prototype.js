@@ -1,9 +1,9 @@
 /**
-* ItemView Prototype
-* A base marionette itemview contructor
-* Contains methods we want on all itemviews
-* @constructor
-*/
+ * ItemView Prototype
+ * A base marionette itemview contructor
+ * Contains methods we want on all itemviews
+ * @constructor
+ */
 var Marionette = require("marionette");
 
 module.exports = Marionette.ItemView.extend({

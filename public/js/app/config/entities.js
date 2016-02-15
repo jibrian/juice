@@ -4,7 +4,7 @@
 */
 module.exports = {
 	"components": {
-		"traces": require("../entities/components/traces/traces.model")
+		"traces": require("../entities/components/traces/traces.collection")
 	},
 	"modules": {
 

@@ -12,6 +12,7 @@ module.exports = {
 		'query-json': require('./../templates/components/query-json.html'),
 		'redirect-trace': require('./../templates/components/redirect-trace.html'),
 		'traces': require('./../templates/components/traces.html'),
+		'traces-item': require('./../templates/components/traces.itemview.html'),
 		'uri-dencoder': require('./../templates/components/uri-dencoder.html'),
 		'clipboard': require('./../templates/components/clipboard.html'),
 		'unix': require('./../templates/components/unix.html')
