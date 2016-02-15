@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "./public/js/main.js",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.11.2"
+  },
   "devDependencies": {
     "browserify": "^10.2.4",
     "browserify-shim": "^3.8.9",

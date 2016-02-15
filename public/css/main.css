@@ -159,6 +159,8 @@ a:link {
     color: #59FFA1; }
   #dashboard li:nth-child(6) {
     color: #B15824; }
+  #dashboard li:nth-child(7) {
+    color: #C858FD; }
 
 #json {
   font-family: "courier";

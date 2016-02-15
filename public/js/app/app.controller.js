@@ -2,18 +2,18 @@
 * App Controller
 * @contructor
 */
-var ControllerPrototype = require("controller.prototype");
-var modules = require("modules");
-var AppView = require("app.view");
-var Backbone = require("backbone");
-var entities = require("entities");
+var ControllerPrototype = require('controller.prototype');
+var modules = require('modules');
+var AppView = require('app.view');
+var Backbone = require('backbone');
+var entities = require('entities');
 
 module.exports = ControllerPrototype.extend({
 	initialize: function(options) {
 		this.app = options.app;	
 		this.view = new AppView(options);
 		// @see controller.prototype
-		this.import(["header"], ["header"], {app: this.app});
+		this.import(['header'], ['header'], {app: this.app});
 	},
 	/**
 	* Loads desired module into our app via app.router
@@ -23,63 +23,70 @@ module.exports = ControllerPrototype.extend({
 		this[module]();
 	},
 	dashboard: function() {
-		this.import(["dashboard"], ["main"], {
+		this.import(['dashboard'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app
-		}, "modules");
+		}, 'modules');
 	},
 	// Use quotes to keep component/module name consistent across entire app
-	"query-json": function() {
-		this.import(["query-json"], ["main"], {
+	'query-json': function() {
+		this.import(['query-json'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app,
 			model: this.app.controller.view.model
 		});
 	},
-	"adblock-parse": function() {
-		this.import(["adblock-parse"], ["main"], {
+	'adblock-parse': function() {
+		this.import(['adblock-parse'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app
 		});
 	},
-	"redirect-trace": function() {
-		this.import(["redirect-trace"], ["main"], {
+	'redirect-trace': function() {
+		this.import(['redirect-trace'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app
 		});
 	},
-	"uri-dencoder": function() {
-		this.import(["uri-dencoder"], ["main"], {
+	'uri-dencoder': function() {
+		this.import(['uri-dencoder'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app
 		});
 	},
-	"json-query": function() {
-		this.import(["json-query"], ["main"], {
+	'json-query': function() {
+		this.import(['json-query'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app
 		});
 	},
-	"juxtapose": function() {
-		this.import(["juxtapose"], ["main"], {
+	'juxtapose': function() {
+		this.import(['juxtapose'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app,
 			model: this.app.controller.view.model
 		});
 	},
-	"clipboard": function() {
-		this.import(["clipboard"], ["main"], {
+	'clipboard': function() {
+		this.import(['clipboard'], ['main'], {
 			app: this.app
 		}, {
 			app: this.app,
 			model: new entities.localStorage
+		});
+	},
+	'unix': function() {
+		this.import(['unix'], ['main'], {
+			app: this.app
+		}, {
+			app: this.app
 		});
 	}
 });
