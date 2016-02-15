@@ -4655,35 +4655,49 @@ var Backbone = require('backbone');
 var moment = require('moment');
 
 module.exports = ItemViewPrototype.extend({
-	tagName: 'ul',
+	tagName: 'div',
 	id: 'unix',
 	className: 'component',
+	ui: {
+		'unixInput': 'input[name="unix"]',
+		'formatSelector': 'select[name="format"]',
+		'output': '.datetime'
+	},
+	events: {
+		'submit': 'onSubmit' 
+	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
-		this.listenTo(this.app.vent, 'juxtapose:json', this.filterJSON);
+
+		window.moment = moment;
 	},
-	filterJSON: function(options) {
-		// @TODO check for data type match
-		var $keys = this.$el.find('.key');
-		var $vals = this.$el.find('.value');
-		$keys.each(function(index, item) {
-			if (options.json1.hasOwnProperty(item.innerHTML) && options.json2.hasOwnProperty(item.innerHTML)) {
-				$(item).addClass('match');
-				
-				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
-					$vals.eq(index).addClass('match');
-				} else {
-					$vals.eq(index).addClass('diff');
-				}
-			}
-		});
+	convertUnixToDatetime: function(unix, format) {
+		var momentFormat;
+	
+		switch (format.toLowerCase()) {
+			case 'iso':
+				momentFormat = '';				
+				break;
+		}
+
+		var processed = moment(parseInt(unix)).format(momentFormat);
+		this.ui.output.html(processed);		
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		var form = e.target.name;
+
+		switch (form.toLowerCase()) {
+			case 'unix-to-stamp':
+				this.convertUnixToDatetime(this.ui.unixInput.val(), this.ui.formatSelector.val());		
+				break;
+		}	
 	},
 	template: function(model) {
 		return _.template(templates.components.unix)(model);
 	}
 });
-
 
 },{"backbone":67,"itemview.prototype":44,"jquery":69,"moment":1,"templates":46,"underscore":70}],36:[function(require,module,exports){
 /**
@@ -5119,10 +5133,10 @@ module.exports = "<form name=\"easylist\">\n\t<input type=\"text\" name=\"search
 module.exports = "<!-- Clipboard Component -->\n<header>\n\t<h2>Clipboard</h2>\n\t<div>\n\t\t<p>Double click clip to remove</p>\n\t</div>\n</header>\n<div class=\"clips\">\n\t<% if (Object.keys(obj).length > 0) { %>\n\t\t<% for (var key in obj) { %>\n\t\t\t<article class=\"clip\" data-key=\"<%= key %>\">\n\t\t\t\t<h4><%= key %></h4>\n\t\t\t\t<p><%= obj[key] %></p>\n\t\t\t</article>\n\t\t<% } %>\n\t<% } else { %>\n\t\t<p>Blank.</p>\n\t<% } %>\n</div>\n<form name=\"clipboard\">\n\t<label for=\"clipboard-title\">Clips</label>\n\t<input id=\"clipboard-title\" class=\"text-input\" placeholder=\"Title\" />\n\t<label for=\"clipboard-clip\">Clips</label>\n\t<textarea id=\"clipboard-clip\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Save</button>\n\t<button type=\"button\" name=\"clear\">Clear All</button>\n</form>";
 
 },{}],56:[function(require,module,exports){
-module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n</nav>";
+module.exports = "<!-- Header Component -->\n<nav>\n\t<a href=\"#query-json\">Query &#187; JSON</a>\n\t<a href=\"#json-query\">JSON &#187; Query</a>\n\t<a href=\"#redirect-trace\">Redirect Trace</a>\n\t<a href=\"#uri-dencoder\">Uri Dencoder</a>\n\t<a href=\"#juxtapose\">Juxtapose</a>\n\t<a href=\"#clipboard\">Clipboard</a>\n\t<a href=\"#unix\">Unix</a>\n</nav>\n";
 
 },{}],57:[function(require,module,exports){
-module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<button type=\"submit\">Convert</button>\n\t<button type=\"button\" name=\"clear\">Clear</button>\n</form>\n<div class=\"query\"></div>";
+module.exports = "<!-- JSON -> Query -->\n<header>\n\t<h2>JSON &#187; Query</h2>\n</header>\n<form name=\"json-query\">\n\t<label for=\"json-query-json\">Query</label>\n\t<textarea id=\"json-query-json\" class=\"text-input\"></textarea>\n\t<butto)n type=\"submit\">Convert</button>\n\t<button type=\"button\" name=\"clear\">Clear</button>\n</form>\n<div class=\"query\"></div>\n";
 
 },{}],58:[function(require,module,exports){
 module.exports = "<li>{</li>\n<% \n\tvar keys = Object.keys(obj); \n\tfor (var i = 0; i < keys.length; i++) { \n\t\tif (i === keys.length - 1) { %>\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span></li>\n    <% } else { %>\t\n    \t<li><span class=\"key\"><%= keys[i] %></span>: <span class=\"value\">\"<%= obj[keys[i]] %>\"</span>,</li>\n    \t<% }\n    } %>\n<li>}</li>";
@@ -5140,7 +5154,7 @@ module.exports = "<!-- Redirect Trace -->\n<header>\n\t<h2>Redirect Trace</h2>\n
 module.exports = "<!-- (Redirect) Traces -->\n<% for (var i = 0, len = traces.length; i < len; i++) { %>\n\t<li><%= traces[i] %></li>\n<% } %>";
 
 },{}],63:[function(require,module,exports){
-module.exports = "unix\n";
+module.exports = "<!-- UNIX -->\n<header>\n\t<h2>Unix</h2>\n</header>\n<form name=\"unix-to-stamp\">\n\t<label for=\"unix-to-stamp\">Timeunix</label>\n\t<input type=\"text\" name=\"unix\" placeholder=\"Timeunix\" />\n\t<select name=\"format\">\n\t\t<option value=\"iso\">ISO</option>\n\t</select>\n\t<button type=\"submit\">Convert</button>\n\t<button type=\"clear\" name=\"clear\">Clear</button>\n</form>\t\t\n<div class=\"datetime\"></div>\n";
 
 },{}],64:[function(require,module,exports){
 module.exports = "<!-- URI Dencoder -->\n<header>\n\t<h2>Uri Dencoder</h2>\n</header>\n<form name=\"uri-dencoder\">\n\t<label for=\"uri-string\">String</label>\n\t<textarea id=\"uri-string\" class=\"text-input\"></textarea>\n\t<label for=\"uri-decode\">Decode URI?</label>\n\t<button name=\"encode\" type=\"button\">Encode</button>\n\t<button name=\"decode\" type=\"button\">Decode</button>\n\t<button name=\"clear\" type=\"button\">Clear</button>\n</form>\n<div class=\"processed-uri\"></div>";

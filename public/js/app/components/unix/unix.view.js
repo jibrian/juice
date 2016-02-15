@@ -9,32 +9,46 @@ var Backbone = require('backbone');
 var moment = require('moment');
 
 module.exports = ItemViewPrototype.extend({
-	tagName: 'ul',
+	tagName: 'div',
 	id: 'unix',
 	className: 'component',
+	ui: {
+		'unixInput': 'input[name="unix"]',
+		'formatSelector': 'select[name="format"]',
+		'output': '.datetime'
+	},
+	events: {
+		'submit': 'onSubmit' 
+	},
 	initialize: function(options) {
 		// @see itemview.prototype
 		this.inherit(options);
-		this.listenTo(this.app.vent, 'juxtapose:json', this.filterJSON);
+
+		window.moment = moment;
 	},
-	filterJSON: function(options) {
-		// @TODO check for data type match
-		var $keys = this.$el.find('.key');
-		var $vals = this.$el.find('.value');
-		$keys.each(function(index, item) {
-			if (options.json1.hasOwnProperty(item.innerHTML) && options.json2.hasOwnProperty(item.innerHTML)) {
-				$(item).addClass('match');
-				
-				if (options.json1[item.innerHTML] === options.json2[item.innerHTML]) {
-					$vals.eq(index).addClass('match');
-				} else {
-					$vals.eq(index).addClass('diff');
-				}
-			}
-		});
+	convertUnixToDatetime: function(unix, format) {
+		var momentFormat;
+	
+		switch (format.toLowerCase()) {
+			case 'iso':
+				momentFormat = '';				
+				break;
+		}
+
+		var processed = moment(parseInt(unix)).format(momentFormat);
+		this.ui.output.html(processed);		
+	},
+	onSubmit: function(e) {
+		e.preventDefault();
+		var form = e.target.name;
+
+		switch (form.toLowerCase()) {
+			case 'unix-to-stamp':
+				this.convertUnixToDatetime(this.ui.unixInput.val(), this.ui.formatSelector.val());		
+				break;
+		}	
 	},
 	template: function(model) {
 		return _.template(templates.components.unix)(model);
 	}
 });
-

@@ -178,7 +178,7 @@ a:link {
 	.key,
 	.value {
 		box-sizing: border-box;
-		padding: 3px;
+		padding: 5px;
 	}
 	.key {
 		color: #902499;
@@ -187,10 +187,10 @@ a:link {
 		color: #C41A16;
 	}
 	.match {
-		background: #59FFA1;
+		background: #D2FDEA;
 	}
 	.diff {
-		background: #CB483D;
+		background: #CBBAB9;
 	}
 }
 
@@ -273,6 +273,13 @@ a:link {
 		margin: 0 !important;
 		padding: 0 !important;
 	}
+	input {
+		border-top: 1px solid #999999;
+		border-left: 1px solid #999999;
+		border-right: 1px solid #999999;
+		border-bottom: none;
+		margin: 0;
+	}
 }
 
 .processed-uri,
@@ -296,6 +303,19 @@ a:link {
 #redirect-trace {
 	header {
 		color: #FFB796;
+	}
+}
+
+#unix {
+	header {
+		color: #C858FD; 
+	}
+	.datetime {
+		margin-top: 20px;
+		font-family: "avantgarde-light", "courier", "serif" !important;
+		font-size: 20px;
+		padding: 5px 0;
+		word-wrap: break-word;
 	}
 }
 
@@ -326,9 +346,8 @@ a:link {
 		font-family: "uni-heavy-italic";
 	}
 	textarea {
-		border: 1px solid black;
 		box-sizing: border-box;
-		height: 150px;
+		height: 225px;
 		font-family: "avantgarde-medium", "courier", "serif" !important;
 		font-size: 20px;
 		font-style: italic;
@@ -340,27 +359,27 @@ a:link {
 		width: 100%;
 	}
 	input {
-		border: none;
-		border-top: 1px solid black;
-		border-left: 1px solid black;
-		border-right: 1px solid black;
+		border: 1px solid #999999;
 		width: 100%;
 		font-family: "avantgarde-medium", "courier", "serif" !important;
 		font-size: 20px;
 		padding: 15px;
 		box-sizing: border-box;
-		margin: 0;
+		margin: 0 0 5px 0;
 		outline: none;
 	}
 	select,
 	button {
-		border: 1px solid black;
+		border: 1px solid #999999;
 		border-radius: 0;
 		background: white;
 		-webkit-appearance: none;
 		box-sizing: border-box;
 		padding: 5px;
 		font-family: "avantgarde-medium", "courier", "serif" !important;
+	}
+	option {
+		font-size: 20px;
 	}
 }
 

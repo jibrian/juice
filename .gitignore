@@ -1,2 +1,6 @@
 *.swp
 *.swo
+*.scssc
+public/.DS_Store
+public/css/.main.scss.swp
+public/css/.sass-cache/6de78e61be85569e69096019e6103f03d095aa1c/main.scssc
