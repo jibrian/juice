@@ -1,2 +1,2 @@
 # juice
-52.25.48.233
+A collection of common web development tools
